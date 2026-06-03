@@ -57,10 +57,20 @@ em { color: #555; }
 }
 
 .authors {
-  font-size: 1.05rem;
-  color: #555;
-  margin-bottom: 28px;
+  font-size: 1.08rem;
+  color: #333;
+  margin-bottom: 6px;
+  line-height: 1.55;
 }
+.authors sup { font-size: 0.72em; color: #1d6bc6; font-weight: 500; padding-left: 1px; }
+
+.affiliations {
+  font-size: 0.92rem;
+  color: #666;
+  margin-bottom: 28px;
+  line-height: 1.55;
+}
+.affiliations sup { color: #1d6bc6; font-weight: 500; padding-right: 2px; }
 
 .links {
   display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
