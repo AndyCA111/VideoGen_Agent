@@ -308,71 +308,16 @@
   <div class="container">
     <h2>Example agent trajectories</h2>
     <p>
-      VideoAgent learns category-conditional rollout patterns. Each task category
-      induces a different sequence of augmentation, generation, and verification tools.
-      Representative converged trajectories below.
+      Six real converged rollouts from the SFT checkpoint — one per task category — laid out side by side.
+      Each column shows the prompt, the agent's <em>&lt;think&gt;</em> blocks, every tool call with its
+      arguments, the returned search images / intermediate simulation videos, and the final generated clip.
     </p>
-
-    <div class="traj-grid">
-
-      <div class="traj-card">
-        <div class="traj-cat">KP &middot; Knowledge Process</div>
-        <pre class="trajectory">&lt;think&gt; Named technique; web-search for grounded definition. &lt;/think&gt;
-&lt;tool_call&gt; search_text("Mayura mudra finger geometry") &lt;/tool_call&gt;
-&lt;tool_response&gt; "ring-finger tip touches thumb tip, others extended..." &lt;/tool_response&gt;
-&lt;tool_call&gt; video_gen(refined_prompt) &lt;/tool_call&gt;
-&lt;answer&gt; [final video] &lt;/answer&gt;</pre>
-      </div>
-
-      <div class="traj-card">
-        <div class="traj-cat">VK-S &middot; Visual Knowledge — Single</div>
-        <pre class="trajectory">&lt;think&gt; Named subject; identity must be anchored. &lt;/think&gt;
-&lt;tool_call&gt; search_image("Wang Manyu in red China jersey") &lt;/tool_call&gt;
-&lt;tool_response&gt; [3 reference images attached] &lt;/tool_response&gt;
-&lt;tool_call&gt; video_gen_r2v(prompt, ref_images=[img1, img2]) &lt;/tool_call&gt;
-&lt;answer&gt; [final video] &lt;/answer&gt;</pre>
-      </div>
-
-      <div class="traj-card">
-        <div class="traj-cat">VK-M &middot; Visual Knowledge — Multiple</div>
-        <pre class="trajectory">&lt;think&gt; 3 named characters → 1 image search each. &lt;/think&gt;
-&lt;tool_call&gt; search_image("Arlecchino Genshin Knave") &lt;/tool_call&gt;
-&lt;tool_call&gt; search_image("Makima Chainsaw Man") &lt;/tool_call&gt;
-&lt;tool_call&gt; search_image("Esdeath Akame ga Kill") &lt;/tool_call&gt;
-&lt;tool_call&gt; video_gen_multi_r2v(prompt, refs=[a, b, c]) &lt;/tool_call&gt;
-&lt;answer&gt; [final video] &lt;/answer&gt;</pre>
-      </div>
-
-      <div class="traj-card">
-        <div class="traj-cat">Sim &middot; Physical Simulation</div>
-        <pre class="trajectory">&lt;think&gt; Drop physics: m=2kg, h=0.3m, concrete surface. &lt;/think&gt;
-&lt;tool_call&gt; simulate_code(m=2.0, h=0.3, dt=0.01, surface="concrete") &lt;/tool_call&gt;
-&lt;tool_response&gt; [trajectory frames, depth maps] &lt;/tool_response&gt;
-&lt;tool_call&gt; video_gen_controlnet(prompt, motion=trajectory) &lt;/tool_call&gt;
-&lt;answer&gt; [final video] &lt;/answer&gt;</pre>
-      </div>
-
-      <div class="traj-card">
-        <div class="traj-cat">MS &middot; Multi-Subject</div>
-        <pre class="trajectory">&lt;think&gt; Multi-entity scene; generate then verify presence. &lt;/think&gt;
-&lt;tool_call&gt; video_gen(prompt) &lt;/tool_call&gt;
-&lt;tool_call&gt; verify_gdino(video, ["barber", "monkey", "cyclist"]) &lt;/tool_call&gt;
-&lt;tool_response&gt; detection_ratio=0.45 &lt; 0.60 → regenerate &lt;/tool_response&gt;
-&lt;tool_call&gt; video_gen(refined_prompt) &lt;/tool_call&gt;
-&lt;answer&gt; [final video] &lt;/answer&gt;</pre>
-      </div>
-
-      <div class="traj-card">
-        <div class="traj-cat">TG &middot; TimeGrounded</div>
-        <pre class="trajectory">&lt;think&gt; 2-phase prompt: puddle → child jumps in. &lt;/think&gt;
-&lt;tool_call&gt; video_gen(phase1_prompt="calm puddle on sidewalk") &lt;/tool_call&gt;
-&lt;tool_call&gt; extract_last_frame(video1) &lt;/tool_call&gt;
-&lt;tool_call&gt; video_gen_i2v(phase2_prompt, init_frame=last_frame) &lt;/tool_call&gt;
-&lt;tool_call&gt; concat(video1, video2) &lt;/tool_call&gt;
-&lt;answer&gt; [final video] &lt;/answer&gt;</pre>
-      </div>
-
-    </div>
+    <p style="text-align:center;margin-top:18px;">
+      <a class="btn" href="workflows.html" target="_blank" rel="noopener">
+        <span class="icon">&#8594;</span>&nbsp;Open 6-column trajectory viewer
+      </a>
+    </p>
+    <p class="note" style="text-align:center;">Opens a wide horizontal-scroll page; best viewed on a desktop.</p>
   </div>
 </section>
 
