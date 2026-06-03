@@ -265,7 +265,9 @@ p.note { font-size: 0.85rem; color: #777; margin-top: 10px; }
   border-radius: 10px;
   background: #000;
   aspect-ratio: 16 / 9;
-  object-fit: cover;
+  /* contain = no crop; native-ratio difference becomes black bars,
+     but the visible video frame is identical 16:9 for every cell.    */
+  object-fit: contain;
   box-shadow: 0 6px 22px rgba(40, 26, 8, 0.16);
 }
 
