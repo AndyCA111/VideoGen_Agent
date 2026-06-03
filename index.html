@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VideoAgent — Multimodal Visual Reasoning with Agentic RL for Video Generation</title>
+<meta name="description" content="VideoAgent: an agentic reinforcement-learning framework for video generation that performs multi-step reasoning and tool use to ground every aspect of synthesis." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <h1 class="title">
+      Multimodal Visual Reasoning with<br />
+      <span class="highlight">Agentic RL for Video Generation</span>
+    </h1>
+    <p class="authors">
+      Authors &middot; <em>(affiliations TBD)</em>
+    </p>
+    <div class="links">
+      <a class="btn disabled" href="#" title="Coming soon">
+        <span class="icon">&#9776;</span>&nbsp;Paper
+      </a>
+      <a class="btn disabled" href="#" title="Coming soon">arXiv (coming soon)</a>
+      <a class="btn" href="https://github.com/AndyCA111/VideoGen_Agent">
+        <span class="icon">&#10097;&#47;&#10096;</span>&nbsp;Code
+      </a>
+      <a class="btn disabled" href="#" title="Coming soon">VABench Data</a>
+    </div>
+    <p class="tldr">
+      <strong>TL;DR.</strong> We train an agent to <em>plan over a toolbox</em>
+      (web search, image search, code simulation, video generation,
+      Grounding&nbsp;DINO verification) and produce videos that match prompts
+      requiring named knowledge, identity preservation, physical dynamics,
+      or ordered phases — failure modes single-pass text-to-video models miss.
+    </p>
+  </div>
+</header>
+
+<main>
+
+<!-- ────────────────────────────────── ABSTRACT ────────────────────────────────── -->
+<section id="abstract" class="block">
+  <div class="container">
+    <h2>Abstract</h2>
+    <p>
+      Recent text-to-video diffusion models have shown strong capabilities in generating
+      high-fidelity and temporally coherent videos. However, they remain fundamentally
+      constrained by frozen internal knowledge, weak physical reasoning, and absent
+      temporal scheduling, thus often failing on real-world prompts that name specific
+      entities, require physically plausible dynamics, or prescribe ordered phases.
+    </p>
+    <p>
+      In this paper, we present <strong>VideoAgent</strong>, as the first attempt to train
+      an agentic reinforcement-learning framework for video generation that performs
+      multi-step reasoning and tool use to ground every aspect of the synthesis. We
+      construct an agentic text-to-video dataset spanning six failure-mode-targeted task
+      categories, and introduce <strong>VABench</strong>, a held-out benchmark of 600
+      prompts that probes search-grounded knowledge, identity preservation, physical
+      plausibility, and multi-phase temporal reasoning. We train VideoAgent with SFT
+      followed by agentic GRPO with a category-aware hybrid reward that combines format,
+      video-judge, and tool-quality signals. Experiments show substantial gains over the
+      base Qwen3-VL-8B-Instruct, with the largest improvements on subject-identity-critical
+      and temporally-phased prompts.
+    </p>
+  </div>
+</section>
+
+<!-- ────────────────────────────────── METHOD ────────────────────────────────── -->
+<section id="method" class="block alt">
+  <div class="container">
+    <h2>Method</h2>
+    <p>
+      VideoAgent formulates video generation as a multi-turn tool-use problem. Given a
+      prompt, the agent sequentially decides whether to seek additional context, generate
+      a video candidate, or verify and refine an intermediate result. Tools are organised
+      into three functional groups:
+    </p>
+    <div class="tool-groups">
+      <div class="tg-card">
+        <h3>1 &middot; Augmentation</h3>
+        <p>
+          Text web search, image search, and code-based physical simulation ground
+          generation in external knowledge and controllable priors.
+        </p>
+      </div>
+      <div class="tg-card">
+        <h3>2 &middot; Generation</h3>
+        <p>
+          A family of video generators with different conditionings: T2V, I2V,
+          motion-controlled (ControlNet), and (multi-) reference-image-to-video.
+        </p>
+      </div>
+      <div class="tg-card">
+        <h3>3 &middot; Verification</h3>
+        <p>
+          Grounding DINO and Depth Anything inspect generated videos for subject
+          localisation, spatial relations, and geometric consistency.
+        </p>
+      </div>
+    </div>
+    <figure class="method-figure">
+      <img src="images/method.png" alt="VideoAgent overview" />
+      <figcaption>Overview of VideoAgent: the agent composes augmentation, generation, and verification tools into prompt-specific pipelines.</figcaption>
+    </figure>
+    <h3>Training</h3>
+    <p>
+      Starting from <em>Qwen3-VL-8B-Instruct</em>, we first distil teacher trajectories
+      via supervised fine-tuning, then optimise the agent with <strong>GRPO</strong> using
+      a category-aware hybrid reward that combines format correctness, model-as-judge
+      video score, and tool-quality signals. This gives stable, informative gradients for
+      multi-turn rollouts.
+    </p>
+  </div>
+</section>
+
+<!-- ────────────────────────────────── VABENCH ────────────────────────────────── -->
+<section id="benchmark" class="block">
+  <div class="container">
+    <h2>VABench — six failure-mode-targeted categories</h2>
+    <div class="cat-grid">
+      <div class="cat-card"><h3>Knowledge Process (KP)</h3><p>Named techniques / processes whose execution depends on specific motion details.</p></div>
+      <div class="cat-card"><h3>Visual Knowledge — Single (VK-S)</h3><p>One named real-world subject; identity must be preserved across the clip.</p></div>
+      <div class="cat-card"><h3>Visual Knowledge — Multiple (VK-M)</h3><p>Multiple named subjects; identity preservation under interaction.</p></div>
+      <div class="cat-card"><h3>Simulation (Sim)</h3><p>Physically governed motion under specified initial conditions: collisions, free fall, orbits.</p></div>
+      <div class="cat-card"><h3>Multi-Subject (MS)</h3><p>Multi-entity composition, inter-object interaction, spatial reasoning.</p></div>
+      <div class="cat-card"><h3>TimeGrounded (TG)</h3><p>Explicit time-ordered sequences with complete and correctly ordered phases.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────────────────── RESULTS ────────────────────────────────── -->
+<section id="results" class="block alt">
+  <div class="container">
+    <h2>Per-category results on VABench</h2>
+    <p>Scores are the Gemini&nbsp;2.5&nbsp;Flash judge mean in <em>[0, 10]</em>. Higher is better.</p>
+    <div class="table-wrap">
+      <table class="results">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>KP</th>
+            <th>VK-S</th>
+            <th>VK-M</th>
+            <th>Sim</th>
+            <th>MS</th>
+            <th>TG</th>
+            <th>Overall</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group-head"><td colspan="8">Open-source baselines</td></tr>
+          <tr>
+            <td>CogVideoX-5B</td><td>6.24</td><td>4.83</td><td>3.78</td><td>4.16</td><td>5.04</td><td>3.08</td><td>4.52</td>
+          </tr>
+          <tr>
+            <td>Wan 2.1-T2V-14B</td><td>5.01</td><td>4.62</td><td>3.95</td><td>4.95</td><td>6.08</td><td>6.20</td><td>5.14</td>
+          </tr>
+          <tr>
+            <td>HunyuanVideo&nbsp;13B</td>
+            <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+          </tr>
+          <tr class="group-head"><td colspan="8">Commercial baselines</td></tr>
+          <tr>
+            <td>Seedance&nbsp;1 Pro Fast</td><td>6.33</td><td>5.15</td><td>4.42</td><td>4.62</td><td>7.47</td><td>6.68</td><td>5.78</td>
+          </tr>
+          <tr class="group-head"><td colspan="8">Ours</td></tr>
+          <tr class="muted">
+            <td>VideoAgent — VLM Rewrite</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+          </tr>
+          <tr class="muted">
+            <td>VideoAgent — SFT</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+          </tr>
+          <tr class="ours">
+            <td><strong>VideoAgent — RL</strong></td><td><strong>—</strong></td><td><strong>—</strong></td><td><strong>—</strong></td><td><strong>—</strong></td><td><strong>—</strong></td><td><strong>—</strong></td><td><strong>—</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">"—" indicates pending experiments; the table will be updated as runs complete.</p>
+  </div>
+</section>
+
+<!-- ────────────────────────────────── GALLERY ────────────────────────────────── -->
+<section id="gallery" class="block">
+  <div class="container">
+    <h2>Sample videos across categories</h2>
+    <p>Each card shows a representative VABench prompt and the corresponding output from the strongest single-pass baseline. The <strong>VideoAgent</strong> column will be populated as agent-generated videos finalise.</p>
+
+    <div class="vid-grid">
+
+      <div class="vid-card">
+        <div class="vid-cat">KP &middot; Knowledge Process</div>
+        <h3>Kata Ashi Dachi (karate stance)</h3>
+        <p class="prompt">A karate practitioner demonstrates the 'Kata Ashi Dachi' stance in a dojo.</p>
+        <div class="vid-row">
+          <figure>
+            <video src="videos/kp/sample1.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure class="placeholder">
+            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
+            <figcaption>VideoAgent (ours)</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="vid-card">
+        <div class="vid-cat">VK-S &middot; Visual Knowledge — Single</div>
+        <h3>Papilio machaon britannicus</h3>
+        <p class="prompt">A Papilio machaon britannicus unfurls its pale yellow wings edged in black and blue eyespots, lifts off from a Norfolk reed stem, and flutters low over the fenland marsh.</p>
+        <div class="vid-row">
+          <figure>
+            <video src="videos/vks/sample1.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure class="placeholder">
+            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
+            <figcaption>VideoAgent (ours)</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="vid-card">
+        <div class="vid-cat">VK-M &middot; Visual Knowledge — Multiple</div>
+        <h3>Multi-character interaction</h3>
+        <p class="prompt">Arlecchino strides forward in her dark Knave regalia, crossing X-shaped nail slashes through the air, while Makima adjusts her tie with a cold smirk and Esdeath swings her rapier&hellip;</p>
+        <div class="vid-row">
+          <figure>
+            <video src="videos/vkm/sample1.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure class="placeholder">
+            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
+            <figcaption>VideoAgent (ours)</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="vid-card">
+        <div class="vid-cat">MS &middot; Multi-Subject</div>
+        <h3>Barber, monkey, cyclist</h3>
+        <p class="prompt">A street barber clips hair under a banyan tree as the client reads a newspaper, a monkey steals the comb from the barber's belt, and a cyclist rubbernecks passing by.</p>
+        <div class="vid-row">
+          <figure>
+            <video src="videos/ms/sample1.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure class="placeholder">
+            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
+            <figcaption>VideoAgent (ours)</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="vid-card">
+        <div class="vid-cat">TG &middot; TimeGrounded</div>
+        <h3>Puddle &rarr; child &rarr; splash</h3>
+        <p class="prompt">The opening half shows a calm puddle on a sidewalk. The closing half shows a child jumping into it with both feet, sending water splashing outward.</p>
+        <div class="vid-row">
+          <figure>
+            <video src="videos/tg/sample1.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure class="placeholder">
+            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
+            <figcaption>VideoAgent (ours)</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="vid-card">
+        <div class="vid-cat">Sim &middot; Physical simulation</div>
+        <h3>Watermelon drop physics</h3>
+        <p class="prompt">A 2&nbsp;kg watermelon dropped from 0.3&nbsp;m onto concrete barely cracks, showing a 5&nbsp;cm surface fracture.</p>
+        <div class="vid-row">
+          <figure>
+            <video src="videos/ps/sample1.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure class="placeholder">
+            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
+            <figcaption>VideoAgent (ours)</figcaption>
+          </figure>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ────────────────────────────────── TRAJECTORY ────────────────────────────────── -->
+<section id="trajectory" class="block alt">
+  <div class="container">
+    <h2>Example agent trajectory</h2>
+    <p>
+      For a knowledge-intensive prompt, the agent issues a text search to ground the
+      named technique, optionally an image search for visual references, generates a
+      candidate, verifies it with Grounding DINO, and regenerates if a critical cue
+      is missing. A simplified rollout looks like:
+    </p>
+    <pre class="trajectory">
+&lt;think&gt; Prompt names a Bharatanatyam mudra; need finger geometry. &lt;/think&gt;
+&lt;tool_call&gt;search_text("Mayura mudra defining finger configuration")&lt;/tool_call&gt;
+&lt;tool_response&gt; "ring-finger tip touches thumb tip, others extended ..." &lt;/tool_response&gt;
+&lt;think&gt; Need a reference image to anchor identity. &lt;/think&gt;
+&lt;tool_call&gt;search_image("Bharatanatyam dancer Mayura mudra close-up")&lt;/tool_call&gt;
+&lt;tool_response&gt; [3 reference images attached] &lt;/tool_response&gt;
+&lt;tool_call&gt;video_gen(prompt=refined_prompt, ref_images=[img1, img2])&lt;/tool_call&gt;
+&lt;tool_response&gt; [video candidate] &lt;/tool_response&gt;
+&lt;tool_call&gt;verify_gdino(video, target="hand close-up with mudra")&lt;/tool_call&gt;
+&lt;tool_response&gt; detection_ratio=0.74  &gt; threshold(0.6)  → accept &lt;/tool_response&gt;
+&lt;answer&gt; [final video] &lt;/answer&gt;
+    </pre>
+  </div>
+</section>
+
+<!-- ────────────────────────────────── BIBTEX ────────────────────────────────── -->
+<section id="bibtex" class="block">
+  <div class="container">
+    <h2>BibTeX</h2>
+    <pre class="bibtex">@inproceedings{videoagent2026,
+  title     = {Multimodal Visual Reasoning with Agentic RL for Video Generation},
+  author    = {Anonymous Authors},
+  booktitle = {Submitted to NeurIPS 2026},
+  year      = {2026}
+}</pre>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 VideoAgent authors. Built as a static page on GitHub Pages.</p>
+  </div>
+</footer>
+
+</body>
+</html>
