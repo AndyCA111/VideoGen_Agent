@@ -8,12 +8,15 @@ body {
   font-weight: 400;
   line-height: 1.65;
   color: #1a1a1a;
-  /* Match gen-searcher: warm cream gradient, fixed attachment */
+  /* Match gen-searcher: paper-texture overlay on warm cream solid */
   background:
     linear-gradient(rgba(246, 240, 226, 0.1), rgba(245, 239, 223, 0.12)),
-    linear-gradient(180deg, #f6f0e2 0%, #f5efdf 100%);
-  background-attachment: fixed;
+    url("../images/hero-bg.jpg"),
+    #f6f0e2;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
