@@ -58,11 +58,7 @@ em { color: #555; }
 }
 
 .title .highlight {
-  background: linear-gradient(120deg, #b15c2a 0%, #8f3a8c 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  color: #b15c2a;
 }
 
 .authors {
