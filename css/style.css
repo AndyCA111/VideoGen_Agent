@@ -290,16 +290,45 @@ p.note { font-size: 0.85rem; color: #777; margin-top: 10px; }
 .placeholder-card span { font-weight: 400; font-size: 0.85rem; color: #9aa3ad; margin-top: 4px; }
 
 /* ─────────────────────────────── TRAJECTORY ─────────────────────────────── */
+.traj-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.traj-card {
+  background: #fffaf0;
+  border: 1px solid rgba(120, 96, 48, 0.18);
+  border-radius: 10px;
+  padding: 18px 18px 16px;
+}
+
+.traj-cat {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #b15c2a;
+  background: rgba(177, 92, 42, 0.10);
+  padding: 3px 9px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
 .trajectory {
   background: #0e1620;
   color: #d4dae3;
-  padding: 22px 24px;
-  border-radius: 10px;
+  padding: 16px 18px;
+  border-radius: 8px;
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.83rem;
-  line-height: 1.7;
+  font-size: 0.76rem;
+  line-height: 1.65;
   overflow-x: auto;
   white-space: pre;
+  margin: 0;
 }
 
 /* ─────────────────────────────── BIBTEX ─────────────────────────────── */
@@ -329,7 +358,7 @@ footer a { color: #b9c6da; }
 @media (max-width: 900px) {
   .title { font-size: 2.1rem; }
   h2 { font-size: 1.55rem; }
-  .tool-groups, .cat-grid { grid-template-columns: 1fr; }
+  .tool-groups, .cat-grid, .traj-grid { grid-template-columns: 1fr; }
   .vid-row { grid-template-columns: 1fr; }
   .block { padding: 50px 0; }
   .hero { padding: 60px 0 40px; }
