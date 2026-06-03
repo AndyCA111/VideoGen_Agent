@@ -8,7 +8,12 @@ body {
   font-weight: 400;
   line-height: 1.65;
   color: #1a1a1a;
-  background: #ffffff;
+  /* Match gen-searcher: warm cream gradient, fixed attachment */
+  background:
+    linear-gradient(rgba(246, 240, 226, 0.1), rgba(245, 239, 223, 0.12)),
+    linear-gradient(180deg, #f6f0e2 0%, #f5efdf 100%);
+  background-attachment: fixed;
+  background-size: cover;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -30,12 +35,12 @@ p { margin-bottom: 1rem; }
 
 em { color: #555; }
 
-/* ─────────────────────────────── HERO (dark navy) ─────────────────────────────── */
+/* ─────────────────────────────── HERO (cream / paper) ─────────────────────────────── */
 .hero {
-  background: linear-gradient(180deg, #061a32 0%, #0c2a4f 60%, #102f55 100%);
-  border-bottom: 1px solid #08182c;
+  /* Inherit body cream gradient; subtle separator at bottom */
+  background: transparent;
+  border-bottom: 1px solid rgba(120, 96, 48, 0.12);
   padding: 80px 0 60px;
-  color: #e6ecf3;
 }
 
 .hero .container { text-align: center; }
@@ -46,11 +51,11 @@ em { color: #555; }
   font-weight: 700;
   letter-spacing: -0.025em;
   margin-bottom: 22px;
-  color: #f5f8fc;
+  color: #1a1a1a;
 }
 
 .title .highlight {
-  background: linear-gradient(120deg, #6cb6ff 0%, #a89bff 100%);
+  background: linear-gradient(120deg, #b15c2a 0%, #8f3a8c 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -59,19 +64,19 @@ em { color: #555; }
 
 .authors {
   font-size: 1.08rem;
-  color: #d8e1ec;
+  color: #2a2a2a;
   margin-bottom: 6px;
   line-height: 1.55;
 }
-.authors sup { font-size: 0.72em; color: #6cb6ff; font-weight: 500; padding-left: 1px; }
+.authors sup { font-size: 0.72em; color: #b15c2a; font-weight: 500; padding-left: 1px; }
 
 .affiliations {
   font-size: 0.92rem;
-  color: #9caebf;
+  color: #5a5040;
   margin-bottom: 28px;
   line-height: 1.55;
 }
-.affiliations sup { color: #6cb6ff; font-weight: 500; padding-right: 2px; }
+.affiliations sup { color: #b15c2a; font-weight: 500; padding-right: 2px; }
 
 .links {
   display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
@@ -82,38 +87,41 @@ em { color: #555; }
   display: inline-flex; align-items: center; gap: 6px;
   padding: 10px 20px;
   border-radius: 999px;
-  background: #2d7adb;
+  background: #1a1a1a;
   color: #fff;
   font-weight: 500;
   font-size: 0.95rem;
   transition: background .15s ease, transform .15s ease;
-  border: 1px solid #4a8ee0;
+  border: 1px solid rgba(255,255,255,0.28);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
 }
-.btn:hover { background: #1f6ac8; text-decoration: none; transform: translateY(-1px); }
+.btn:hover { background: #000; text-decoration: none; transform: translateY(-1px); }
 .btn .icon { font-family: "JetBrains Mono", monospace; font-size: 0.9em; }
 .btn.disabled {
-  background: rgba(255,255,255,0.08); color: #8a9bb0; border-color: rgba(255,255,255,0.12);
+  background: rgba(120, 96, 48, 0.18); color: #8a7c63; border-color: rgba(120, 96, 48, 0.22);
   cursor: not-allowed; pointer-events: none;
+  box-shadow: none;
 }
 
 .tldr {
   max-width: 760px;
   margin: 0 auto;
   font-size: 1.02rem;
-  color: #e6ecf3;
-  background: rgba(255, 255, 255, 0.04);
-  border-left: 4px solid #6cb6ff;
+  color: #2a2a2a;
+  background: rgba(255, 252, 244, 0.55);
+  border: 1px solid rgba(120, 96, 48, 0.18);
+  border-left: 4px solid #b15c2a;
   padding: 18px 22px;
   text-align: left;
   border-radius: 6px;
   backdrop-filter: blur(2px);
 }
-.tldr strong { color: #f5f8fc; }
-.tldr em { color: #b9c8da; }
+.tldr strong { color: #1a1a1a; }
+.tldr em { color: #5a5040; }
 
 /* ─────────────────────────────── BLOCKS ─────────────────────────────── */
-.block { padding: 70px 0; border-bottom: 1px solid #f0f1f3; }
-.block.alt { background: #fafbfc; }
+.block { padding: 70px 0; border-bottom: 1px solid rgba(120, 96, 48, 0.10); }
+.block.alt { background: rgba(255, 252, 244, 0.45); }
 .block:last-of-type { border-bottom: none; }
 
 /* ─────────────────────────────── METHOD: tool groups ─────────────────────────────── */
