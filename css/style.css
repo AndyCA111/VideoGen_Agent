@@ -214,90 +214,68 @@ table.results tr.ours td { color: #4a3500; }
 p.note { font-size: 0.85rem; color: #777; margin-top: 10px; }
 
 /* ─────────────────────────────── GALLERY ─────────────────────────────── */
-.vid-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
+/* GALLERY — no card panel; cat badge + prompt as plain text, then 2 videos side-by-side. */
+.vid-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
   margin-top: 20px;
 }
-.vid-grid.two-col {
-  grid-template-columns: repeat(2, 1fr);
-  gap: 22px;
-}
 
-.vid-card {
-  background: #fff;
-  border: 1px solid rgba(120, 96, 48, 0.18);
-  border-radius: 12px;
-  padding: 22px;
-}
-.vid-grid.two-col .vid-card { padding: 18px; }
-.vid-grid.two-col .vid-card figure { margin: 0; }
-.vid-grid.two-col .vid-card video {
-  width: 100%; border-radius: 8px; display: block; background: #000;
-  aspect-ratio: 16 / 9; object-fit: cover;
-}
+.vid-block { /* no bg, no border — just a stacking container */ }
 
 .vid-cat {
   display: inline-block;
   font-family: "JetBrains Mono", monospace;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #1d6bc6;
-  background: #e8f0fa;
+  color: #b15c2a;
+  background: rgba(177, 92, 42, 0.10);
   padding: 3px 10px;
   border-radius: 4px;
   margin-bottom: 10px;
 }
 
-.vid-card h3 { margin-bottom: 6px; font-size: 1.15rem; color: #1a1a1a; }
-.vid-card .prompt {
-  font-size: 0.93rem;
-  color: #555;
+.vid-block .prompt {
+  font-size: 0.96rem;
+  color: #2a2a2a;
   font-style: italic;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   padding-left: 14px;
-  border-left: 3px solid #d8dde3;
+  border-left: 3px solid rgba(120, 96, 48, 0.28);
+  line-height: 1.55;
 }
 
-.vid-row {
+.vid-pair {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 18px;
 }
 
-.vid-row figure { margin: 0; }
-.vid-row video {
+.vid-pair figure {
+  margin: 0;
+  /* The "white panel" is now the video itself — no surrounding card. */
+}
+
+.vid-pair video {
   width: 100%;
-  border-radius: 8px;
   display: block;
+  border-radius: 10px;
   background: #000;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  box-shadow: 0 6px 22px rgba(40, 26, 8, 0.16);
 }
-.vid-row figcaption {
-  font-size: 0.82rem;
-  color: #666;
+
+.vid-pair figcaption {
+  font-size: 0.84rem;
+  color: #5a5040;
   text-align: center;
   margin-top: 8px;
   font-weight: 500;
 }
-
-.placeholder-card {
-  aspect-ratio: 16 / 9;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  background: linear-gradient(135deg, #f4f6f9 0%, #e8ecf2 100%);
-  border: 2px dashed #c8cdd3;
-  border-radius: 8px;
-  color: #6a737d;
-  font-weight: 600;
-  font-size: 1rem;
-  text-align: center;
-}
-.placeholder-card span { font-weight: 400; font-size: 0.85rem; color: #9aa3ad; margin-top: 4px; }
 
 /* ─────────────────────────────── TRAJECTORY ─────────────────────────────── */
 .traj-grid {
@@ -369,8 +347,7 @@ footer a { color: #b9c6da; }
   .title { font-size: 2.1rem; }
   h2 { font-size: 1.55rem; }
   .tool-groups, .cat-grid, .traj-grid { grid-template-columns: 1fr; }
-  .vid-row { grid-template-columns: 1fr; }
-  .vid-grid.two-col { grid-template-columns: 1fr; }
+  .vid-pair { grid-template-columns: 1fr; }
   .block { padding: 50px 0; }
   .hero { padding: 60px 0 40px; }
 }
