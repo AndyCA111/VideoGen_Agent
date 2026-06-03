@@ -220,12 +220,22 @@ p.note { font-size: 0.85rem; color: #777; margin-top: 10px; }
   gap: 30px;
   margin-top: 20px;
 }
+.vid-grid.two-col {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
 
 .vid-card {
   background: #fff;
-  border: 1px solid #e6e8eb;
+  border: 1px solid rgba(120, 96, 48, 0.18);
   border-radius: 12px;
-  padding: 24px;
+  padding: 22px;
+}
+.vid-grid.two-col .vid-card { padding: 18px; }
+.vid-grid.two-col .vid-card figure { margin: 0; }
+.vid-grid.two-col .vid-card video {
+  width: 100%; border-radius: 8px; display: block; background: #000;
+  aspect-ratio: 16 / 9; object-fit: cover;
 }
 
 .vid-cat {
@@ -360,6 +370,7 @@ footer a { color: #b9c6da; }
   h2 { font-size: 1.55rem; }
   .tool-groups, .cat-grid, .traj-grid { grid-template-columns: 1fr; }
   .vid-row { grid-template-columns: 1fr; }
+  .vid-grid.two-col { grid-template-columns: 1fr; }
   .block { padding: 50px 0; }
   .hero { padding: 60px 0 40px; }
 }

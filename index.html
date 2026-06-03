@@ -199,104 +199,56 @@
 <section id="gallery" class="block">
   <div class="container">
     <h2>Sample videos across categories</h2>
-    <p>Each card shows a representative VABench prompt and the corresponding output from the strongest single-pass baseline. The <strong>VideoAgent</strong> column will be populated as agent-generated videos finalise.</p>
+    <p>Six VideoAgent rollouts, one per task category — these are the final stitched outputs from the trajectories shown in the <a href="workflows.html" target="_blank" rel="noopener">6-column viewer</a>.</p>
 
-    <div class="vid-grid">
+    <div class="vid-grid two-col">
 
       <div class="vid-card">
         <div class="vid-cat">KP &middot; Knowledge Process</div>
-        <h3>Kata Ashi Dachi (karate stance)</h3>
-        <p class="prompt">A karate practitioner demonstrates the 'Kata Ashi Dachi' stance in a dojo.</p>
-        <div class="vid-row">
-          <figure>
-            <video src="videos/kp/sample1.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
-          </figure>
-          <figure class="placeholder">
-            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
-            <figcaption>VideoAgent (ours)</figcaption>
-          </figure>
-        </div>
+        <p class="prompt">An elderly Tai Chi practitioner in a white tunic performs 'White Crane Spreads Its Wings' in a quiet courtyard.</p>
+        <figure>
+          <video src="test_videos_v2/seedance_1_pro_fast_v2_rw_v4/kp/1.mp4" autoplay loop muted playsinline></video>
+        </figure>
       </div>
 
       <div class="vid-card">
         <div class="vid-cat">VK-S &middot; Visual Knowledge — Single</div>
-        <h3>Papilio machaon britannicus</h3>
-        <p class="prompt">A Papilio machaon britannicus unfurls its pale yellow wings edged in black and blue eyespots, lifts off from a Norfolk reed stem, and flutters low over the fenland marsh.</p>
-        <div class="vid-row">
-          <figure>
-            <video src="videos/vks/sample1.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
-          </figure>
-          <figure class="placeholder">
-            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
-            <figcaption>VideoAgent (ours)</figcaption>
-          </figure>
-        </div>
+        <p class="prompt">Vigil (from the game Arknights) draws his crossbow in a fluid motion, cloak billowing as he fires a bolt trailing dark energy, his single visible eye narrowing while architecture crumbles behind him.</p>
+        <figure>
+          <video src="test_videos_vks/v5_compare/agent_r2v/3472.mp4" autoplay loop muted playsinline></video>
+        </figure>
       </div>
 
       <div class="vid-card">
         <div class="vid-cat">VK-M &middot; Visual Knowledge — Multiple</div>
-        <h3>Multi-character interaction</h3>
-        <p class="prompt">Arlecchino strides forward in her dark Knave regalia, crossing X-shaped nail slashes through the air, while Makima adjusts her tie with a cold smirk and Esdeath swings her rapier, ice crystals forming mid-strike.</p>
-        <div class="vid-row">
-          <figure>
-            <video src="videos/vkm/sample1.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
-          </figure>
-          <figure class="placeholder">
-            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
-            <figcaption>VideoAgent (ours)</figcaption>
-          </figure>
-        </div>
+        <p class="prompt">On a sunny Paris rooftop Mati Diop lines up a handheld shot, Ladj Ly crouches beside her reviewing the monitor, and Audrey Diwan leans in to cue an actor, all three directors pointing at the frame together.</p>
+        <figure>
+          <video src="lf_ckpt3106_videos/visual_knowledge_multi/agentic/10004.mp4" autoplay loop muted playsinline></video>
+        </figure>
       </div>
 
       <div class="vid-card">
         <div class="vid-cat">MS &middot; Multi-Subject</div>
-        <h3>Barber, monkey, cyclist</h3>
-        <p class="prompt">A street barber clips hair under a banyan tree as the client reads a newspaper, a monkey steals the comb from the barber's belt, and a cyclist rubbernecks passing by.</p>
-        <div class="vid-row">
-          <figure>
-            <video src="videos/ms/sample1.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
-          </figure>
-          <figure class="placeholder">
-            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
-            <figcaption>VideoAgent (ours)</figcaption>
-          </figure>
-        </div>
+        <p class="prompt">Ice cracking, a polar explorer steps back from a widening crevasse and the sled dog whines.</p>
+        <figure>
+          <video src="lf_ckpt3106_videos/multi_subject/agentic/10001.mp4" autoplay loop muted playsinline></video>
+        </figure>
       </div>
 
       <div class="vid-card">
         <div class="vid-cat">TG &middot; TimeGrounded</div>
-        <h3>Puddle &rarr; child &rarr; splash</h3>
-        <p class="prompt">The opening half shows a calm puddle on a sidewalk. The closing half shows a child jumping into it with both feet, sending water splashing outward.</p>
-        <div class="vid-row">
-          <figure>
-            <video src="videos/tg/sample1.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
-          </figure>
-          <figure class="placeholder">
-            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
-            <figcaption>VideoAgent (ours)</figcaption>
-          </figure>
-        </div>
+        <p class="prompt">In a 12-second video, 0-4s: a heavy rain gutter clogged with leaves and overflowing. 4-8s: the weight cracks the bracket. 8-12s: the gutter section swings down and dumps water and leaves on the walkway.</p>
+        <figure>
+          <video src="test_videos_tg/seedance2_agent_5125.mp4" autoplay loop muted playsinline></video>
+        </figure>
       </div>
 
       <div class="vid-card">
-        <div class="vid-cat">Sim &middot; Physical simulation</div>
-        <h3>Watermelon drop physics</h3>
-        <p class="prompt">Please maintain physics realism. A 2&nbsp;kg watermelon dropped from 0.3&nbsp;meters onto concrete barely cracks showing a 5&nbsp;cm surface fracture.</p>
-        <div class="vid-row">
-          <figure>
-            <video src="videos/ps/sample1.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast (baseline)</figcaption>
-          </figure>
-          <figure class="placeholder">
-            <div class="placeholder-card">VideoAgent <br /><span>coming soon</span></div>
-            <figcaption>VideoAgent (ours)</figcaption>
-          </figure>
-        </div>
+        <div class="vid-cat">Sim &middot; Physical Simulation</div>
+        <p class="prompt">A 0.3&nbsp;kg rubber ball at 8&nbsp;m/s hits the edge of a 3&nbsp;kg metal cube and the cube starts rotating. Please maintain physics realism.</p>
+        <figure>
+          <video src="test_videos_ps_sim/p785_vace.mp4" autoplay loop muted playsinline></video>
+        </figure>
       </div>
 
     </div>
