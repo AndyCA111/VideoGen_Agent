@@ -297,21 +297,6 @@ p.note { font-size: 0.85rem; color: #777; margin-top: 10px; }
   margin-top: 8px;
   font-weight: 500;
 }
-/* Visual cue that the input frame is the *condition* for the rightmost cell. */
-.vid-quad figure.cond {
-  position: relative;
-}
-.vid-quad figure.cond::after {
-  content: "→";
-  position: absolute;
-  right: -10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.3rem;
-  color: #b15c2a;
-  font-weight: 700;
-  pointer-events: none;
-}
 
 .vid-pair figure {
   margin: 0;
@@ -411,7 +396,6 @@ footer a { color: #b9c6da; }
   .vid-pair { grid-template-columns: 1fr; }
   .vid-triple { grid-template-columns: 1fr; }
   .vid-quad { grid-template-columns: 1fr 1fr; }
-  .vid-quad figure.cond::after { display: none; }
   .block { padding: 50px 0; }
   .hero { padding: 60px 0 40px; }
 }

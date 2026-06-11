@@ -306,7 +306,7 @@
       The same agentic pattern transfers to robot manipulation. Given a natural-language instruction, the agent (1) calls <strong>pi0.5</strong> to predict a 60-step joint trajectory, then (2) hands that trajectory to <strong>ctrl-world</strong>, an action-conditioned world model that renders the resulting rollout. Unlike pure I2V baselines that see only the first frame, the agentic stack consumes the policy's planned actions &mdash; so the synthesized video is grounded in a real motor plan, not imagined.
     </p>
     <p>
-      Five manipulation prompts across three task families. Columns left&nbsp;&rarr;&nbsp;right: <strong>Ground truth</strong> (robot recording), <strong>VideoAgent</strong> (ours, pi0.5&nbsp;&rarr;&nbsp;ctrl-world), the <strong>I2V input frame</strong> (the still image given to the baseline), and the <strong>Wan&nbsp;2.2 I2V&nbsp;14B</strong> rollout it produces from that frame.
+      Five manipulation prompts across three task families. Columns left&nbsp;&rarr;&nbsp;right: the <strong>I2V input frame</strong> (the shared starting image), <strong>Ground truth</strong> (robot recording), <strong>VideoAgent</strong> (ours, pi0.5&nbsp;&rarr;&nbsp;ctrl-world), and <strong>Wan&nbsp;2.2 I2V&nbsp;14B</strong> (baseline rollout from that frame).
     </p>
 
     <div class="vid-stack">
@@ -316,16 +316,16 @@
         <p class="prompt">pick up the blue block and place in white plate</p>
         <div class="vid-quad">
           <figure>
+            <img src="test_videos_robot/pickplace_0_wan_input.jpg" alt="I2V input frame">
+            <figcaption>I2V input frame</figcaption>
+          </figure>
+          <figure>
             <video src="test_videos_robot/pickplace_0_gt.mp4" autoplay loop muted playsinline></video>
             <figcaption>Ground truth</figcaption>
           </figure>
           <figure>
             <video src="test_videos_robot/pickplace_0.mp4" autoplay loop muted playsinline></video>
             <figcaption>VideoAgent (pi0.5 &rarr; ctrl-world)</figcaption>
-          </figure>
-          <figure class="cond">
-            <img src="test_videos_robot/pickplace_0_wan_input.jpg" alt="I2V input frame">
-            <figcaption>I2V input frame</figcaption>
           </figure>
           <figure>
             <video src="test_videos_robot/pickplace_0_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video>
@@ -339,16 +339,16 @@
         <p class="prompt">pick up the red block and place in white plate</p>
         <div class="vid-quad">
           <figure>
+            <img src="test_videos_robot/pickplace_1_wan_input.jpg" alt="I2V input frame">
+            <figcaption>I2V input frame</figcaption>
+          </figure>
+          <figure>
             <video src="test_videos_robot/pickplace_1_gt.mp4" autoplay loop muted playsinline></video>
             <figcaption>Ground truth</figcaption>
           </figure>
           <figure>
             <video src="test_videos_robot/pickplace_1.mp4" autoplay loop muted playsinline></video>
             <figcaption>VideoAgent (pi0.5 &rarr; ctrl-world)</figcaption>
-          </figure>
-          <figure class="cond">
-            <img src="test_videos_robot/pickplace_1_wan_input.jpg" alt="I2V input frame">
-            <figcaption>I2V input frame</figcaption>
           </figure>
           <figure>
             <video src="test_videos_robot/pickplace_1_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video>
@@ -362,16 +362,16 @@
         <p class="prompt">fold the towel</p>
         <div class="vid-quad">
           <figure>
+            <img src="test_videos_robot/towel_fold_0_wan_input.jpg" alt="I2V input frame">
+            <figcaption>I2V input frame</figcaption>
+          </figure>
+          <figure>
             <video src="test_videos_robot/towel_fold_0_gt.mp4" autoplay loop muted playsinline></video>
             <figcaption>Ground truth</figcaption>
           </figure>
           <figure>
             <video src="test_videos_robot/towel_fold_0.mp4" autoplay loop muted playsinline></video>
             <figcaption>VideoAgent (pi0.5 &rarr; ctrl-world)</figcaption>
-          </figure>
-          <figure class="cond">
-            <img src="test_videos_robot/towel_fold_0_wan_input.jpg" alt="I2V input frame">
-            <figcaption>I2V input frame</figcaption>
           </figure>
           <figure>
             <video src="test_videos_robot/towel_fold_0_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video>
@@ -385,16 +385,16 @@
         <p class="prompt">fold the towel <em>(second take)</em></p>
         <div class="vid-quad">
           <figure>
+            <img src="test_videos_robot/towel_fold_1_wan_input.jpg" alt="I2V input frame">
+            <figcaption>I2V input frame</figcaption>
+          </figure>
+          <figure>
             <video src="test_videos_robot/towel_fold_1_gt.mp4" autoplay loop muted playsinline></video>
             <figcaption>Ground truth</figcaption>
           </figure>
           <figure>
             <video src="test_videos_robot/towel_fold_1.mp4" autoplay loop muted playsinline></video>
             <figcaption>VideoAgent (pi0.5 &rarr; ctrl-world)</figcaption>
-          </figure>
-          <figure class="cond">
-            <img src="test_videos_robot/towel_fold_1_wan_input.jpg" alt="I2V input frame">
-            <figcaption>I2V input frame</figcaption>
           </figure>
           <figure>
             <video src="test_videos_robot/towel_fold_1_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video>
@@ -408,16 +408,16 @@
         <p class="prompt">moving the towel from right to left</p>
         <div class="vid-quad">
           <figure>
+            <img src="test_videos_robot/wipe_table_0_wan_input.jpg" alt="I2V input frame">
+            <figcaption>I2V input frame</figcaption>
+          </figure>
+          <figure>
             <video src="test_videos_robot/wipe_table_0_gt.mp4" autoplay loop muted playsinline></video>
             <figcaption>Ground truth</figcaption>
           </figure>
           <figure>
             <video src="test_videos_robot/wipe_table_0.mp4" autoplay loop muted playsinline></video>
             <figcaption>VideoAgent (pi0.5 &rarr; ctrl-world)</figcaption>
-          </figure>
-          <figure class="cond">
-            <img src="test_videos_robot/wipe_table_0_wan_input.jpg" alt="I2V input frame">
-            <figcaption>I2V input frame</figcaption>
           </figure>
           <figure>
             <video src="test_videos_robot/wipe_table_0_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video>
