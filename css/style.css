@@ -273,6 +273,82 @@ p.note { font-size: 0.85rem; color: #777; margin-top: 10px; }
   font-weight: 500;
 }
 
+/* Compact robotics table: prompt | I2V input | GT | agentic | I2V baseline. */
+table.robot-grid {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+  font-size: 0.88rem;
+  table-layout: fixed;
+}
+.robot-grid th, .robot-grid td {
+  padding: 8px 6px;
+  border-bottom: 1px solid rgba(120, 96, 48, 0.18);
+  vertical-align: middle;
+}
+.robot-grid thead th {
+  text-align: center;
+  font-weight: 600;
+  color: #5a5040;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(255, 252, 220, 0.40);
+  border-bottom: 1.5px solid rgba(120, 96, 48, 0.30);
+}
+.robot-grid th:first-child, .robot-grid td:first-child { text-align: left; }
+.robot-grid td.prompt-cell {
+  font-style: italic;
+  font-size: 0.86rem;
+  color: #2a2a2a;
+  line-height: 1.4;
+  padding-right: 10px;
+}
+.robot-grid td.prompt-cell .cat-tag {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-style: normal;
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #b15c2a;
+  margin-bottom: 4px;
+}
+.robot-grid td.media-cell { text-align: center; }
+.robot-grid video,
+.robot-grid img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #000;
+  border-radius: 6px;
+  display: block;
+  box-shadow: 0 3px 10px rgba(40, 26, 8, 0.14);
+}
+@media (max-width: 700px) {
+  .robot-grid, .robot-grid thead, .robot-grid tbody, .robot-grid th, .robot-grid td, .robot-grid tr {
+    display: block;
+  }
+  .robot-grid thead { display: none; }
+  .robot-grid tr {
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(120, 96, 48, 0.18);
+    padding-bottom: 14px;
+  }
+  .robot-grid td { border: none; padding: 6px 0; }
+  .robot-grid td.media-cell::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #5a5040;
+    margin-bottom: 4px;
+  }
+}
+
 /* 4-column variant: GT | agentic | I2V input image | I2V output video (robotics). */
 .vid-quad {
   display: grid;
