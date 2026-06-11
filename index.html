@@ -298,8 +298,124 @@
   </div>
 </section>
 
+<!-- ────────────────────────────────── ROBOTICS GENERALIZATION ────────────────────────────────── -->
+<section id="robotics" class="block alt">
+  <div class="container">
+    <h2>Beyond text&#8209;to&#8209;video &mdash; embodied manipulation</h2>
+    <p>
+      The same agentic pattern transfers to robot manipulation. Given a natural-language instruction, the agent (1) calls <strong>pi0.5</strong> to predict a 60-step joint trajectory, then (2) hands that trajectory to <strong>ctrl-world</strong>, an action-conditioned world model that renders the resulting rollout. Unlike pure I2V baselines that see only the first frame, the agentic stack consumes the policy's planned actions &mdash; so the synthesized video is grounded in a real motor plan, not imagined.
+    </p>
+    <p>
+      Five manipulation prompts across three task families. Columns left&nbsp;&rarr;&nbsp;right: <strong>Ground truth</strong> (robot recording), <strong>VideoAgent</strong> (ours, pi0.5&nbsp;&rarr;&nbsp;ctrl-world), and <strong>Wan&nbsp;2.2 I2V&nbsp;14B</strong> (baseline, same first frame).
+    </p>
+
+    <div class="vid-stack">
+
+      <div class="vid-block">
+        <div class="vid-cat">Pick &amp; Place</div>
+        <p class="prompt">pick up the blue block and place in white plate</p>
+        <div class="vid-triple">
+          <figure>
+            <video src="test_videos_robot/pickplace_0_gt.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Ground truth</figcaption>
+          </figure>
+          <figure>
+            <video src="test_videos_robot/pickplace_0.mp4" autoplay loop muted playsinline></video>
+            <figcaption>VideoAgent (pi0.5 &rarr; ctrl-world)</figcaption>
+          </figure>
+          <figure>
+            <video src="test_videos_robot/pickplace_0_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Wan 2.2 I2V 14B</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="vid-block">
+        <div class="vid-cat">Pick &amp; Place</div>
+        <p class="prompt">pick up the red block and place in white plate</p>
+        <div class="vid-triple">
+          <figure>
+            <video src="test_videos_robot/pickplace_1_gt.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Ground truth</figcaption>
+          </figure>
+          <figure>
+            <video src="test_videos_robot/pickplace_1.mp4" autoplay loop muted playsinline></video>
+            <figcaption>VideoAgent (pi0.5 &rarr; ctrl-world)</figcaption>
+          </figure>
+          <figure>
+            <video src="test_videos_robot/pickplace_1_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Wan 2.2 I2V 14B</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="vid-block">
+        <div class="vid-cat">Towel Fold</div>
+        <p class="prompt">fold the towel</p>
+        <div class="vid-triple">
+          <figure>
+            <video src="test_videos_robot/towel_fold_0_gt.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Ground truth</figcaption>
+          </figure>
+          <figure>
+            <video src="test_videos_robot/towel_fold_0.mp4" autoplay loop muted playsinline></video>
+            <figcaption>VideoAgent (pi0.5 &rarr; ctrl-world)</figcaption>
+          </figure>
+          <figure>
+            <video src="test_videos_robot/towel_fold_0_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Wan 2.2 I2V 14B</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="vid-block">
+        <div class="vid-cat">Towel Fold</div>
+        <p class="prompt">fold the towel <em>(second take)</em></p>
+        <div class="vid-triple">
+          <figure>
+            <video src="test_videos_robot/towel_fold_1_gt.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Ground truth</figcaption>
+          </figure>
+          <figure>
+            <video src="test_videos_robot/towel_fold_1.mp4" autoplay loop muted playsinline></video>
+            <figcaption>VideoAgent (pi0.5 &rarr; ctrl-world)</figcaption>
+          </figure>
+          <figure>
+            <video src="test_videos_robot/towel_fold_1_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Wan 2.2 I2V 14B</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="vid-block">
+        <div class="vid-cat">Wipe Table</div>
+        <p class="prompt">moving the towel from right to left</p>
+        <div class="vid-triple">
+          <figure>
+            <video src="test_videos_robot/wipe_table_0_gt.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Ground truth</figcaption>
+          </figure>
+          <figure>
+            <video src="test_videos_robot/wipe_table_0.mp4" autoplay loop muted playsinline></video>
+            <figcaption>VideoAgent (pi0.5 &rarr; ctrl-world)</figcaption>
+          </figure>
+          <figure>
+            <video src="test_videos_robot/wipe_table_0_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Wan 2.2 I2V 14B</figcaption>
+          </figure>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="note">
+      Ground-truth recordings are 320&times;192 at 4&nbsp;fps (raw robot camera); the agentic pipeline inherits that resolution since ctrl-world generates in the same space as its training data. The Wan 2.2 baseline runs at 800&times;480, 16&nbsp;fps; we keep all three videos at uniform display width for visual comparison &mdash; black bars are letterboxing, not crop.
+    </p>
+  </div>
+</section>
+
 <!-- ────────────────────────────────── TRAJECTORY ────────────────────────────────── -->
-<section id="trajectory" class="block alt">
+<section id="trajectory" class="block">
   <div class="container">
     <h2>
       <a href="workflows.html" target="_blank" rel="noopener">Example agent trajectories &rarr;</a>
@@ -308,7 +424,7 @@
 </section>
 
 <!-- ────────────────────────────────── BIBTEX ────────────────────────────────── -->
-<section id="bibtex" class="block">
+<section id="bibtex" class="block alt">
   <div class="container">
     <h2>BibTeX</h2>
     <pre class="bibtex">@article{videoagent2026,

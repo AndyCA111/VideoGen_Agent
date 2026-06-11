@@ -248,6 +248,30 @@ p.note { font-size: 0.85rem; color: #777; margin-top: 10px; }
   gap: 18px;
 }
 
+/* 3-column variant for GT / agentic / baseline triplets (robotics section). */
+.vid-triple {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+.vid-triple figure { margin: 0; }
+.vid-triple video {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+  background: #000;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  box-shadow: 0 6px 22px rgba(40, 26, 8, 0.16);
+}
+.vid-triple figcaption {
+  font-size: 0.82rem;
+  color: #5a5040;
+  text-align: center;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
 .vid-pair figure {
   margin: 0;
   /* The "white panel" is now the video itself — no surrounding card. */
@@ -344,6 +368,7 @@ footer a { color: #b9c6da; }
   h2 { font-size: 1.55rem; }
   .tool-groups, .cat-grid, .traj-grid { grid-template-columns: 1fr; }
   .vid-pair { grid-template-columns: 1fr; }
+  .vid-triple { grid-template-columns: 1fr; }
   .block { padding: 50px 0; }
   .hero { padding: 60px 0 40px; }
 }
