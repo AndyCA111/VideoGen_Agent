@@ -8,9 +8,10 @@ body {
   font-weight: 400;
   line-height: 1.65;
   color: #1a1a1a;
-  /* Soft light-yellow background (no texture). */
-  background: #fdf6c8;
+  /* Soft yellow → mint diagonal gradient. */
+  background: linear-gradient(135deg, #fdf6c8 0%, #f3f3ce 45%, #d9f0c8 100%);
   background-attachment: fixed;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
