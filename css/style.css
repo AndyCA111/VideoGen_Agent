@@ -126,6 +126,12 @@ em { color: #555; }
 .block.alt { background: rgba(255, 252, 220, 0.55); }
 .block:last-of-type { border-bottom: none; }
 
+/* Content-block containers (Abstract → Robotics → Footer) match the teaser image width */
+.block .container,
+footer .container {
+  max-width: 1000px;                /* aligns with .teaser-wrap .container above */
+}
+
 /* ─────────────────────────────── AFFILIATION LOGOS (above title) ─────────────────────────────── */
 .affil-logos {
   display: flex;
