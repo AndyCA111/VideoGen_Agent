@@ -47,20 +47,14 @@
       </a>
     </div>
     <p class="tldr">
-      <strong>TL;DR.</strong> <strong>VideoGen-Agent</strong> is a multimodal policy
-      trained end-to-end with <strong>SFT + agentic GRPO</strong> under a
-      category-aware hybrid reward. Given a prompt, it plans and composes a
-      toolbox of <em>text search</em>, <em>image search</em>,
-      <em>code-based physics simulation</em>, four video generators
-      (T2V&nbsp;/&nbsp;I2V&nbsp;/&nbsp;R2V&nbsp;/&nbsp;M2V), and
-      <em>Grounding&nbsp;DINO&nbsp;+&nbsp;Depth&nbsp;Anything</em> verification
-      into a prompt-specific pipeline. On <strong>VABench</strong> (600 held-out
-      prompts across 6 failure-mode categories), VideoGen-Agent lifts the
-      Seedance&nbsp;1 Pro Fast baseline by <strong>+19 points</strong>
-      (56.5 → <strong>75.6</strong>). Swapping in stronger Seedance&nbsp;2
-      backends at inference — <em>without retraining the policy</em> —
-      further reaches <strong>84.7</strong>, demonstrating backend-agnostic
-      tool use.
+      <strong>TL;DR.</strong> <strong>VideoGen-Agent</strong> learns to dynamically
+      compose search, physics simulation, video generation, and visual verification
+      tools into prompt-specific workflows. Trained through supervised tool-use
+      learning followed by agentic reinforcement learning, it improves Seedance&nbsp;1
+      Pro Fast from 56.5 to <strong>75.6</strong> on VABench. Upgrading the
+      generation backend to Seedance&nbsp;2 at inference time, without retraining
+      the policy, further raises the score to <strong>84.7</strong>, demonstrating
+      transferable tool-use capabilities across video-generation backends.
     </p>
   </div>
 </header>
