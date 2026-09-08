@@ -132,6 +132,26 @@ footer .container {
   max-width: 1000px;                /* aligns with .teaser-wrap .container above */
 }
 
+/* Justified body text (both sides aligned) inside content blocks + hero TL;DR */
+.block p,
+.block li,
+.method-figure figcaption,
+.case-figure figcaption,
+.tldr {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+/* Center-align stays for the hero header (title / authors / buttons / affil logos) */
+.hero .container,
+.hero .container p { text-align: center; }
+/* Table cells and gallery captions stay centered */
+table.results td, table.results th,
+.vid-cat, .vid-pair figcaption,
+.cat-card p, .tg-card p { text-align: initial; }
+.cat-card p, .tg-card p { text-align: left; }
+
 /* ─────────────────────────────── AFFILIATION LOGOS (above title) ─────────────────────────────── */
 .affil-logos {
   display: flex;
