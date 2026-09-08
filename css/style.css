@@ -393,6 +393,23 @@ table.results tr.ours:hover td {
 }
 table.results tr.ours td strong { color: #1a0a00; }
 table.results tr.ours td:first-child { color: #1a0a00; }
+
+/* Model-name links inside results table: subtle underline-on-hover, inherit row color */
+table.results td a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(30, 40, 55, 0.25);
+  transition: border-bottom-color 0.15s ease, color 0.15s ease;
+}
+table.results td a:hover {
+  color: #0c4d92;
+  border-bottom-color: #0c4d92;
+  text-decoration: none;
+}
+table.results tr.ours td a:hover {
+  color: #1a0a00;
+  border-bottom-color: #7a3a00;
+}
 /* Add a subtle left-edge marker on Ours row */
 table.results tr.ours td:first-child {
   box-shadow: inset 4px 0 0 #b45309;
