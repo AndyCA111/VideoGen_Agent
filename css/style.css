@@ -143,9 +143,16 @@ footer .container {
   hyphens: auto;
   -webkit-hyphens: auto;
 }
-/* Center-align stays for the hero header (title / authors / buttons / affil logos) */
+/* Center-align stays for the hero header (title / authors / buttons / affil logos)
+   — but TL;DR gets justified two-side alignment like the rest of the body prose. */
 .hero .container,
 .hero .container p { text-align: center; }
+.hero .container p.tldr {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
 /* Table cells and gallery captions stay centered */
 table.results td, table.results th,
 .vid-cat, .vid-pair figcaption,
