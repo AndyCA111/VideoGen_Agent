@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>VideoGen-Agent: Reinforcing Video Generation Agents</title>
-<meta name="description" content="VideoAgent: an agentic reinforcement-learning framework for video generation that performs multi-step reasoning and tool use to ground every aspect of synthesis." />
+<meta name="description" content="VideoGen-Agent: an agentic reinforcement-learning framework for video generation that performs multi-step reasoning and tool use to ground every aspect of synthesis." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -44,7 +44,7 @@
       </a>
     </div>
     <p class="tldr">
-      <strong>TL;DR.</strong> <strong>VideoAgent</strong> is a multimodal policy
+      <strong>TL;DR.</strong> <strong>VideoGen-Agent</strong> is a multimodal policy
       trained end-to-end with <strong>SFT + agentic GRPO</strong> under a
       category-aware hybrid reward. Given a prompt, it plans and composes a
       toolbox of <em>text search</em>, <em>image search</em>,
@@ -52,7 +52,7 @@
       (T2V&nbsp;/&nbsp;I2V&nbsp;/&nbsp;R2V&nbsp;/&nbsp;M2V), and
       <em>Grounding&nbsp;DINO&nbsp;+&nbsp;Depth&nbsp;Anything</em> verification
       into a prompt-specific pipeline. On <strong>VABench</strong> (600 held-out
-      prompts across 6 failure-mode categories), VideoAgent lifts the
+      prompts across 6 failure-mode categories), VideoGen-Agent lifts the
       Seedance&nbsp;1 Pro Fast baseline by <strong>+19 points</strong>
       (56.5 → <strong>75.6</strong>). Swapping in stronger Seedance&nbsp;2
       backends at inference — <em>without retraining the policy</em> —
@@ -67,7 +67,7 @@
 <!-- Teaser: paper's pre-abstract figure, transparent-bg PNG floating on the site background -->
 <div class="teaser-wrap">
   <div class="container">
-    <img src="images/demo.png" alt="VideoAgent teaser — six prompts × tool use × generated video" class="teaser-img" />
+    <img src="images/demo.png" alt="VideoGen-Agent teaser — six prompts × tool use × generated video" class="teaser-img" />
   </div>
 </div>
 
@@ -107,7 +107,7 @@
   <div class="container">
     <h2>Method</h2>
     <p>
-      VideoAgent formulates video generation as a multi-turn tool-use problem. Given a
+      VideoGen-Agent formulates video generation as a multi-turn tool-use problem. Given a
       prompt, the agent sequentially decides whether to seek additional context, generate
       a video candidate, or verify and refine an intermediate result. Tools are organised
       into three functional groups:
@@ -136,8 +136,8 @@
       </div>
     </div>
     <figure class="method-figure">
-      <img src="images/main_fig.png" alt="VideoAgent framework overview" />
-      <figcaption>Overview of VideoAgent: given a user prompt, the agent performs <em>Multimodal Reasoning</em> to decompose the task, then enters an <em>Agentic Loop</em> alternating <em>Action</em> (tool invocation) with <em>Observation</em>. The toolset covers three tiers — <em>augmentation</em> (text search, image search, code simulation), <em>generation</em> (T2V / I2V / Reference-to-Video / Motion-to-Video), and <em>verification</em> (Grounding DINO, Depth Anything) — until the agent emits <em>Finish</em>.</figcaption>
+      <img src="images/main_fig.png" alt="VideoGen-Agent framework overview" />
+      <figcaption>Overview of VideoGen-Agent: given a user prompt, the agent performs <em>Multimodal Reasoning</em> to decompose the task, then enters an <em>Agentic Loop</em> alternating <em>Action</em> (tool invocation) with <em>Observation</em>. The toolset covers three tiers — <em>augmentation</em> (text search, image search, code simulation), <em>generation</em> (T2V / I2V / Reference-to-Video / Motion-to-Video), and <em>verification</em> (Grounding DINO, Depth Anything) — until the agent emits <em>Finish</em>.</figcaption>
     </figure>
     <h3>Training</h3>
     <p>
@@ -213,15 +213,15 @@
           </tr>
           <tr class="group-head"><td colspan="8">Ours</td></tr>
           <tr class="ours">
-            <td><strong>VideoAgent — RL&nbsp;(Toolset&nbsp;1, SD&nbsp;1 backend)</strong></td><td><strong>80.4</strong></td><td><strong>75.1</strong></td><td><strong>65.3</strong></td><td><strong>67.9</strong></td><td><strong>83.1</strong></td><td><strong>81.7</strong></td><td><strong>75.6</strong></td>
+            <td><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;1, SD&nbsp;1 backend)</strong></td><td><strong>80.4</strong></td><td><strong>75.1</strong></td><td><strong>65.3</strong></td><td><strong>67.9</strong></td><td><strong>83.1</strong></td><td><strong>81.7</strong></td><td><strong>75.6</strong></td>
           </tr>
           <tr class="ours">
-            <td><strong>VideoAgent — RL&nbsp;(Toolset&nbsp;2, SD&nbsp;2 backend)</strong></td><td><strong>92.1</strong></td><td><strong>83.2</strong></td><td><strong>86.7</strong></td><td><strong>69.2</strong></td><td><strong>90.7</strong></td><td><strong>84.6</strong></td><td><strong>84.7</strong></td>
+            <td><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;2, SD&nbsp;2 backend)</strong></td><td><strong>92.1</strong></td><td><strong>83.2</strong></td><td><strong>86.7</strong></td><td><strong>69.2</strong></td><td><strong>90.7</strong></td><td><strong>84.6</strong></td><td><strong>84.7</strong></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p class="note"><strong>Toolset&nbsp;1</strong> keeps the same generation backbone (Seedance&nbsp;1&nbsp;Pro Fast) that VideoAgent was trained on. <strong>Toolset&nbsp;2</strong> swaps in stronger Seedance&nbsp;2 generators at inference time <em>without retraining the agent</em>, demonstrating backend-agnostic tool use.</p>
+    <p class="note"><strong>Toolset&nbsp;1</strong> keeps the same generation backbone (Seedance&nbsp;1&nbsp;Pro Fast) that VideoGen-Agent was trained on. <strong>Toolset&nbsp;2</strong> swaps in stronger Seedance&nbsp;2 generators at inference time <em>without retraining the agent</em>, demonstrating backend-agnostic tool use.</p>
   </div>
 </section>
 
@@ -229,7 +229,7 @@
 <section id="gallery" class="block">
   <div class="container">
     <h2>Sample videos across categories</h2>
-    <p>Six prompts, one per task category. Left: <strong>Seedance 1 Pro Fast</strong> (single-pass T2V baseline). Right: <strong>VideoAgent</strong> (ours) — the final clip from the <a href="workflows.html" target="_blank" rel="noopener">agent demo</a>.</p>
+    <p>Six prompts, one per task category. Left: <strong>Seedance 1 Pro Fast</strong> (single-pass T2V baseline). Right: <strong>VideoGen-Agent</strong> (ours) — the final clip from the <a href="workflows.html" target="_blank" rel="noopener">agent demo</a>.</p>
 
     <div class="vid-stack">
 
@@ -243,7 +243,7 @@
           </figure>
           <figure>
             <video src="test_videos_v2/seedance2_agent_kp1.mp4" autoplay loop muted playsinline></video>
-            <figcaption>VideoAgent (ours)</figcaption>
+            <figcaption>VideoGen-Agent (ours)</figcaption>
           </figure>
         </div>
       </div>
@@ -258,7 +258,7 @@
           </figure>
           <figure>
             <video src="test_videos_vks/v5_compare/agent_r2v/3472.mp4" autoplay loop muted playsinline></video>
-            <figcaption>VideoAgent (ours)</figcaption>
+            <figcaption>VideoGen-Agent (ours)</figcaption>
           </figure>
         </div>
       </div>
@@ -273,7 +273,7 @@
           </figure>
           <figure>
             <video src="videos/agent_seedance2/vkm_10004.mp4" autoplay loop muted playsinline></video>
-            <figcaption>VideoAgent (ours)</figcaption>
+            <figcaption>VideoGen-Agent (ours)</figcaption>
           </figure>
         </div>
       </div>
@@ -288,7 +288,7 @@
           </figure>
           <figure>
             <video src="test_videos_dino/cricket_refined.mp4" autoplay loop muted playsinline></video>
-            <figcaption>VideoAgent (ours)</figcaption>
+            <figcaption>VideoGen-Agent (ours)</figcaption>
           </figure>
         </div>
       </div>
@@ -303,7 +303,7 @@
           </figure>
           <figure>
             <video src="test_videos_tg/seedance2_agent_5125.mp4" autoplay loop muted playsinline></video>
-            <figcaption>VideoAgent (ours)</figcaption>
+            <figcaption>VideoGen-Agent (ours)</figcaption>
           </figure>
         </div>
       </div>
@@ -318,7 +318,7 @@
           </figure>
           <figure>
             <video src="test_videos_ps_sim/p785_vace.mp4" autoplay loop muted playsinline></video>
-            <figcaption>VideoAgent (ours)</figcaption>
+            <figcaption>VideoGen-Agent (ours)</figcaption>
           </figure>
         </div>
       </div>
@@ -335,7 +335,7 @@
       The same agentic pattern transfers to robot manipulation. Given a natural-language instruction, the agent (1) calls <strong>pi0.5</strong> to predict a 60-step joint trajectory, then (2) hands that trajectory to <strong>ctrl-world</strong>, an action-conditioned world model that renders the resulting rollout. Unlike pure I2V baselines that see only the first frame, the agentic stack consumes the policy's planned actions &mdash; so the synthesized video is grounded in a real motor plan, not imagined.
     </p>
     <p>
-      Four manipulation prompts. Columns left&nbsp;&rarr;&nbsp;right: the natural-language <strong>prompt</strong>, the <strong>I2V input frame</strong> (shared starting image), <strong>Ground truth</strong> (robot recording), <strong>VideoAgent</strong> (ours, pi0.5&nbsp;&rarr;&nbsp;ctrl-world), and <strong>Wan&nbsp;2.2 I2V&nbsp;14B</strong> (baseline).
+      Four manipulation prompts. Columns left&nbsp;&rarr;&nbsp;right: the natural-language <strong>prompt</strong>, the <strong>I2V input frame</strong> (shared starting image), <strong>Ground truth</strong> (robot recording), <strong>VideoGen-Agent</strong> (ours, pi0.5&nbsp;&rarr;&nbsp;ctrl-world), and <strong>Wan&nbsp;2.2 I2V&nbsp;14B</strong> (baseline).
     </p>
 
     <div class="table-wrap">
@@ -352,7 +352,7 @@
             <th>Prompt</th>
             <th>I2V input</th>
             <th>Ground truth</th>
-            <th>VideoAgent (ours)</th>
+            <th>VideoGen-Agent (ours)</th>
             <th>Wan 2.2 I2V 14B</th>
           </tr>
         </thead>
@@ -361,28 +361,28 @@
             <td class="prompt-cell"><span class="cat-tag">Pick &amp; Place</span>pick up the blue block and place in white plate</td>
             <td class="media-cell" data-label="I2V input"><img src="test_videos_robot/pickplace_0_wan_input.jpg" alt=""></td>
             <td class="media-cell" data-label="Ground truth"><video src="test_videos_robot/pickplace_0_gt.mp4" autoplay loop muted playsinline></video></td>
-            <td class="media-cell" data-label="VideoAgent"><video src="test_videos_robot/pickplace_0.mp4" autoplay loop muted playsinline></video></td>
+            <td class="media-cell" data-label="VideoGen-Agent"><video src="test_videos_robot/pickplace_0.mp4" autoplay loop muted playsinline></video></td>
             <td class="media-cell" data-label="Wan 2.2 I2V"><video src="test_videos_robot/pickplace_0_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video></td>
           </tr>
           <tr>
             <td class="prompt-cell"><span class="cat-tag">Pick &amp; Place</span>pick up the red block and place in white plate</td>
             <td class="media-cell" data-label="I2V input"><img src="test_videos_robot/pickplace_1_wan_input.jpg" alt=""></td>
             <td class="media-cell" data-label="Ground truth"><video src="test_videos_robot/pickplace_1_gt.mp4" autoplay loop muted playsinline></video></td>
-            <td class="media-cell" data-label="VideoAgent"><video src="test_videos_robot/pickplace_1.mp4" autoplay loop muted playsinline></video></td>
+            <td class="media-cell" data-label="VideoGen-Agent"><video src="test_videos_robot/pickplace_1.mp4" autoplay loop muted playsinline></video></td>
             <td class="media-cell" data-label="Wan 2.2 I2V"><video src="test_videos_robot/pickplace_1_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video></td>
           </tr>
           <tr>
             <td class="prompt-cell"><span class="cat-tag">Towel Fold</span>fold the towel</td>
             <td class="media-cell" data-label="I2V input"><img src="test_videos_robot/towel_fold_0_wan_input.jpg" alt=""></td>
             <td class="media-cell" data-label="Ground truth"><video src="test_videos_robot/towel_fold_0_gt.mp4" autoplay loop muted playsinline></video></td>
-            <td class="media-cell" data-label="VideoAgent"><video src="test_videos_robot/towel_fold_0.mp4" autoplay loop muted playsinline></video></td>
+            <td class="media-cell" data-label="VideoGen-Agent"><video src="test_videos_robot/towel_fold_0.mp4" autoplay loop muted playsinline></video></td>
             <td class="media-cell" data-label="Wan 2.2 I2V"><video src="test_videos_robot/towel_fold_0_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video></td>
           </tr>
           <tr>
             <td class="prompt-cell"><span class="cat-tag">Wipe Table</span>moving the towel from right to left</td>
             <td class="media-cell" data-label="I2V input"><img src="test_videos_robot/wipe_table_0_wan_input.jpg" alt=""></td>
             <td class="media-cell" data-label="Ground truth"><video src="test_videos_robot/wipe_table_0_gt.mp4" autoplay loop muted playsinline></video></td>
-            <td class="media-cell" data-label="VideoAgent"><video src="test_videos_robot/wipe_table_0.mp4" autoplay loop muted playsinline></video></td>
+            <td class="media-cell" data-label="VideoGen-Agent"><video src="test_videos_robot/wipe_table_0.mp4" autoplay loop muted playsinline></video></td>
             <td class="media-cell" data-label="Wan 2.2 I2V"><video src="test_videos_robot/wipe_table_0_wan2.2_i2v_14B.mp4" autoplay loop muted playsinline></video></td>
           </tr>
         </tbody>
@@ -408,7 +408,7 @@
 
 <footer>
   <div class="container">
-    <p>&copy; 2026 VideoAgent authors. Built as a static page on GitHub Pages.</p>
+    <p>&copy; 2026 VideoGen-Agent authors. Built as a static page on GitHub Pages.</p>
   </div>
 </footer>
 
