@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VideoGen-Agent &middot; Seedance 1 baseline vs Agentic Seedance 1</title>
+<meta name="description" content="Side-by-side comparison: single-pass Seedance 1 Pro Fast versus the same backend driven by VideoGen-Agent (Toolset 1), across six VABench categories." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+<style>
+  /* page-local tweaks so the hero is compact and the gallery reads clean */
+  header.hero { padding-top: 40px; padding-bottom: 24px; }
+  .subtitle { color:#4a4a4a; font-size:1rem; margin: 6px 0 0; }
+  .backlink { display:inline-block; margin-top:14px; font-size:.9rem; color:#3a3a3a; text-decoration:none; border-bottom:1px dashed #999; }
+  .backlink:hover { color:#000; border-bottom-color:#000; }
+  .legend-row { display:flex; gap:22px; align-items:center; flex-wrap:wrap; margin: 10px 0 4px; font-size:.9rem; color:#3a3a3a; }
+  .swatch { display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:middle; }
+  .swatch.bs { background:#c94a4a; }
+  .swatch.ag { background:#2e7d5b; }
+  .id-tag { font-family: "JetBrains Mono", ui-monospace, monospace; font-size:.78rem; color:#7a7a7a; margin-left:6px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <h1 class="title">
+      Same backend, different policy:<br />
+      <span class="highlight">Seedance&nbsp;1 baseline vs Agentic Seedance&nbsp;1</span>
+    </h1>
+    <p class="subtitle">
+      Left: single-pass <strong>Seedance&nbsp;1 Pro Fast</strong> called directly with the original prompt.
+      Right: the <em>same</em> Seedance&nbsp;1 backend, driven by <strong>VideoGen-Agent (Toolset&nbsp;1)</strong> &mdash;
+      the trained policy plans, retrieves, and routes through augmentation / generation / verification tools.
+    </p>
+    <div class="legend-row">
+      <span><span class="swatch bs"></span>Seedance&nbsp;1 Pro Fast (single-pass baseline)</span>
+      <span><span class="swatch ag"></span>VideoGen-Agent &mdash; Seedance&nbsp;1 backend (ours)</span>
+    </div>
+    <a class="backlink" href="index.html">&larr; Back to main page</a>
+  </div>
+</header>
+
+<main>
+
+<section id="gallery" class="block">
+  <div class="container">
+    <h2>Six categories, one prompt each</h2>
+    <p>
+      All prompts are drawn from <strong>VABench</strong>. Every pair uses the identical prompt on the identical backend
+      &mdash; the only variable is whether Seedance&nbsp;1 is called directly or through the agent policy.
+    </p>
+
+    <div class="vid-stack">
+
+      <!-- ============ KP ============ -->
+      <div class="vid-block">
+        <div class="vid-cat">KP &middot; Knowledge Process <span class="id-tag">#10520</span></div>
+        <p class="prompt">Spinning a gossamer ballooning thread, a young spider gradually lifts off the ground and drifts on rising thermals.</p>
+        <div class="vid-pair">
+          <figure>
+            <video src="videos_sd1_compare/kp_10520_baseline.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance&nbsp;1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure>
+            <video src="videos_sd1_compare/kp_10520_agent.mp4" autoplay loop muted playsinline></video>
+            <figcaption>VideoGen-Agent &middot; Seedance&nbsp;1</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- ============ VK-S ============ -->
+      <div class="vid-block">
+        <div class="vid-cat">VK-S &middot; Visual Knowledge &mdash; Single <span class="id-tag">#12001</span></div>
+        <p class="prompt">Alexander Zamolodchikov stands at a dusty blackboard, chalk in hand, rapidly sketching the Virasoro algebra commutation relations as equations sprawl across the slate in his distinctive angular script.</p>
+        <div class="vid-pair">
+          <figure>
+            <video src="videos_sd1_compare/vks_12001_baseline.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance&nbsp;1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure>
+            <video src="videos_sd1_compare/vks_12001_agent.mp4" autoplay loop muted playsinline></video>
+            <figcaption>VideoGen-Agent &middot; Seedance&nbsp;1</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- ============ VK-M ============ -->
+      <div class="vid-block">
+        <div class="vid-cat">VK-M &middot; Visual Knowledge &mdash; Multiple <span class="id-tag">#12018</span></div>
+        <p class="prompt">Metera lounges midair on her floating bow platform and fires a playful arrow volley, Sutera dashes forward with her curved blade raised in a defensive stance, while Aster clutches her staff and conjures a small healing glow between them.</p>
+        <div class="vid-pair">
+          <figure>
+            <video src="videos_sd1_compare/vkm_12018_baseline.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance&nbsp;1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure>
+            <video src="videos_sd1_compare/vkm_12018_agent.mp4" autoplay loop muted playsinline></video>
+            <figcaption>VideoGen-Agent &middot; Seedance&nbsp;1</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- ============ MS ============ -->
+      <div class="vid-block">
+        <div class="vid-cat">MS &middot; Multi-Subject <span class="id-tag">#1125</span></div>
+        <p class="prompt">A donkey carrying clay pots blocks a narrow mountain trail, a hiker edges around it on the cliff side, and a goatherd whistles impatiently from behind with his flock.</p>
+        <div class="vid-pair">
+          <figure>
+            <video src="videos_sd1_compare/ms_1125_baseline.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance&nbsp;1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure>
+            <video src="videos_sd1_compare/ms_1125_agent.mp4" autoplay loop muted playsinline></video>
+            <figcaption>VideoGen-Agent &middot; Seedance&nbsp;1</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- ============ TG ============ -->
+      <div class="vid-block">
+        <div class="vid-cat">TG &middot; TimeGrounded <span class="id-tag">#5001</span></div>
+        <p class="prompt">A glass of red wine sits near the edge of a white tablecloth for the first half; in the second half an elbow bumps it and it topples, spilling red across the fabric.</p>
+        <div class="vid-pair">
+          <figure>
+            <video src="videos_sd1_compare/tg_5001_baseline.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance&nbsp;1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure>
+            <video src="videos_sd1_compare/tg_5001_agent.mp4" autoplay loop muted playsinline></video>
+            <figcaption>VideoGen-Agent &middot; Seedance&nbsp;1</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- ============ PS ============ -->
+      <div class="vid-block">
+        <div class="vid-cat">PS &middot; Physical Simulation <span class="id-tag">#29</span></div>
+        <p class="prompt">A 0.3&nbsp;kg rubber ball dropped from 2&nbsp;meters onto a wooden floor bounces back to 1.3&nbsp;meters on the first rebound.</p>
+        <div class="vid-pair">
+          <figure>
+            <video src="videos_sd1_compare/ps_29_baseline.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Seedance&nbsp;1 Pro Fast (baseline)</figcaption>
+          </figure>
+          <figure>
+            <video src="videos_sd1_compare/ps_29_agent.mp4" autoplay loop muted playsinline></video>
+            <figcaption>VideoGen-Agent &middot; Seedance&nbsp;1</figcaption>
+          </figure>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="note" style="margin-top:24px;">
+      All twelve clips are the raw outputs &mdash; no post-processing, no cherry-picking within a run. Prompt IDs refer to the VABench 180-item eval split. For the corresponding
+      <em>Seedance 2</em> pairings and the agentic workflow visualisations, see the
+      <a href="index.html">main page</a> and <a href="workflows.html">workflow gallery</a>.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 VideoGen-Agent team. Comparison page &mdash; Seedance 1 backend, baseline vs agent.</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -8,11 +8,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/style.css?v=4" />
 </head>
 <body>
 
 <header class="hero">
+  <div class="affil-logos affil-logos-wide">
+    <img src="images/logos/princeton_new.png"  alt="Princeton University" />
+    <img src="images/logos/stanford_new.png"   alt="Stanford University" />
+    <img src="images/logos/ucd.png"            alt="UC Davis" />
+    <img src="images/logos/cuhk_new.png"       alt="CUHK MMLab" />
+    <img src="images/logos/gwu.png"            alt="George Washington University" />
+    <img src="images/logos/benchflow.png"      alt="BenchFlow AI" />
+  </div>
   <div class="container">
     <h1 class="title">
       VideoGen-Agent:<br />
@@ -20,39 +28,48 @@
     </h1>
     <p class="authors">
       Binxu Li<sup>1</sup>, Haoyi Duan<sup>1</sup>, Yuhui Zhang<sup>2</sup>,
-      Zihao Lin<sup>3</sup>, Kaituo Feng<sup>4</sup>, Yingcheng Wu<sup>2</sup>,
-      Suozhi Huang<sup>1</sup>, Xiangyi Li<sup>6</sup>, Shilong Liu<sup>1</sup>,
-      Chunyuan Li<sup>5</sup>, Mengdi Wang<sup>1</sup>
-    </p>
-    <p class="affiliations">
-      <sup>1</sup>Princeton University &nbsp;&middot;&nbsp;
-      <sup>2</sup>Stanford University &nbsp;&middot;&nbsp;
-      <sup>3</sup>University of California, Davis &nbsp;&middot;&nbsp;
-      <sup>4</sup>MMLab, CUHK &nbsp;&middot;&nbsp;
-      <sup>5</sup>Google DeepMind &nbsp;&middot;&nbsp;
-      <sup>6</sup>BenchFlow AI
+      Zihao Lin<sup>3</sup>, Kaituo Feng<sup>4</sup>, Suozhi Huang<sup>1</sup>,
+      Xiangyi Li<sup>6</sup>, Yaohui Zhang<sup>2</sup>, Yu Li<sup>7</sup>,
+      Shilong Liu<sup>1</sup>, Chunyuan Li<sup>5</sup>, Mengdi Wang<sup>1</sup>
     </p>
     <div class="links">
-      <a class="btn disabled" href="#" title="Coming soon">
+      <a class="btn disabled" href="#" title="arXiv link — waiting for submission ID">
         <span class="icon">&#9776;</span>&nbsp;Paper
       </a>
-      <a class="btn disabled" href="#" title="Coming soon">arXiv (coming soon)</a>
       <a class="btn" href="https://github.com/AndyCA111/VideoGen_Agent">
         <span class="icon">&#10097;&#47;&#10096;</span>&nbsp;Code
       </a>
-      <a class="btn disabled" href="#" title="Coming soon">VABench Data</a>
+      <a class="btn" href="https://huggingface.co/datasets/andyli123princeton/VABench" target="_blank" rel="noopener">
+        <span class="icon">&#128200;</span>&nbsp;VABench Data
+      </a>
     </div>
     <p class="tldr">
-      <strong>TL;DR.</strong> We train an agent to <em>plan over a toolbox</em>
-      (web search, image search, code simulation, video generation,
-      Grounding&nbsp;DINO verification) and produce videos that match prompts
-      requiring named knowledge, identity preservation, physical dynamics,
-      or ordered phases — failure modes single-pass text-to-video models miss.
+      <strong>TL;DR.</strong> <strong>VideoAgent</strong> is a multimodal policy
+      trained end-to-end with <strong>SFT + agentic GRPO</strong> under a
+      category-aware hybrid reward. Given a prompt, it plans and composes a
+      toolbox of <em>text search</em>, <em>image search</em>,
+      <em>code-based physics simulation</em>, four video generators
+      (T2V&nbsp;/&nbsp;I2V&nbsp;/&nbsp;R2V&nbsp;/&nbsp;M2V), and
+      <em>Grounding&nbsp;DINO&nbsp;+&nbsp;Depth&nbsp;Anything</em> verification
+      into a prompt-specific pipeline. On <strong>VABench</strong> (600 held-out
+      prompts across 6 failure-mode categories), VideoAgent lifts the
+      Seedance&nbsp;1 Pro Fast baseline by <strong>+19 points</strong>
+      (56.5 → <strong>75.6</strong>). Swapping in stronger Seedance&nbsp;2
+      backends at inference — <em>without retraining the policy</em> —
+      further reaches <strong>84.7</strong>, demonstrating backend-agnostic
+      tool use.
     </p>
   </div>
 </header>
 
 <main>
+
+<!-- Teaser: paper's pre-abstract figure, transparent-bg PNG floating on the site background -->
+<div class="teaser-wrap">
+  <div class="container">
+    <img src="images/demo.png" alt="VideoAgent teaser — six prompts × tool use × generated video" class="teaser-img" />
+  </div>
+</div>
 
 <!-- ────────────────────────────────── ABSTRACT ────────────────────────────────── -->
 <section id="abstract" class="block">
@@ -74,9 +91,12 @@
       prompts that probes search-grounded knowledge, identity preservation, physical
       plausibility, and multi-phase temporal reasoning. We train VideoAgent with SFT
       followed by agentic GRPO with a category-aware hybrid reward that combines format,
-      video-judge, and tool-quality signals. Experiments show substantial gains over the
-      base Qwen3-VL-8B-Instruct, with the largest improvements on subject-identity-critical
-      and temporally-phased prompts.
+      video-judge, and tool-quality signals. On VABench, VideoAgent improves the video
+      generation baseline by around <strong>19 points</strong> (Seedance&nbsp;1 Pro Fast
+      backbone: 56.5 → <strong>75.6</strong>; upgrading to Seedance&nbsp;2 Pro Fast at
+      inference lifts the aggregate score further to <strong>84.7</strong> without policy
+      retraining). Improvements are largest on subject-identity-critical and
+      temporally-phased prompts.
     </p>
   </div>
 </section>
@@ -115,8 +135,8 @@
       </div>
     </div>
     <figure class="method-figure">
-      <img src="images/method.png" alt="VideoAgent overview" />
-      <figcaption>Overview of VideoAgent: the agent composes augmentation, generation, and verification tools into prompt-specific pipelines.</figcaption>
+      <img src="images/main_fig.png" alt="VideoAgent framework overview" />
+      <figcaption>Overview of VideoAgent: given a user prompt, the agent performs <em>Multimodal Reasoning</em> to decompose the task, then enters an <em>Agentic Loop</em> alternating <em>Action</em> (tool invocation) with <em>Observation</em>. The toolset covers three tiers — <em>augmentation</em> (text search, image search, code simulation), <em>generation</em> (T2V / I2V / Reference-to-Video / Motion-to-Video), and <em>verification</em> (Grounding DINO, Depth Anything) — until the agent emits <em>Finish</em>.</figcaption>
     </figure>
     <h3>Training</h3>
     <p>
@@ -148,7 +168,7 @@
 <section id="results" class="block alt">
   <div class="container">
     <h2>Per-category results on VABench</h2>
-    <p>Scores are the Gemini&nbsp;2.5&nbsp;Flash judge mean in <em>[0, 10]</em>. Higher is better.</p>
+    <p>Scores are the Gemini&nbsp;2.5&nbsp;Flash judge mean in <em>[0, 100]</em>. Higher is better.</p>
     <div class="table-wrap">
       <table class="results">
         <thead>
@@ -166,33 +186,41 @@
         <tbody>
           <tr class="group-head"><td colspan="8">Open-source baselines</td></tr>
           <tr>
-            <td>CogVideoX-5B</td><td>6.24</td><td>4.83</td><td>3.78</td><td>4.16</td><td>5.04</td><td>3.08</td><td>4.52</td>
+            <td>CogVideoX-5B</td><td>38.9</td><td>48.3</td><td>37.8</td><td>41.6</td><td>50.4</td><td>30.8</td><td>41.3</td>
           </tr>
           <tr>
-            <td>Wan 2.1-T2V-14B</td><td>5.01</td><td>4.62</td><td>3.95</td><td>4.95</td><td>6.08</td><td>6.20</td><td>5.14</td>
+            <td>Mochi-1</td><td>41.9</td><td>49.6</td><td>37.8</td><td>48.4</td><td>55.4</td><td>—</td><td>—</td>
           </tr>
           <tr>
-            <td>HunyuanVideo&nbsp;13B</td>
-            <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+            <td>HunyuanVideo&nbsp;13B</td><td>37.5</td><td>29.3</td><td>17.6</td><td>31.6</td><td>31.5</td><td>31.1</td><td>29.8</td>
+          </tr>
+          <tr>
+            <td>Wan 2.1-T2V-14B</td><td>42.0</td><td>46.2</td><td>39.5</td><td>49.5</td><td>60.8</td><td>62.0</td><td>50.0</td>
           </tr>
           <tr class="group-head"><td colspan="8">Commercial baselines</td></tr>
           <tr>
-            <td>Seedance&nbsp;1 Pro Fast</td><td>6.33</td><td>5.15</td><td>4.42</td><td>4.62</td><td>7.47</td><td>6.68</td><td>5.78</td>
+            <td>Kling 3.0</td><td>67.5</td><td>72.5</td><td>60.5</td><td>71.5</td><td>90.5</td><td>58.1</td><td>70.1</td>
+          </tr>
+          <tr>
+            <td>Hailuo (MiniMax)</td><td>63.0</td><td>58.6</td><td>52.4</td><td>55.1</td><td>86.0</td><td>—</td><td>63.0</td>
+          </tr>
+          <tr>
+            <td>Seedance&nbsp;1 Pro Fast</td><td>55.5</td><td>51.4</td><td>44.2</td><td>46.2</td><td>74.6</td><td>66.8</td><td>56.5</td>
+          </tr>
+          <tr>
+            <td>Seedance&nbsp;2.0 Pro Fast</td><td>78.0</td><td>75.0</td><td>69.0</td><td>64.5</td><td>87.8</td><td>68.9</td><td>73.9</td>
           </tr>
           <tr class="group-head"><td colspan="8">Ours</td></tr>
-          <tr class="muted">
-            <td>VideoAgent — VLM Rewrite</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
-          </tr>
-          <tr class="muted">
-            <td>VideoAgent — SFT</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+          <tr class="ours">
+            <td><strong>VideoAgent — RL&nbsp;(Toolset&nbsp;1, SD&nbsp;1 backend)</strong></td><td><strong>80.4</strong></td><td><strong>75.1</strong></td><td><strong>65.3</strong></td><td><strong>67.9</strong></td><td><strong>83.1</strong></td><td><strong>81.7</strong></td><td><strong>75.6</strong></td>
           </tr>
           <tr class="ours">
-            <td><strong>VideoAgent — RL</strong></td><td><strong>—</strong></td><td><strong>—</strong></td><td><strong>—</strong></td><td><strong>—</strong></td><td><strong>—</strong></td><td><strong>—</strong></td><td><strong>—</strong></td>
+            <td><strong>VideoAgent — RL&nbsp;(Toolset&nbsp;2, SD&nbsp;2 backend)</strong></td><td><strong>92.1</strong></td><td><strong>83.2</strong></td><td><strong>86.7</strong></td><td><strong>69.2</strong></td><td><strong>90.7</strong></td><td><strong>84.6</strong></td><td><strong>84.7</strong></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p class="note">"—" indicates pending experiments; the table will be updated as runs complete.</p>
+    <p class="note"><strong>Toolset&nbsp;1</strong> keeps the same generation backbone (Seedance&nbsp;1&nbsp;Pro Fast) that VideoAgent was trained on. <strong>Toolset&nbsp;2</strong> swaps in stronger Seedance&nbsp;2 generators at inference time <em>without retraining the agent</em>, demonstrating backend-agnostic tool use.</p>
   </div>
 </section>
 
@@ -200,7 +228,7 @@
 <section id="gallery" class="block">
   <div class="container">
     <h2>Sample videos across categories</h2>
-    <p>Six prompts, one per task category. Left: <strong>Seedance 1 Pro Fast</strong> (single-pass T2V baseline). Right: <strong>VideoAgent</strong> (ours) — the final clip from the <a href="workflows.html" target="_blank" rel="noopener">agentic rollout</a>.</p>
+    <p>Six prompts, one per task category. Left: <strong>Seedance 1 Pro Fast</strong> (single-pass T2V baseline). Right: <strong>VideoAgent</strong> (ours) — the final clip from the <a href="workflows.html" target="_blank" rel="noopener">agent demo</a>.</p>
 
     <div class="vid-stack">
 
@@ -213,7 +241,7 @@
             <figcaption>Seedance 1 Pro Fast</figcaption>
           </figure>
           <figure>
-            <video src="test_videos_v2/seedance_1_pro_fast_v2_rw_v4/kp/1.mp4" autoplay loop muted playsinline></video>
+            <video src="test_videos_v2/seedance2_agent_kp1.mp4" autoplay loop muted playsinline></video>
             <figcaption>VideoAgent (ours)</figcaption>
           </figure>
         </div>
@@ -251,14 +279,14 @@
 
       <div class="vid-block">
         <div class="vid-cat">MS &middot; Multi-Subject</div>
-        <p class="prompt">Ice cracking, a polar explorer steps back from a widening crevasse and the sled dog whines.</p>
+        <p class="prompt">Glass cracking, a cricket ball breaks a pavilion window and the scorer inside shields his ledger.</p>
         <div class="vid-pair">
           <figure>
-            <video src="videos/seedance_baselines/ms_10001.mp4" autoplay loop muted playsinline></video>
+            <video src="test_videos_dino/cricket_direct.mp4" autoplay loop muted playsinline></video>
             <figcaption>Seedance 1 Pro Fast</figcaption>
           </figure>
           <figure>
-            <video src="lf_ckpt3106_videos/multi_subject/agentic/10001.mp4" autoplay loop muted playsinline></video>
+            <video src="test_videos_dino/cricket_refined.mp4" autoplay loop muted playsinline></video>
             <figcaption>VideoAgent (ours)</figcaption>
           </figure>
         </div>
@@ -370,25 +398,8 @@
 <section id="trajectory" class="block">
   <div class="container">
     <h2>
-      <a href="workflows.html" target="_blank" rel="noopener">Example agent trajectories &rarr;</a>
+      <a href="workflows.html" target="_blank" rel="noopener">Agent demo &rarr;</a>
     </h2>
-  </div>
-</section>
-
-<!-- ────────────────────────────────── BIBTEX ────────────────────────────────── -->
-<section id="bibtex" class="block alt">
-  <div class="container">
-    <h2>BibTeX</h2>
-    <pre class="bibtex">@article{videoagent2026,
-  title         = {Multimodal Visual Reasoning with Agentic RL for Video Generation},
-  author        = {Li, Binxu and Duan, Haoyi and Zhang, Yuhui and Lin, Zihao and Feng, Kaituo
-                   and Wu, Yingcheng and Huang, Suozhi and Li, Xiangyi and Liu, Shilong
-                   and Li, Chunyuan and Wang, Mengdi},
-  year          = {2026},
-  eprint        = {arXiv:XXXX.XXXXX},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.CV}
-}</pre>
   </div>
 </section>
 

@@ -38,7 +38,7 @@ em { color: #555; }
   /* Inherit body cream gradient; subtle separator at bottom */
   background: transparent;
   border-bottom: 1px solid rgba(120, 96, 48, 0.12);
-  padding: 80px 0 60px;
+  padding: 24px 0 60px;      /* tighter top so logos sit near the very top */
 }
 
 .hero .container { text-align: center; }
@@ -59,8 +59,9 @@ em { color: #555; }
 .authors {
   font-size: 1.08rem;
   color: #2a2a2a;
-  margin-bottom: 6px;
+  margin: 0 auto 6px;
   line-height: 1.55;
+  max-width: 860px;              /* narrower than title's ~1080px container */
 }
 .authors sup { font-size: 0.72em; color: #b15c2a; font-weight: 500; padding-left: 1px; }
 
@@ -118,7 +119,69 @@ em { color: #555; }
 .block.alt { background: rgba(255, 252, 220, 0.55); }
 .block:last-of-type { border-bottom: none; }
 
+/* ─────────────────────────────── AFFILIATION LOGOS (above title) ─────────────────────────────── */
+.affil-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 42px;
+  margin: 0 0 22px;
+  padding: 0 12px;
+}
+/* Wide variant: sits outside .container so it can be broader than the title */
+.affil-logos.affil-logos-wide {
+  max-width: 1600px;             /* ~50% wider than .container (1080px) and wider than the abstract block */
+  margin: 0 auto 30px;
+  padding: 0 24px;               /* slim padding so the logos really breathe out */
+  gap: 110px;                    /* much larger inter-logo spacing so the row spreads out */
+  justify-content: space-around; /* distribute logos across the wide row instead of clumping */
+}
+.affil-logos img {
+  height: 72px;
+  width: auto;
+  max-width: 340px;              /* raised for wide banner logos like CUHK (5.7:1 AR) */
+  object-fit: contain;
+  opacity: 0.92;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.affil-logos img:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+@media (max-width: 900px) {
+  .affil-logos { gap: 28px; }
+  .affil-logos.affil-logos-wide { gap: 48px; }
+  .affil-logos img { height: 56px; max-width: 240px; }
+}
+@media (max-width: 700px) {
+  .affil-logos { gap: 20px; }
+  .affil-logos.affil-logos-wide { gap: 30px; }
+  .affil-logos img { height: 44px; max-width: 180px; }
+}
+
+/* ─────────────────────────────── TEASER (transparent, floats on gradient) ─────────────────────────────── */
+.teaser-wrap {
+  padding: 20px 0 8px;
+}
+.teaser-wrap .container {
+  max-width: 1000px;          /* slightly narrower than main container (1080px) to match Abstract text column */
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.teaser-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: transparent;    /* PNG is already alpha; leave the page gradient behind */
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 /* ─────────────────────────────── METHOD: tool groups ─────────────────────────────── */
+/* Same design language as the results table:
+   ivory body, dark-slate outline + shadow, dark title bar, orange-amber accent */
 .tool-groups {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -127,30 +190,50 @@ em { color: #555; }
 }
 
 .tg-card {
-  background: #fff;
-  border: 1px solid #e6e8eb;
-  border-radius: 10px;
-  padding: 22px 22px 18px;
-  transition: border-color .15s ease, transform .15s ease;
+  background: #f9f4e3;                    /* HELM ivory (matches table body) */
+  border: 1px solid #2c3a4a;              /* dark slate outline */
+  border-radius: 6px;
+  padding: 0;                             /* padding pushed into inner elements */
+  transition: transform .15s ease, box-shadow .15s ease;
+  box-shadow: 0 4px 16px rgba(30, 40, 55, 0.14);
+  overflow: hidden;
+  position: relative;
 }
-.tg-card:hover { border-color: #b9c6da; transform: translateY(-2px); }
-.tg-card h3 { color: #0c4d92; font-size: 1.05rem; margin-bottom: 8px; }
-.tg-card p { font-size: 0.92rem; color: #555; margin: 0; line-height: 1.55; }
+.tg-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(30, 40, 55, 0.20); }
+.tg-card h3 {
+  background: #1e2836;                    /* dark slate header (matches thead) */
+  color: #f5e9c4;                         /* warm cream text */
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 11px 18px 10px;
+  border-bottom: 3px solid #ff9d1c;       /* HF-orange accent stripe */
+}
+.tg-card p {
+  font-size: 0.92rem;
+  color: #333;
+  margin: 0;
+  padding: 16px 18px 18px;
+  line-height: 1.55;
+}
 
 .method-figure {
   margin: 30px 0 18px;
-  background: #fff;
-  border: 1px solid #e6e8eb;
-  border-radius: 10px;
+  background: #f9f4e3;
+  border: 1px solid #2c3a4a;
+  border-radius: 6px;
   overflow: hidden;
+  box-shadow: 0 4px 16px rgba(30, 40, 55, 0.14);
 }
-.method-figure img { width: 100%; height: auto; display: block; }
+.method-figure img { width: 100%; height: auto; display: block; background: #fff; }
 .method-figure figcaption {
   font-size: 0.88rem;
-  color: #666;
+  color: #333;
   padding: 12px 18px;
-  background: #f7f8fa;
-  border-top: 1px solid #e6e8eb;
+  background: #ede1bc;                    /* matches group-head strip */
+  border-top: 1px solid #d9c98a;
 }
 
 /* ─────────────────────────────── BENCHMARK: 6 cats grid ─────────────────────────────── */
@@ -162,49 +245,119 @@ em { color: #555; }
 }
 
 .cat-card {
-  background: #fff;
-  border: 1px solid #e6e8eb;
-  border-radius: 8px;
-  padding: 18px;
+  background: #f9f4e3;
+  border: 1px solid #2c3a4a;
+  border-radius: 6px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(30, 40, 55, 0.10);
+  transition: transform .15s ease, box-shadow .15s ease;
 }
-.cat-card h3 { font-size: 0.98rem; color: #0c4d92; margin-bottom: 6px; }
-.cat-card p { font-size: 0.88rem; color: #555; margin: 0; line-height: 1.5; }
+.cat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(30, 40, 55, 0.18); }
+.cat-card h3 {
+  background: #1e2836;
+  color: #f5e9c4;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 8px 14px 7px;
+  border-bottom: 2px solid #ff9d1c;
+}
+.cat-card p {
+  font-size: 0.88rem;
+  color: #333;
+  margin: 0;
+  padding: 12px 14px 14px;
+  line-height: 1.5;
+}
 
 /* ─────────────────────────────── RESULTS TABLE ─────────────────────────────── */
 .table-wrap { overflow-x: auto; }
 
+/* Results table — Terminal-Bench + HELM inspired:
+   dark slate header (high contrast), ivory body (warm not white),
+   monospace numbers, orange-amber "Ours" accent (HF-style). */
 table.results {
   width: 100%;
-  border-collapse: collapse;
-  font-size: 0.93rem;
-  background: #fff;
-  border: 1px solid #e6e8eb;
-  border-radius: 8px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.92rem;
+  background: #f9f4e3;                  /* HELM-like ivory */
+  border: 1px solid #2c3a4a;            /* dark slate outline (matches header) */
+  border-radius: 6px;
   overflow: hidden;
   margin-top: 14px;
+  box-shadow: 0 4px 16px rgba(30, 40, 55, 0.14);
 }
-table.results thead { background: #f3f5f8; }
+table.results thead {
+  background: #1e2836;                  /* Terminal-Bench-style dark slate */
+}
+table.results thead th {
+  color: #f5e9c4;                       /* warm cream text on dark header */
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: none;
+}
 table.results th, table.results td {
-  padding: 10px 14px;
+  padding: 9px 14px;
   text-align: center;
-  border-bottom: 1px solid #eef0f3;
+  border-bottom: 1px solid rgba(44, 58, 74, 0.10);
 }
-table.results th { font-weight: 600; color: #333; }
 table.results td:first-child, table.results th:first-child { text-align: left; }
 
-table.results tr.group-head td {
-  background: #f7f8fa;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #7a8290;
-  text-align: left;
-  font-weight: 600;
-  padding: 6px 14px;
+/* Numbers monospace (JetBrains Mono already loaded on the site) — every td EXCEPT the first (model-name) column */
+table.results tbody td:not(:first-child) {
+  font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.90rem;
+  color: #1b2432;
 }
-table.results tr.muted td { color: #9aa3ad; font-style: italic; }
-table.results tr.ours { background: #fffbeb; }
-table.results tr.ours td { color: #4a3500; }
+
+/* Very subtle alternating stripes so long tables stay readable */
+table.results tbody tr:nth-child(odd) td { background: rgba(255, 253, 236, 0.55); }
+table.results tbody tr:nth-child(even) td { background: rgba(245, 235, 205, 0.35); }
+
+/* Hover: subtle dark tint */
+table.results tbody tr:hover td { background: rgba(44, 58, 74, 0.06); }
+
+/* Group-head — Stanford-HELM style small-caps burgundy label */
+table.results tr.group-head td,
+table.results tr.group-head:hover td {
+  background: #ede1bc;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #8b3a1f;                       /* burgundy label */
+  text-align: left;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-bottom: 1px solid #d9c98a;
+  border-top: 1px solid #d9c98a;
+  font-family: inherit;
+}
+table.results tr.muted td { color: #7a7060; font-style: italic; }
+
+/* "Ours" row — HF-orange / amber accent, bold contrast */
+table.results tr.ours td,
+table.results tr.ours:hover td {
+  background: linear-gradient(180deg, #ffb454 0%, #ff9d1c 100%);   /* HF-orange amber */
+  color: #2b1500;
+  border-bottom-color: #d97706;
+  font-weight: 600;
+}
+table.results tr.ours td strong { color: #1a0a00; }
+table.results tr.ours td:first-child { color: #1a0a00; }
+/* Add a subtle left-edge marker on Ours row */
+table.results tr.ours td:first-child {
+  box-shadow: inset 4px 0 0 #b45309;
+  padding-left: 18px;
+}
 
 p.note { font-size: 0.85rem; color: #777; margin-top: 10px; }
 
