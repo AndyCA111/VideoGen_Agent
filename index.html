@@ -76,27 +76,28 @@
   <div class="container">
     <h2>Abstract</h2>
     <p>
-      Recent text-to-video diffusion models have shown strong capabilities in generating
-      high-fidelity and temporally coherent videos. However, they remain fundamentally
+      Recent advances in video generative models have enabled the generation of
+      high-fidelity, temporally coherent videos. However, they remain fundamentally
       constrained by frozen internal knowledge, weak physical reasoning, and absent
-      temporal scheduling, thus often failing on real-world prompts that name specific
+      temporal scheduling, often failing on real-world prompts that name specific
       entities, require physically plausible dynamics, or prescribe ordered phases.
-    </p>
-    <p>
-      In this paper, we present <strong>VideoAgent</strong>, as the first attempt to train
-      an agentic reinforcement-learning framework for video generation that performs
-      multi-step reasoning and tool use to ground every aspect of the synthesis. We
-      construct an agentic text-to-video dataset spanning six failure-mode-targeted task
-      categories, and introduce <strong>VABench</strong>, a held-out benchmark of 600
-      prompts that probes search-grounded knowledge, identity preservation, physical
-      plausibility, and multi-phase temporal reasoning. We train VideoAgent with SFT
-      followed by agentic GRPO with a category-aware hybrid reward that combines format,
-      video-judge, and tool-quality signals. On VABench, VideoAgent improves the video
-      generation baseline by around <strong>19 points</strong> (Seedance&nbsp;1 Pro Fast
-      backbone: 56.5 → <strong>75.6</strong>; upgrading to Seedance&nbsp;2 Pro Fast at
-      inference lifts the aggregate score further to <strong>84.7</strong> without policy
-      retraining). Improvements are largest on subject-identity-critical and
-      temporally-phased prompts.
+      In this paper, we present <strong>VideoGen-Agent</strong>, the first attempt to
+      train an agentic reinforcement learning framework for video generation that
+      performs multi-step reasoning and tool use to ground every aspect of the
+      generation process. To achieve this, we first construct an agentic
+      text-to-video training dataset with diverse, category-balanced prompts across
+      six tasks, each targeting a distinct capability gap in current models. Using
+      this dataset, we train VideoGen-Agent with supervised fine-tuning (SFT),
+      followed by reinforcement learning (RL) via Group Relative Policy Optimization
+      (GRPO), guided by a category-aware hybrid reward that combines tool format,
+      tool use quality and vision language model (VLM) as video-judge signals to
+      provide stable and informative supervision for tool-use agentic rollouts. We
+      further introduce <strong>VABench</strong>, a held-out benchmark of 600 prompts
+      that explicitly evaluates search-grounded knowledge, identity preservation,
+      physical plausibility, and multi-phase temporal reasoning. Experiments show
+      that VideoGen-Agent brings substantial gains, improving the video generation
+      baseline by around <strong>19</strong> points on VABench. We hope this work can
+      serve as an open foundation for tool use video generation agents.
     </p>
   </div>
 </section>
