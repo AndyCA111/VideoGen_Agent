@@ -155,12 +155,12 @@
   <div class="container">
     <h2>VABench — six failure-mode-targeted categories</h2>
     <div class="cat-grid">
-      <div class="cat-card"><h3>Knowledge Process (KP)</h3><p>Named techniques / processes whose execution depends on specific motion details.</p></div>
-      <div class="cat-card"><h3>Visual Knowledge — Single (VK-S)</h3><p>One named real-world subject; identity must be preserved across the clip.</p></div>
-      <div class="cat-card"><h3>Visual Knowledge — Multiple (VK-M)</h3><p>Multiple named subjects; identity preservation under interaction.</p></div>
-      <div class="cat-card"><h3>Simulation (Sim)</h3><p>Physically governed motion under specified initial conditions: collisions, free fall, orbits.</p></div>
-      <div class="cat-card"><h3>Multi-Subject (MS)</h3><p>Multi-entity composition, inter-object interaction, spatial reasoning.</p></div>
-      <div class="cat-card"><h3>TimeGrounded (TG)</h3><p>Explicit time-ordered sequences with complete and correctly ordered phases.</p></div>
+      <div class="cat-card"><h3>Procedural Knowledge (PK)</h3><p>Named techniques / processes whose execution depends on specific motion details.</p></div>
+      <div class="cat-card"><h3>Single-Entity Identity (SI)</h3><p>One named real-world subject; identity must be preserved across the clip.</p></div>
+      <div class="cat-card"><h3>Multi-Entity Identity (MI)</h3><p>Multiple named subjects; identity preservation under interaction.</p></div>
+      <div class="cat-card"><h3>Physics Simulation (PS)</h3><p>Physically governed motion under specified initial conditions: collisions, free fall, orbits.</p></div>
+      <div class="cat-card"><h3>Compositional Scene (CS)</h3><p>Multi-entity composition, inter-object interaction, spatial reasoning.</p></div>
+      <div class="cat-card"><h3>Multi-Shot (MS)</h3><p>Explicit time-ordered sequences with complete and correctly ordered phases across multiple shots.</p></div>
     </div>
   </div>
 </section>
@@ -175,12 +175,12 @@
         <thead>
           <tr>
             <th>Model</th>
-            <th>KP</th>
-            <th>VK-S</th>
-            <th>VK-M</th>
-            <th>Sim</th>
+            <th>PK</th>
+            <th>SI</th>
+            <th>MI</th>
+            <th>PS</th>
+            <th>CS</th>
             <th>MS</th>
-            <th>TG</th>
             <th>Overall</th>
           </tr>
         </thead>
@@ -234,7 +234,7 @@
     <div class="vid-stack">
 
       <div class="vid-block">
-        <div class="vid-cat">KP &middot; Knowledge Process</div>
+        <div class="vid-cat">PK &middot; Procedural Knowledge</div>
         <p class="prompt">An elderly Tai Chi practitioner in a white tunic performs 'White Crane Spreads Its Wings' in a quiet courtyard.</p>
         <div class="vid-pair">
           <figure>
@@ -249,7 +249,7 @@
       </div>
 
       <div class="vid-block">
-        <div class="vid-cat">VK-S &middot; Visual Knowledge — Single</div>
+        <div class="vid-cat">SI &middot; Single-Entity Identity</div>
         <p class="prompt">Vigil (from the game Arknights) draws his crossbow in a fluid motion, cloak billowing as he fires a bolt trailing dark energy, his single visible eye narrowing while architecture crumbles behind him.</p>
         <div class="vid-pair">
           <figure>
@@ -264,7 +264,7 @@
       </div>
 
       <div class="vid-block">
-        <div class="vid-cat">VK-M &middot; Visual Knowledge — Multiple</div>
+        <div class="vid-cat">MI &middot; Multi-Entity Identity</div>
         <p class="prompt">On a sunny Paris rooftop Mati Diop lines up a handheld shot, Ladj Ly crouches beside her reviewing the monitor, and Audrey Diwan leans in to cue an actor, all three directors pointing at the frame together.</p>
         <div class="vid-pair">
           <figure>
@@ -279,7 +279,7 @@
       </div>
 
       <div class="vid-block">
-        <div class="vid-cat">MS &middot; Multi-Subject</div>
+        <div class="vid-cat">CS &middot; Compositional Scene</div>
         <p class="prompt">Glass cracking, a cricket ball breaks a pavilion window and the scorer inside shields his ledger.</p>
         <div class="vid-pair">
           <figure>
@@ -294,7 +294,7 @@
       </div>
 
       <div class="vid-block">
-        <div class="vid-cat">TG &middot; TimeGrounded</div>
+        <div class="vid-cat">MS &middot; Multi-Shot</div>
         <p class="prompt">In a 12-second video, 0-4s: a heavy rain gutter clogged with leaves and overflowing. 4-8s: the weight cracks the bracket. 8-12s: the gutter section swings down and dumps water and leaves on the walkway.</p>
         <div class="vid-pair">
           <figure>
@@ -309,7 +309,7 @@
       </div>
 
       <div class="vid-block">
-        <div class="vid-cat">Sim &middot; Physical Simulation</div>
+        <div class="vid-cat">PS &middot; Physics Simulation</div>
         <p class="prompt">A 0.3&nbsp;kg rubber ball at 8&nbsp;m/s hits the edge of a 3&nbsp;kg metal cube and the cube starts rotating. Please maintain physics realism.</p>
         <div class="vid-pair">
           <figure>
