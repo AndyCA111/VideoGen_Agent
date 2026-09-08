@@ -396,14 +396,14 @@ table.results tr.ours td:first-child { color: #1a0a00; }
 
 /* Search-target links inside gallery prompts (named entities the agent looks up) */
 .vid-block .prompt a {
-  color: inherit;
+  color: #2563eb;                            /* clean modern blue on cream */
   text-decoration: none;
-  border-bottom: 1px dotted rgba(120, 96, 40, 0.45);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.35);
   transition: color 0.15s ease, border-bottom-color 0.15s ease;
 }
 .vid-block .prompt a:hover {
-  color: #b15c2a;
-  border-bottom-color: #b15c2a;
+  color: #1d4ed8;                            /* slightly darker on hover */
+  border-bottom-color: #1d4ed8;
   text-decoration: none;
 }
 
