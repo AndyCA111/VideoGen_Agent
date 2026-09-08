@@ -49,12 +49,19 @@ em { color: #555; }
   font-weight: 700;
   letter-spacing: -0.025em;
   margin-bottom: 22px;
-  color: #1a1a1a;
+  color: #1a1a1a;                     /* fallback if per-word spans somehow miss */
 }
 
-.title .highlight {
-  color: #b15c2a;
-}
+/* Per-word colors match the paper's title 5-stop green→yellow gradient
+   (TechReport.tex lines 282–286: titlegA..titlegE) */
+.title .title-w1 { color: #3FA838; }   /* deep green   (VideoGen-Agent:) */
+.title .title-w2 { color: #6FB833; }   /* yellow-green (Reinforcing) */
+.title .title-w3 { color: #9FC72E; }   /* chartreuse   (Video) */
+.title .title-w4 { color: #CFD629; }   /* lime-yellow  (Generation) */
+.title .title-w5 { color: #F0CB1F; }   /* warm yellow  (Agents) */
+
+/* Keep legacy .highlight rule harmless in case any other page still uses it */
+.title .highlight { color: #3FA838; }
 
 .authors {
   font-size: 1.08rem;
