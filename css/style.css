@@ -8,13 +8,30 @@ body {
   font-weight: 400;
   line-height: 1.65;
   color: #1a1a1a;
-  /* Soft yellow → mint diagonal gradient. */
-  background: linear-gradient(135deg, #fdf6c8 0%, #f3f3ce 45%, #d9f0c8 100%);
+  /* Sky-blue → sunset-orange diagonal gradient (with a soft warm mid-tone). */
+  background:
+    linear-gradient(135deg,
+      #d8e8ff  0%,
+      #b9d4ff 22%,
+      #ffe0b9 62%,
+      #ffc98a 100%);
   background-attachment: fixed;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
 }
+
+/* Particle canvas sits fixed behind all content but above the gradient. */
+#bg-particles {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+body > *:not(#bg-particles) { position: relative; z-index: 1; }
 
 .container {
   max-width: 1080px;
@@ -122,20 +139,26 @@ em { color: #555; }
   margin: 0 auto;
   font-size: 1.02rem;
   color: #2a2a2a;
-  background: rgba(255, 252, 244, 0.55);
-  border: 1px solid rgba(120, 96, 48, 0.18);
-  border-left: 4px solid #b15c2a;
+  background: rgba(255, 253, 248, 0.82);
+  border: 1px solid rgba(30, 60, 120, 0.18);
+  border-left: 4px solid #ff9d1c;
   padding: 18px 22px;
   text-align: left;
-  border-radius: 6px;
-  backdrop-filter: blur(2px);
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 12px rgba(30, 60, 120, 0.08);
 }
 .tldr strong { color: #1a1a1a; }
 .tldr em { color: #5a5040; }
 
 /* ─────────────────────────────── BLOCKS ─────────────────────────────── */
-.block { padding: 70px 0; border-bottom: 1px solid rgba(120, 96, 48, 0.10); }
-.block.alt { background: rgba(255, 252, 220, 0.55); }
+.block {
+  padding: 70px 0;
+  border-bottom: 1px solid rgba(30, 60, 120, 0.10);
+  background: rgba(255, 253, 248, 0.72);
+  backdrop-filter: blur(6px);
+}
+.block.alt { background: rgba(255, 246, 232, 0.72); }
 .block:last-of-type { border-bottom: none; }
 
 /* Content-block containers (Abstract → Robotics → Footer) match the teaser image width */
