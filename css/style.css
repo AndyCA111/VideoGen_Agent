@@ -43,6 +43,18 @@ em { color: #555; }
 
 .hero .container { text-align: center; }
 
+/* Brand mark: single-icon logo sitting above the title, cream-tinted glow */
+.brand-mark {
+  display: block;
+  width: 96px;
+  height: 96px;
+  margin: 4px auto 14px;
+  filter: drop-shadow(0 2px 4px rgba(63, 168, 56, 0.22));
+}
+@media (max-width: 600px) {
+  .brand-mark { width: 72px; height: 72px; }
+}
+
 .title {
   font-size: 2.7rem;
   line-height: 1.18;

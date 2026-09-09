@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="VideoGen-Agent logo">
+  <!-- ─────────────────────────────────────────────────────────
+       VideoGen-Agent · single-icon logo
+       An agentic loop (curved arrow, green→yellow — same 5-stop
+       gradient as the paper's H1) sweeps clockwise around a play
+       arrow built from three nested tiers that stand for the
+       tool tiers: augmentation → generation → verification.
+       ───────────────────────────────────────────────────────── -->
+  <defs>
+    <linearGradient id="vgaTitle" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#3FA838"/>
+      <stop offset="25%"  stop-color="#6FB833"/>
+      <stop offset="50%"  stop-color="#9FC72E"/>
+      <stop offset="75%"  stop-color="#CFD629"/>
+      <stop offset="100%" stop-color="#F0CB1F"/>
+    </linearGradient>
+    <linearGradient id="vgaLoop" x1="0.05" y1="1" x2="0.95" y2="0">
+      <stop offset="0%"   stop-color="#3FA838"/>
+      <stop offset="55%"  stop-color="#9FC72E"/>
+      <stop offset="100%" stop-color="#F0CB1F"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Agentic loop: 3/4-circle arrow sweeping clockwise, opening
+       at the top-right; the whole span passes through green→lime→yellow. -->
+  <path d="M 78 22
+           A 38 38 0 1 1 22 62"
+        fill="none"
+        stroke="url(#vgaLoop)"
+        stroke-width="10"
+        stroke-linecap="round"/>
+
+  <!-- Arrowhead — a yellow chevron placed at the arc's opening,
+       rotated to cap the tangent so it reads as one continuous
+       arrow rather than a floating triangle. -->
+  <g transform="translate(78 22) rotate(45)">
+    <polygon points="0,-11 12,6 -12,6" fill="#F0CB1F"
+             stroke="#CFD629" stroke-width="1.2" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Three nested play triangles = the tool-tier stack. -->
+  <polygon points="32,28 32,72 68,50" fill="url(#vgaTitle)"/>
+  <polygon points="39,36 39,64 62,50" fill="#f9f4e3" opacity="0.32"/>
+  <polygon points="44,41 44,59 57,50" fill="#f9f4e3" opacity="0.58"/>
+</svg>
