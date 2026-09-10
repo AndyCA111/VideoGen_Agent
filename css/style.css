@@ -61,18 +61,16 @@ em { color: #555; }
 
 .hero .container { text-align: center; }
 
-/* Brand mark: pixel-tool-picker icon in the paper title's green→yellow gradient.
-   Native aspect is ~1.35:1 (1241×916); we constrain by height so the crest
-   doesn't squish when width flexes. */
+/* Brand mark: pixel-tool-picker icon (1241×916, ~1.35:1) sitting inline to
+   the LEFT of the first title line ("VideoGen-Agent:"). Height tracks the
+   title's font-size via em so it scales automatically across breakpoints. */
 .brand-mark {
-  display: block;
-  height: 96px;
+  display: inline-block;
+  height: 1.15em;
   width: auto;
-  margin: 4px auto 14px;
+  vertical-align: -0.22em;      /* align to text baseline of the H1 */
+  margin: 0 0.28em 0 0;
   filter: drop-shadow(0 2px 6px rgba(63, 168, 56, 0.28));
-}
-@media (max-width: 600px) {
-  .brand-mark { height: 72px; }
 }
 
 .title {
