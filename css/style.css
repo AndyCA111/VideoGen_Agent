@@ -215,6 +215,15 @@ table.results td, table.results th,
   gap: 110px;                    /* much larger inter-logo spacing so the row spreads out */
   justify-content: space-around; /* distribute logos across the wide row instead of clumping */
 }
+/* Inline variant: sits between authors/affiliations and the buttons row */
+.affil-logos.affil-logos-inline {
+  gap: 60px;
+  margin: 6px auto 22px;
+}
+.affil-logos.affil-logos-inline img {
+  height: 54px;
+  max-width: 220px;
+}
 .affil-logos img {
   height: 72px;
   width: auto;
