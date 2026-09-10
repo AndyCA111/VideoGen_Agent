@@ -4,10 +4,11 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-family: "Satoshi", -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.65;
   color: #1a1a1a;
+  letter-spacing: -0.005em;
   /* Sky-blue → sunset-orange diagonal gradient (with a soft warm mid-tone). */
   background:
     linear-gradient(135deg,
@@ -52,9 +53,9 @@ em { color: #555; }
 
 /* ─────────────────────────────── HERO (cream / paper) ─────────────────────────────── */
 .hero {
-  /* Inherit body cream gradient; subtle separator at bottom */
+  /* transparent — body gradient shows through */
   background: transparent;
-  border-bottom: 1px solid rgba(120, 96, 48, 0.12);
+  border-bottom: 1px solid rgba(30, 60, 120, 0.10);
   padding: 24px 0 60px;      /* tighter top so logos sit near the very top */
 }
 
@@ -129,7 +130,7 @@ em { color: #555; }
 .btn:hover { background: #000; text-decoration: none; transform: translateY(-1px); }
 .btn .icon { font-family: "JetBrains Mono", monospace; font-size: 0.9em; }
 .btn.disabled {
-  background: rgba(120, 96, 48, 0.18); color: #8a7c63; border-color: rgba(120, 96, 48, 0.22);
+  background: rgba(30, 60, 120, 0.18); color: #8a7c63; border-color: rgba(30, 60, 120, 0.22);
   cursor: not-allowed; pointer-events: none;
   box-shadow: none;
 }
@@ -139,7 +140,7 @@ em { color: #555; }
   margin: 0 auto;
   font-size: 1.02rem;
   color: #2a2a2a;
-  background: rgba(255, 253, 248, 0.82);
+  background: rgba(245, 249, 253, 0.85);
   border: 1px solid rgba(30, 60, 120, 0.18);
   border-left: 4px solid #ff9d1c;
   padding: 18px 22px;
@@ -155,10 +156,10 @@ em { color: #555; }
 .block {
   padding: 70px 0;
   border-bottom: 1px solid rgba(30, 60, 120, 0.10);
-  background: rgba(255, 253, 248, 0.72);
-  backdrop-filter: blur(6px);
+  background: rgba(247, 250, 255, 0.94);      /* nearly-solid cool white */
+  backdrop-filter: blur(10px);
 }
-.block.alt { background: rgba(255, 246, 232, 0.72); }
+.block.alt { background: rgba(234, 242, 253, 0.94); }
 .block:last-of-type { border-bottom: none; }
 
 /* Content-block containers (Abstract → Robotics → Footer) match the teaser image width */
@@ -265,7 +266,7 @@ table.results td, table.results th,
 }
 
 .tg-card {
-  background: #f9f4e3;                    /* HELM ivory (matches table body) */
+  background: #f3f6fb;                    /* cool ivory (was HELM ivory) */
   border: 1px solid #2c3a4a;              /* dark slate outline */
   border-radius: 6px;
   padding: 0;                             /* padding pushed into inner elements */
@@ -296,7 +297,7 @@ table.results td, table.results th,
 
 .method-figure {
   margin: 30px 0 18px;
-  background: #f9f4e3;
+  background: #f3f6fb;
   border: 1px solid #2c3a4a;
   border-radius: 6px;
   overflow: hidden;
@@ -307,7 +308,7 @@ table.results td, table.results th,
   font-size: 0.88rem;
   color: #333;
   padding: 12px 18px;
-  background: #ede1bc;                    /* matches group-head strip */
+  background: #dfe6f0;                    /* matches group-head strip */
   border-top: 1px solid #d9c98a;
 }
 
@@ -320,7 +321,7 @@ table.results td, table.results th,
 }
 
 .cat-card {
-  background: #f9f4e3;
+  background: #f3f6fb;
   border: 1px solid #2c3a4a;
   border-radius: 6px;
   padding: 0;
@@ -359,7 +360,7 @@ table.results {
   border-collapse: separate;
   border-spacing: 0;
   font-size: 0.92rem;
-  background: #f9f4e3;                  /* HELM-like ivory */
+  background: #f3f6fb;                  /* cool ivory */
   border: 1px solid #2c3a4a;            /* dark slate outline (matches header) */
   border-radius: 6px;
   overflow: hidden;
@@ -395,8 +396,8 @@ table.results tbody td:not(:first-child) {
 }
 
 /* Very subtle alternating stripes so long tables stay readable */
-table.results tbody tr:nth-child(odd) td { background: rgba(255, 253, 236, 0.55); }
-table.results tbody tr:nth-child(even) td { background: rgba(245, 235, 205, 0.35); }
+table.results tbody tr:nth-child(odd) td { background: rgba(247, 250, 255, 0.95); }
+table.results tbody tr:nth-child(even) td { background: rgba(234, 242, 253, 0.85); }
 
 /* Hover: subtle dark tint */
 table.results tbody tr:hover td { background: rgba(44, 58, 74, 0.06); }
@@ -404,7 +405,7 @@ table.results tbody tr:hover td { background: rgba(44, 58, 74, 0.06); }
 /* Group-head — Stanford-HELM style small-caps burgundy label */
 table.results tr.group-head td,
 table.results tr.group-head:hover td {
-  background: #ede1bc;
+  background: #dfe6f0;
   font-size: 0.74rem;
   text-transform: uppercase;
   letter-spacing: 0.09em;
@@ -497,7 +498,7 @@ p.note { font-size: 0.85rem; color: #777; margin-top: 10px; }
   font-style: italic;
   margin-bottom: 18px;
   padding-left: 14px;
-  border-left: 3px solid rgba(120, 96, 48, 0.28);
+  border-left: 3px solid rgba(30, 60, 120, 0.28);
   line-height: 1.55;
 }
 
@@ -541,7 +542,7 @@ table.robot-grid {
 }
 .robot-grid th, .robot-grid td {
   padding: 8px 6px;
-  border-bottom: 1px solid rgba(120, 96, 48, 0.18);
+  border-bottom: 1px solid rgba(30, 60, 120, 0.18);
   vertical-align: middle;
 }
 .robot-grid thead th {
@@ -551,8 +552,8 @@ table.robot-grid {
   font-size: 0.72rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  background: rgba(255, 252, 220, 0.40);
-  border-bottom: 1.5px solid rgba(120, 96, 48, 0.30);
+  background: rgba(233, 241, 251, 0.55);
+  border-bottom: 1.5px solid rgba(30, 60, 120, 0.30);
 }
 .robot-grid th:first-child, .robot-grid td:first-child { text-align: left; }
 .robot-grid td.prompt-cell {
@@ -591,7 +592,7 @@ table.robot-grid {
   .robot-grid thead { display: none; }
   .robot-grid tr {
     margin-bottom: 24px;
-    border-bottom: 1px solid rgba(120, 96, 48, 0.18);
+    border-bottom: 1px solid rgba(30, 60, 120, 0.18);
     padding-bottom: 14px;
   }
   .robot-grid td { border: none; padding: 6px 0; }
@@ -666,8 +667,8 @@ table.robot-grid {
 }
 
 .traj-card {
-  background: #fffaf0;
-  border: 1px solid rgba(120, 96, 48, 0.18);
+  background: #f6fafd;
+  border: 1px solid rgba(30, 60, 120, 0.18);
   border-radius: 10px;
   padding: 18px 18px 16px;
 }
