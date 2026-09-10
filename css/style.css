@@ -66,11 +66,11 @@ em { color: #555; }
    title's font-size via em so it scales automatically across breakpoints. */
 .brand-mark {
   display: inline-block;
-  height: 1.15em;
+  height: 1.8em;
   width: auto;
-  vertical-align: -0.22em;      /* align to text baseline of the H1 */
+  vertical-align: -0.5em;       /* align to text baseline of the H1 */
   margin: 0 0.28em 0 0;
-  filter: drop-shadow(0 2px 6px rgba(63, 168, 56, 0.28));
+  filter: drop-shadow(0 2px 8px rgba(63, 168, 56, 0.30));
 }
 
 .title {
