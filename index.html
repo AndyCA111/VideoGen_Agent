@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/style.css?v=21" />
+<link rel="stylesheet" href="css/style.css?v=22" />
 <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 <link rel="icon" type="image/png" sizes="32x32"  href="images/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16"  href="images/favicon-16.png" />
@@ -229,15 +229,25 @@
           </tr>
           <tr class="group-head"><td colspan="9">Ours</td></tr>
           <tr class="ours">
-            <td><a href="https://github.com/AndyCA111/VideoGen_Agent" target="_blank" rel="noopener"><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;1, SD&nbsp;1 backend)</strong></a></td><td><strong>80.4</strong></td><td><strong>75.1</strong></td><td><strong>65.3</strong></td><td><strong>67.9</strong></td><td><strong>83.1</strong></td><td><strong>81.7</strong></td><td><strong>75.6</strong></td><td><strong>74.4</strong></td>
+            <td>
+              <a href="https://github.com/AndyCA111/VideoGen_Agent" target="_blank" rel="noopener"><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;1)</strong></a>
+              <span class="tooltip" tabindex="0" aria-label="Toolset 1 models"
+                    data-tip="T2V / I2V: Seedance 1.0 Pro Fast&#10;Motion-to-V: Wan2.1-VACE-1.3B&#10;Ref-to-V: (n/a in SD1 lineage)&#10;Aug: text search + image search + code sim&#10;Verify: open-vocab detection + depth est.">&#9432;</span>
+            </td>
+            <td><strong>80.4</strong></td><td><strong>75.1</strong></td><td><strong>65.3</strong></td><td><strong>67.9</strong></td><td><strong>83.1</strong></td><td><strong>81.7</strong></td><td><strong>75.6</strong></td><td><strong>74.4</strong></td>
           </tr>
           <tr class="ours">
-            <td><a href="https://github.com/AndyCA111/VideoGen_Agent" target="_blank" rel="noopener"><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;2, SD&nbsp;2 backend)</strong></a></td><td><strong>92.1</strong></td><td><strong>83.2</strong></td><td><strong>86.7</strong></td><td><strong>69.2</strong></td><td><strong>90.7</strong></td><td><strong>84.6</strong></td><td><strong>84.4</strong></td><td><strong>84.4</strong></td>
+            <td>
+              <a href="https://github.com/AndyCA111/VideoGen_Agent" target="_blank" rel="noopener"><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;2)</strong></a>
+              <span class="tooltip" tabindex="0" aria-label="Toolset 2 models"
+                    data-tip="T2V / I2V: Seedance 2.0 Pro Fast&#10;Ref-to-V: Seedance 2.0 reference-to-video&#10;Motion-to-V: Wan2.1-VACE-14B&#10;Aug: text search + image search + code sim&#10;Verify: open-vocab detection + depth est.">&#9432;</span>
+            </td>
+            <td><strong>92.1</strong></td><td><strong>83.2</strong></td><td><strong>86.7</strong></td><td><strong>69.2</strong></td><td><strong>90.7</strong></td><td><strong>84.6</strong></td><td><strong>84.4</strong></td><td><strong>84.4</strong></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p class="note"><strong>Toolset&nbsp;1</strong> keeps the same generation backbone (Seedance&nbsp;1&nbsp;Pro Fast) that VideoGen-Agent was trained on. <strong>Toolset&nbsp;2</strong> swaps in stronger Seedance&nbsp;2 generators at inference time <em>without retraining the agent</em>, demonstrating backend-agnostic tool use. <strong>Overall</strong> is the mean across all six categories; <strong>Overall (w/o MS)</strong> averages only the first five (PK / SI / MI / PS / CS), providing an apples-to-apples comparison for models that cannot natively produce multi-shot output (Mochi-1, Hailuo).</p>
+    <p class="note"><strong>Toolset&nbsp;1</strong> is the training-time stack VideoGen-Agent was optimised against. <strong>Toolset&nbsp;2</strong> swaps in stronger generators at inference time <em>without retraining the agent</em>, demonstrating backend-agnostic tool use. Hover the <span class="tooltip" data-tip="Hover any (i) to see the exact models composing that toolset.">&#9432;</span> next to each row for the exact models used. <strong>Overall</strong> is the mean across all six categories; <strong>Overall (w/o MS)</strong> averages only the first five (PK / SI / MI / PS / CS), providing an apples-to-apples comparison for models that cannot natively produce multi-shot output (Mochi-1, Hailuo).</p>
   </div>
 </section>
 

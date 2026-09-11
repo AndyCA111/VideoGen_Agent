@@ -428,6 +428,62 @@ table.results tr.group-head:hover td {
 }
 table.results tr.muted td { color: #7a7060; font-style: italic; }
 
+/* ─────────────────── Hover tooltip on the (i) badge ─────────────────── */
+.tooltip {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border: 1px solid rgba(30, 60, 120, 0.35);
+  border-radius: 999px;
+  color: rgba(30, 60, 120, 0.85);
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  cursor: help;
+  vertical-align: 1px;
+  position: relative;
+  user-select: none;
+}
+.tooltip:hover, .tooltip:focus { color: #0c4d92; border-color: #0c4d92; outline: none; }
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  min-width: 260px;
+  max-width: 360px;
+  padding: 10px 12px;
+  background: #1e2836;
+  color: #f6faff;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  white-space: pre-line;
+  border-radius: 8px;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.30);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .12s ease;
+  z-index: 20;
+  text-align: left;
+  font-weight: 400;
+}
+.tooltip::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 2px);
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #1e2836;
+  opacity: 0;
+  transition: opacity .12s ease;
+  z-index: 21;
+}
+.tooltip:hover::after, .tooltip:focus::after,
+.tooltip:hover::before, .tooltip:focus::before { opacity: 1; }
+
 /* "Ours" row — HF-orange / amber accent, bold contrast */
 table.results tr.ours td,
 table.results tr.ours:hover td {
