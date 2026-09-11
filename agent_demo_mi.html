@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VideoGen-Agent · MI #10004 Workflow Storyboard</title>
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css?v=23" />
+<link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+<style>
+  :root {
+    --step-fade: 480ms;
+  }
+  body { padding: 0; margin: 0; }
+  .demo-hero {
+    padding: 30px 24px 6px;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .demo-hero h1 {
+    font-size: 1.8rem;
+    color: #1e2836;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .demo-hero p.sub {
+    color: #4a5568;
+    font-size: 1rem;
+    margin: 0;
+  }
+  .stage {
+    max-width: 1100px;
+    margin: 20px auto 60px;
+    padding: 0 24px;
+    position: relative;
+  }
+  /* Prompt bar (always visible) */
+  .prompt-bar {
+    background: rgba(255, 253, 248, 0.94);
+    border: 1px solid rgba(30, 60, 120, 0.16);
+    border-left: 4px solid #ff9d1c;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: #24303e;
+    box-shadow: 0 2px 12px rgba(30, 60, 120, 0.06);
+    margin-bottom: 22px;
+    text-align: left;
+  }
+  .prompt-bar .label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    color: #ff9d1c;
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: block;
+  }
+  /* Stage panels */
+  .panel {
+    background: rgba(247, 250, 255, 0.94);
+    border: 1px solid rgba(30, 60, 120, 0.10);
+    border-radius: 12px;
+    padding: 18px 22px 22px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 18px rgba(30, 60, 120, 0.06);
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity var(--step-fade) ease, transform var(--step-fade) ease;
+  }
+  .panel.on { opacity: 1; transform: none; }
+  .panel-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.86rem;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    font-weight: 700;
+    color: #1e2836;
+    margin-bottom: 12px;
+  }
+  .panel-title .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #1e2836;
+    color: #fff;
+    font-size: 0.72rem;
+    letter-spacing: 0;
+  }
+  .panel-title .num.fail { background: #c53030; }
+  .panel-title .num.ok   { background: #2e7d5b; }
+  .panel-note { color: #64748b; font-size: 0.86rem; margin-top: 8px; }
+  /* Video layout */
+  .video-wrap {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0b0f18;
+    aspect-ratio: 16 / 9;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .video-wrap video { width: 100%; height: 100%; display: block; object-fit: cover; }
+  .video-wrap .badge {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: rgba(197, 48, 48, 0.94);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .video-wrap .badge.ok { background: rgba(46, 125, 91, 0.94); }
+  /* Image search chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .chip {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.80rem;
+    background: #1e2836;
+    color: #ffb454;
+    padding: 5px 10px;
+    border-radius: 6px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 240ms ease, transform 240ms ease;
+  }
+  .chip.on { opacity: 1; transform: none; }
+  .chip::before { content: "🔎 "; }
+  .refs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .ref { text-align: center; }
+  .ref img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid rgba(46, 125, 91, 0.20);
+    background: #0b0f18;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 320ms ease, transform 320ms ease;
+  }
+  .ref.on img { opacity: 1; transform: none; }
+  .ref .name {
+    display: block;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: #1e2836;
+    margin-top: 6px;
+    opacity: 0;
+    transition: opacity 240ms ease;
+  }
+  .ref.on .name { opacity: 1; }
+  /* Refined prompt (highlighted diff) */
+  .refined { font-size: 0.95rem; line-height: 1.55; color: #24303e; text-align: left; }
+  .refined mark {
+    background: linear-gradient(180deg, rgba(255,180,84,0.35), rgba(255,180,84,0.12));
+    color: #7a3f00;
+    padding: 0 4px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  /* Player controls */
+  .controls {
+    display: flex; justify-content: center; align-items: center; gap: 12px;
+    margin-top: 20px;
+  }
+  .controls button {
+    background: #1e2836;
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 120ms ease;
+  }
+  .controls button:hover { background: #0c4d92; }
+  .controls .hint { color: #64748b; font-size: 0.86rem; }
+  .progress-track {
+    height: 4px;
+    background: rgba(30, 60, 120, 0.10);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 14px 0 4px;
+    max-width: 1052px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffb454, #ff9d1c);
+    width: 0%;
+    transition: width 120ms linear;
+  }
+  .backlink { display:inline-block; margin: 10px 0 20px; font-size: .9rem; color: #3a3a3a; text-decoration: none; border-bottom: 1px dashed #999; }
+  .backlink:hover { color: #000; border-bottom-color: #000; }
+  @media (max-width: 720px) {
+    .refs { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .ref .name { font-size: 0.72rem; }
+  }
+</style>
+</head>
+<body>
+<canvas id="bg-particles" aria-hidden="true"></canvas>
+
+<div class="demo-hero">
+  <a class="backlink" href="index.html">&larr; Back to main page</a>
+  <h1>How VideoGen-Agent handles a Multi-Entity Identity prompt</h1>
+  <p class="sub">MI #10004 · single-pass baseline vs. agent workflow with image search + prompt refinement + SD2 R2V.</p>
+  <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+</div>
+
+<div class="stage">
+
+  <!-- Always-visible user prompt -->
+  <div class="prompt-bar" id="prompt-bar">
+    <span class="label">User prompt</span>
+    On a sunny Paris rooftop Mati Diop lines up a handheld shot, Ladj Ly crouches beside her reviewing the monitor, and Audrey Diwan leans in to cue an actor, all three directors pointing at the frame together.
+  </div>
+
+  <!-- Step 1: baseline (single-pass) -->
+  <div class="panel" id="p-baseline">
+    <div class="panel-title"><span class="num fail">1</span>Baseline · single-pass Seedance&nbsp;1 Pro Fast</div>
+    <div class="video-wrap">
+      <video id="v-baseline" src="videos/seedance_baselines/vkm_10004.mp4" muted loop playsinline></video>
+      <span class="badge">❌ identity collapse · 3 generic strangers</span>
+    </div>
+    <p class="panel-note">The base T2V has never seen Mati Diop, Ladj Ly, or Audrey Diwan and cannot recover their identities from a text prompt — it defaults to three arbitrary Europeans on a generic rooftop.</p>
+  </div>
+
+  <!-- Step 2: agent image_search -->
+  <div class="panel" id="p-search">
+    <div class="panel-title"><span class="num">2</span>VideoGen-Agent · image_search × 3</div>
+    <div class="chips" id="chips-row">
+      <span class="chip" data-i="0">image_search("Mati Diop film director")</span>
+      <span class="chip" data-i="1">image_search("Ladj Ly film director")</span>
+      <span class="chip" data-i="2">image_search("Audrey Diwan film director")</span>
+    </div>
+    <div class="refs">
+      <div class="ref" data-i="0">
+        <img src="lf_cached_images/611-0286fe375128d4f0b9732d772b753718.jpg" alt="Mati Diop" />
+        <span class="name">Mati Diop</span>
+      </div>
+      <div class="ref" data-i="1">
+        <img src="lf_cached_images/4908-03f3e74d9cd9207023b60539f6b88b9a.jpg" alt="Ladj Ly" />
+        <span class="name">Ladj Ly</span>
+      </div>
+      <div class="ref" data-i="2">
+        <img src="lf_cached_images/7480-3c905db5fcf90b6240b1df0bb0991255.jpg" alt="Audrey Diwan" />
+        <span class="name">Audrey Diwan</span>
+      </div>
+    </div>
+    <p class="panel-note">The agent issues one image_search per named entity, ranks the returns by CLIP similarity, and keeps a top identity-anchor photo per director — three reference images total.</p>
+  </div>
+
+  <!-- Step 3: refined prompt -->
+  <div class="panel" id="p-refined">
+    <div class="panel-title"><span class="num">3</span>Prompt refinement · bind reference images to characters</div>
+    <div class="refined">
+      <mark>[Image1]&nbsp;=&nbsp;Mati Diop · [Image2]&nbsp;=&nbsp;Ladj Ly · [Image3]&nbsp;=&nbsp;Audrey Diwan.</mark>
+      On a sunny Paris rooftop terrace at golden hour, a
+      <mark>young French actor performs in front of the camera</mark> as
+      <mark>[Image1] Mati Diop adjusts the ARRI cinema camera on a heavy tripod</mark>,
+      <mark>[Image2] Ladj Ly is in a deep squat at the video-village monitor</mark>,
+      pointing at the playback, and
+      <mark>[Image3] Audrey Diwan leans over Ladj’s shoulder</mark>
+      pointing at the same spot on the monitor to discuss the take.
+      <span style="color:#64748b">Cinematic warm color grading, documentary-style handheld coverage, shallow depth of field, natural golden-hour lighting.</span>
+    </div>
+    <p class="panel-note">The agent rewrites the user prompt with <mark>explicit image bindings</mark>, blocking directions, camera / monitor / actor detail, and cinematography style — every ambiguous element is grounded before generation.</p>
+  </div>
+
+  <!-- Step 4: agent output -->
+  <div class="panel" id="p-agent">
+    <div class="panel-title"><span class="num ok">4</span>VideoGen-Agent output · Seedance&nbsp;2 reference-to-video</div>
+    <div class="video-wrap">
+      <video id="v-agent" src="videos/agent_seedance2/vkm_10004.mp4" muted loop playsinline></video>
+      <span class="badge ok">✓ correct identities · scene fidelity</span>
+    </div>
+    <p class="panel-note">Same user prompt, driven through the agent’s image_search → prompt refinement → Seedance 2 R2V pipeline. All three directors are recognisable, the video-village blocking is preserved, and the actor is in frame as described.</p>
+  </div>
+
+  <div class="controls">
+    <button id="btn-replay">↻ Replay</button>
+    <span class="hint">auto-plays on load · hover a video to pause</span>
+  </div>
+</div>
+
+<script src="js/particles.js?v=1" defer></script>
+<script>
+(function () {
+  const TL = [
+    { at:     0, action: () => reveal('prompt-bar') },
+    { at:   400, action: () => reveal('p-baseline') },
+    { at:   600, action: () => playVid('v-baseline') },
+    // baseline runs 5s → step 2 kicks in
+    { at:  5600, action: () => { pauseVid('v-baseline'); reveal('p-search'); } },
+    { at:  5900, action: () => showChip(0) },
+    { at:  6250, action: () => showRef(0)  },
+    { at:  6600, action: () => showChip(1) },
+    { at:  6950, action: () => showRef(1)  },
+    { at:  7300, action: () => showChip(2) },
+    { at:  7650, action: () => showRef(2)  },
+    { at:  8600, action: () => reveal('p-refined') },
+    { at: 10400, action: () => reveal('p-agent') },
+    { at: 10600, action: () => playVid('v-agent') },
+    { at: 15600, action: () => { /* linger — v-agent keeps looping */ } },
+  ];
+  const TOTAL = 16000;
+
+  function reveal(id) { document.getElementById(id).classList.add('on'); }
+  function showChip(i) { document.querySelector(`.chip[data-i="${i}"]`).classList.add('on'); }
+  function showRef(i)  { document.querySelector(`.ref[data-i="${i}"]`).classList.add('on'); }
+  function playVid(id) { const v = document.getElementById(id); v.play().catch(() => {}); }
+  function pauseVid(id){ const v = document.getElementById(id); v.pause(); }
+
+  let timers = [], startAt = 0, rafId = 0;
+  const progress = document.getElementById('progress');
+
+  function resetAll() {
+    timers.forEach(clearTimeout); timers = [];
+    cancelAnimationFrame(rafId);
+    ['prompt-bar','p-baseline','p-search','p-refined','p-agent'].forEach(id => {
+      document.getElementById(id).classList.remove('on');
+    });
+    document.querySelectorAll('.chip, .ref').forEach(el => el.classList.remove('on'));
+    ['v-baseline','v-agent'].forEach(id => {
+      const v = document.getElementById(id);
+      v.pause(); v.currentTime = 0;
+    });
+    progress.style.width = '0%';
+  }
+
+  function run() {
+    resetAll();
+    startAt = performance.now();
+    TL.forEach(e => timers.push(setTimeout(e.action, e.at)));
+    function tick() {
+      const el = performance.now() - startAt;
+      progress.style.width = Math.min(100, (el / TOTAL) * 100) + '%';
+      if (el < TOTAL + 200) rafId = requestAnimationFrame(tick);
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  document.getElementById('btn-replay').addEventListener('click', run);
+  // hover-to-pause each video
+  ['v-baseline','v-agent'].forEach(id => {
+    const v = document.getElementById(id);
+    v.addEventListener('mouseenter', () => v.pause());
+    v.addEventListener('mouseleave', () => v.play().catch(() => {}));
+  });
+
+  // wait for both videos' metadata so first-frame paints, then start
+  const waits = ['v-baseline','v-agent'].map(id => new Promise(res => {
+    const v = document.getElementById(id);
+    if (v.readyState >= 1) res();
+    else v.addEventListener('loadedmetadata', res, { once: true });
+  }));
+  Promise.all(waits).then(run);
+})();
+</script>
+</body>
+</html>
