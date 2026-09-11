@@ -138,21 +138,21 @@
         <h3>2 &middot; Generation</h3>
         <p>
           A family of video generators with different conditionings: T2V, I2V,
-          motion-conditioned (e.g., flow-guided Wan-VACE), and
-          (multi-) reference-image-to-video.
+          motion-conditioned, and (multi-) reference-image-to-video.
         </p>
       </div>
       <div class="tg-card">
         <h3>3 &middot; Verification</h3>
         <p>
-          Grounding DINO and Depth Anything inspect generated videos for subject
-          localisation, spatial relations, and geometric consistency.
+          Open-vocabulary detection and depth estimation inspect generated
+          videos for subject localisation, spatial relations, and geometric
+          consistency.
         </p>
       </div>
     </div>
     <figure class="method-figure">
       <img src="images/main_fig.png" alt="VideoGen-Agent framework overview" />
-      <figcaption>Overview of VideoGen-Agent: given a user prompt, the agent performs <em>Multimodal Reasoning</em> to decompose the task, then enters an <em>Agentic Loop</em> alternating <em>Action</em> (tool invocation) with <em>Observation</em>. The toolset covers three tiers — <em>augmentation</em> (text search, image search, code simulation), <em>generation</em> (T2V / I2V / Reference-to-Video / Motion-to-Video), and <em>verification</em> (Grounding DINO, Depth Anything) — until the agent emits <em>Finish</em>.</figcaption>
+      <figcaption>Overview of VideoGen-Agent: given a user prompt, the agent performs <em>Multimodal Reasoning</em> to decompose the task, then enters an <em>Agentic Loop</em> alternating <em>Action</em> (tool invocation) with <em>Observation</em>. The toolset covers three tiers — <em>augmentation</em> (text search, image search, code simulation), <em>generation</em> (T2V / I2V / Reference-to-Video / Motion-to-Video), and <em>verification</em> (open-vocabulary detection, depth estimation) — until the agent emits <em>Finish</em>.</figcaption>
     </figure>
     <h3>Training</h3>
     <p>
