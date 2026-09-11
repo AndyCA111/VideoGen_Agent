@@ -428,61 +428,132 @@ table.results tr.group-head:hover td {
 }
 table.results tr.muted td { color: #7a7060; font-style: italic; }
 
-/* ─────────────────── Hover tooltip on the (i) badge ─────────────────── */
-.tooltip {
+/* ─────────────────── Toolset help badge (?) + hover panel ─────────────────── */
+
+/* Cell that hosts both the label anchor and the top-right ? badge */
+.toolset-cell {
   display: inline-block;
-  margin-left: 6px;
-  padding: 0 6px;
-  border: 1px solid rgba(30, 60, 120, 0.35);
-  border-radius: 999px;
-  color: rgba(30, 60, 120, 0.85);
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 0.82rem;
-  line-height: 1.35;
-  cursor: help;
-  vertical-align: 1px;
   position: relative;
-  user-select: none;
+  padding-right: 14px;                /* room so the badge doesn't overlap text */
 }
-.tooltip:hover, .tooltip:focus { color: #0c4d92; border-color: #0c4d92; outline: none; }
-.tooltip::after {
-  content: attr(data-tip);
+
+/* Wrapper that anchors the badge and, on hover, reveals the panel */
+.qhelp {
   position: absolute;
-  left: 50%;
-  bottom: calc(100% + 8px);
-  transform: translateX(-50%);
-  min-width: 260px;
-  max-width: 360px;
-  padding: 10px 12px;
+  top: -6px;
+  right: -2px;
+  line-height: 1;
+}
+
+/* The circled question-mark badge — top-right superscript */
+.qhelp-badge,
+.qhelp-badge-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid rgba(30, 60, 120, 0.55);
+  background: rgba(247, 250, 255, 0.95);
+  color: rgba(30, 60, 120, 0.85);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: help;
+  user-select: none;
+  transition: color .12s, border-color .12s, background .12s, transform .12s;
+}
+.qhelp-badge:hover,
+.qhelp-badge:focus,
+.qhelp:hover .qhelp-badge {
+  color: #fff;
+  border-color: #0c4d92;
+  background: #0c4d92;
+  outline: none;
+  transform: scale(1.10);
+}
+
+/* Small in-text version (used in the note paragraph, no wrapper) */
+.qhelp-badge-inline { vertical-align: 1px; margin: 0 1px; }
+
+/* The hover panel — a proper card with clickable model links */
+.qhelp-body {
+  position: absolute;
+  right: -6px;
+  top: calc(100% + 8px);
+  min-width: 300px;
+  max-width: 380px;
+  padding: 12px 14px;
   background: #1e2836;
   color: #f6faff;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  white-space: pre-line;
-  border-radius: 8px;
-  box-shadow: 0 6px 22px rgba(0,0,0,0.30);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .12s ease;
-  z-index: 20;
+  border-radius: 10px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.32);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.80rem;
+  line-height: 1.55;
   text-align: left;
   font-weight: 400;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .12s ease, visibility .12s ease;
+  z-index: 30;
 }
-.tooltip::before {
+.qhelp:hover .qhelp-body,
+.qhelp:focus-within .qhelp-body {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+/* Arrow pointing up to the badge */
+.qhelp-body::before {
   content: "";
   position: absolute;
-  left: 50%;
-  bottom: calc(100% + 2px);
-  transform: translateX(-50%);
+  right: 10px;
+  top: -6px;
   border: 6px solid transparent;
-  border-top-color: #1e2836;
-  opacity: 0;
-  transition: opacity .12s ease;
-  z-index: 21;
+  border-bottom-color: #1e2836;
 }
-.tooltip:hover::after, .tooltip:focus::after,
-.tooltip:hover::before, .tooltip:focus::before { opacity: 1; }
+
+/* Title strip inside the panel */
+.qhelp-title {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: #ffb454;
+  margin-bottom: 8px;
+}
+
+.qhelp-body ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.qhelp-body li {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 10px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.qhelp-body li:last-child { border-bottom: none; }
+.qhelp-body .qk {
+  color: #9ac5ff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  align-self: center;
+}
+.qhelp-body a {
+  color: #ffb454;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(255, 180, 84, 0.45);
+}
+.qhelp-body a:hover { color: #ffd08a; border-bottom-style: solid; }
+.qhelp-body .qval-plain { color: rgba(246, 250, 255, 0.65); font-style: italic; }
 
 /* "Ours" row — HF-orange / amber accent, bold contrast */
 table.results tr.ours td,
