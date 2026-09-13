@@ -478,11 +478,10 @@ table.results tr.muted td { color: #7a7060; font-style: italic; }
 /* Small in-text version (used in the note paragraph, no wrapper) */
 .qhelp-badge-inline { vertical-align: 1px; margin: 0 1px; }
 
-/* The hover panel — a proper card with clickable model links */
+/* The hover panel — position:fixed so it escapes the table's overflow:hidden.
+   JS in index.html positions it near the badge on hover. */
 .qhelp-body {
-  position: absolute;
-  right: -6px;
-  top: calc(100% + 8px);
+  position: fixed;
   min-width: 300px;
   max-width: 380px;
   padding: 12px 14px;
@@ -499,19 +498,21 @@ table.results tr.muted td { color: #7a7060; font-style: italic; }
   visibility: hidden;
   pointer-events: none;
   transition: opacity .12s ease, visibility .12s ease;
-  z-index: 30;
+  z-index: 1000;
+  /* JS sets left/top to badge coords on hover */
+  left: 0; top: 0;
 }
 .qhelp:hover .qhelp-body,
-.qhelp:focus-within .qhelp-body {
+.qhelp:focus-within .qhelp-body,
+.qhelp-body.on {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
-/* Arrow pointing up to the badge */
 .qhelp-body::before {
   content: "";
   position: absolute;
-  right: 10px;
+  right: 14px;
   top: -6px;
   border: 6px solid transparent;
   border-bottom-color: #1e2836;
