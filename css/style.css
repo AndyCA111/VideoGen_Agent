@@ -264,6 +264,39 @@ table.results td, table.results th,
   box-shadow: none;
 }
 
+/* 3-column titles sitting above the teaser image, aligned to the raster columns.
+   Column proportions (measured from demo.png at 2525×1207 after cropping the
+   old raster titles): User Prompt ≈ 0..500 (19.8 %), Tool Use ≈ 500..1370
+   (34.5 %), Generated Video ≈ 1370..2525 (45.7 %). */
+.teaser-cols {
+  display: grid;
+  grid-template-columns: 19.8% 34.5% 45.7%;
+  align-items: end;
+  margin: 0 0 10px;
+  padding: 0;
+  color: #1e2836;
+}
+.teaser-col {
+  font-family: "Satoshi", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.25;
+  text-align: center;
+  letter-spacing: -0.005em;
+  padding: 0 4px;
+}
+.teaser-col .teaser-sub {
+  font-weight: 400;
+  font-size: 0.82rem;
+  color: rgba(30, 40, 55, 0.65);
+  margin-left: 4px;
+  letter-spacing: 0;
+}
+@media (max-width: 720px) {
+  .teaser-col { font-size: 0.85rem; }
+  .teaser-col .teaser-sub { display: block; font-size: 0.72rem; margin-left: 0; }
+}
+
 /* ─────────────────────────────── METHOD: tool groups ─────────────────────────────── */
 /* Same design language as the results table:
    ivory body, dark-slate outline + shadow, dark title bar, orange-amber accent */
