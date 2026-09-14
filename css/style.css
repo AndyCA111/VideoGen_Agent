@@ -502,8 +502,9 @@ table.results tr.muted td { color: #7a7060; font-style: italic; }
   /* JS sets left/top to badge coords on hover */
   left: 0; top: 0;
 }
-.qhelp:hover .qhelp-body,
-.qhelp:focus-within .qhelp-body,
+/* Only the JS-added .on class shows the panel — without it the pure CSS
+   :hover rule would flash the panel at the viewport top-left corner
+   (its default position:fixed origin) before the JS could reposition it. */
 .qhelp-body.on {
   opacity: 1;
   visibility: visible;
