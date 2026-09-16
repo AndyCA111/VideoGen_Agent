@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VideoGen-Agent &middot; Agent Loop &mdash; Multi-Shot Rain Gutter</title>
+<meta name="description" content="Side-by-side visualisation of the VideoGen-Agent loop on a Multi-Shot prompt: single-pass Seedance 2 on the left, an animated trajectory of the agent's tool calls on the right." />
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css?v=26" />
+<link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+<link rel="shortcut icon" href="favicon.ico" />
+<style>
+  header.hero { padding-top: 40px; padding-bottom: 22px; }
+  .subtitle { color:#4a4a4a; font-size:1rem; margin: 6px 0 0; max-width: 60rem; }
+  .backlink { display:inline-block; margin-top:14px; font-size:.9rem; color:#3a3a3a; text-decoration:none; border-bottom:1px dashed #999; }
+  .backlink:hover { color:#000; border-bottom-color:#000; }
+  .legend-row { display:flex; gap:22px; align-items:center; flex-wrap:wrap; margin: 10px 0 4px; font-size:.9rem; color:#3a3a3a; }
+  .swatch { display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:middle; }
+  .swatch.bs { background:#c94a4a; }
+  .swatch.ag { background:#2e7d5b; }
+  .id-tag { font-family: "JetBrains Mono", ui-monospace, monospace; font-size:.78rem; color:#7a7a7a; margin-left:6px; }
+
+  /* two-column player row */
+  .agent-loop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+    margin-top: 12px;
+  }
+  .agent-loop figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .agent-loop video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    background: #111;
+  }
+  .agent-loop figcaption {
+    margin-top: 8px;
+    font-size: 0.92rem;
+    color: #333;
+    line-height: 1.35;
+  }
+  .agent-loop figcaption strong { color: #111; }
+  .agent-loop figcaption .kb {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.82rem;
+    color: #666;
+  }
+  .col-title {
+    font-family: "Satoshi", sans-serif;
+    font-weight: 700;
+    font-size: 1.02rem;
+    margin: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .col-title .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 2px;
+  }
+  .col-title .dot.bs { background:#c94a4a; }
+  .col-title .dot.ag { background:#2e7d5b; }
+
+  .prompt-card {
+    background: #f8f0d6;
+    border: 1px solid #c0aa6e;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0 18px 0;
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+  .prompt-card .label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    color: #785528;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .final-row {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .final-row video {
+    width: 100%;
+    max-width: 720px;
+    display: block;
+    border-radius: 8px;
+    background: #111;
+    margin: 0 auto;
+  }
+  .final-caption {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #444;
+  }
+
+  @media (max-width: 780px) {
+    .agent-loop { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<canvas id="bg-particles" aria-hidden="true"></canvas>
+
+<header class="hero">
+  <div class="container">
+    <h1 class="title">
+      Visualising the agent loop:<br />
+      <span class="highlight">Multi-Shot &mdash; a three-phase rain gutter</span>
+    </h1>
+    <p class="subtitle">
+      Left: a single-pass call to <strong>Seedance&nbsp;2 Pro Fast</strong> with the full prompt.
+      Right: the <em>same</em> Seedance&nbsp;2 backend driven by <strong>VideoGen-Agent</strong> &mdash;
+      the trained policy parses the prompt into second-level phases, then chains
+      <span class="kb">Text-to-Video</span> and <span class="kb">Image-to-Video</span> tool calls
+      to build the three phases one after another.
+    </p>
+    <div class="legend-row">
+      <span><span class="swatch bs"></span>Seedance&nbsp;2 Pro Fast (single-pass baseline)</span>
+      <span><span class="swatch ag"></span>VideoGen-Agent &mdash; tool-call trajectory (ours)</span>
+    </div>
+    <a class="backlink" href="index.html">&larr; Back to main page</a>
+  </div>
+</header>
+
+<main>
+
+<section id="loop" class="block">
+  <div class="container">
+    <h2>One prompt, two policies <span class="id-tag">MS &middot; #5125</span></h2>
+
+    <div class="prompt-card">
+      <div class="label">USER PROMPT</div>
+      Begins with a heavy rain gutter clogged with leaves and overflowing.
+      Middle: the weight cracks the bracket.
+      Final: the gutter section swings down and dumps water and leaves on the walkway.
+    </div>
+
+    <div class="agent-loop">
+      <figure>
+        <div class="col-title"><span class="dot bs"></span>Seedance&nbsp;2 Pro Fast &middot; single-pass</div>
+        <video src="videos/agent_trajectory/ms5125_baseline.mp4"
+               autoplay loop muted playsinline preload="auto"></video>
+        <figcaption>
+          One call, one 12-second clip. The model tends to render only the
+          first phase &mdash; leaves in the gutter &mdash; and neither the
+          bracket cracking nor the collapse arrives on schedule.
+        </figcaption>
+      </figure>
+      <figure>
+        <div class="col-title"><span class="dot ag"></span>VideoGen-Agent &middot; trajectory</div>
+        <video src="videos/agent_trajectory/ms5125_trajectory.mp4"
+               autoplay loop muted playsinline preload="auto"></video>
+        <figcaption>
+          The agent parses three second-anchored phases, generates
+          <span class="kb">Phase&nbsp;1</span> with <span class="kb">Seedance&nbsp;T2V</span>,
+          then extracts the last frame and drives
+          <span class="kb">Phase&nbsp;2</span> / <span class="kb">Phase&nbsp;3</span> through
+          <span class="kb">Seedance&nbsp;I2V</span>. The three clips playing inside the
+          panels are the actual intermediate artefacts the agent produced.
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="final-row">
+      <video src="videos/agent_trajectory/ms5125_agent_final.mp4"
+             autoplay loop muted playsinline preload="auto"></video>
+      <p class="final-caption">
+        <strong>Concatenated agent output</strong> &mdash; the three phase clips stitched into a
+        single 12-second video. All three prompt beats land in the right order and in the
+        right window.
+      </p>
+    </div>
+
+    <p class="note" style="margin-top:26px;">
+      This is the same case shown in the paper's teaser figure (MS row).
+      For the other agent-loop demos &mdash; single-entity retrieval,
+      multi-entity identity composition, physics simulation &mdash; see the
+      <a href="index.html">main page</a> and <a href="workflows.html">workflow gallery</a>.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2026 VideoGen-Agent team. Agent-loop visualisation &mdash; MS #5125.</p>
+  </div>
+</footer>
+
+<script src="js/particles.js?v=1" defer></script>
+</body>
+</html>
