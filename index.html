@@ -16,6 +16,9 @@
 <link rel="icon" type="image/png" sizes="16x16"  href="images/favicon-16.png" />
 <link rel="apple-touch-icon" sizes="180x180"     href="apple-touch-icon.png" />
 <link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" href="css/trajectory-demo.css">
+<script src="js/demo-data.js" defer></script>
+<script src="js/trajectory-demo.js" defer></script>
 </head>
 <body>
 <canvas id="bg-particles" aria-hidden="true"></canvas>
@@ -82,29 +85,20 @@
      (dynamic, default) and the paper's pre-abstract static figure. -->
 <div class="teaser-wrap">
   <div class="container">
-    <button type="button" class="teaser-switch" title="Switch between dynamic view and static image"
-            aria-label="Switch between dynamic view and static image">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
-           stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M7 4v12"/>
-        <path d="M4 7l3-3 3 3"/>
-        <path d="M17 20V8"/>
-        <path d="M20 17l-3 3-3-3"/>
-      </svg>
-    </button>
+    <div class="demo-mode-bar"><span>Explore the agent in action</span><div role="group" aria-label="Demo view"><button type="button" data-demo-mode="dynamic" aria-pressed="true">▶ Dynamic demo</button><button type="button" data-demo-mode="static" aria-pressed="false">Static figure</button></div></div>
 
     <div class="teaser-media" data-mode="dynamic">
-      <!-- dynamic: the composite as WebM VP9 with alpha; the site's gradient
-           background shows through the transparent gaps. No MP4 fallback here —
-           MP4 can't carry alpha, and falling back to it made the video look
-           like it had a hard white background. Browsers without WebM-alpha
-           support can flip the top-right switch to the static image. -->
-      <video class="teaser-video"
-             src="videos/agent_trajectory/ms5125_composite.webm"
-             type="video/webm"
-             autoplay loop muted playsinline preload="auto"
-             aria-label="VideoGen-Agent trajectory on MS #5125"></video>
+      <section id="trajectory-demo" class="trajectory-demo" aria-label="Interactive comparison of Single Model and VideoGen-Agent">
+        <nav class="demo-tabs" aria-label="Choose a task"></nav>
+        <div class="demo-prompt"><span class="demo-eyebrow">THE SAME PROMPT. TWO APPROACHES.</span><p id="demo-prompt-text"></p></div>
+        <div class="demo-comparison">
+          <section class="demo-baseline"><header class="demo-column-head"><div><span class="demo-eyebrow">DIRECT GENERATION</span><h2>Single Model</h2></div><span class="demo-pill">One pass</span></header><div id="demo-baseline-videos"></div><p class="demo-critique" id="demo-critique"></p></section>
+          <section class="demo-agent"><header class="demo-column-head"><div><span class="demo-eyebrow">REASON · ACT · REFINE</span><h2>VideoGen-Agent</h2></div><span class="demo-pill demo-live">Agent workflow</span></header><div class="demo-step-nav" aria-label="Trajectory steps"></div><div id="demo-step-stage"></div></section>
+        </div>
+        <footer class="demo-controls"><div class="demo-transport"><button type="button" id="demo-play">Pause</button><button type="button" id="demo-replay">↺ Replay</button><span id="demo-position"></span></div><div class="demo-track" role="progressbar" aria-label="Trajectory progress" aria-valuemin="0" aria-valuemax="100"><span></span></div><a href="workflows.html" target="_blank" rel="noopener">Full trajectories ↗</a></footer>
+        <p class="demo-caption">Recorded tool-use trajectories · Animated playback, not live generation</p>
+      </section>
+      <noscript><p>Enable JavaScript for the interactive demo, or <a href="workflows.html">view all six recorded workflows</a>.</p></noscript>
 
       <!-- static: paper's original pre-abstract figure with the raster-column titles above -->
       <div class="teaser-static">
@@ -121,26 +115,7 @@
   </div>
 </div>
 
-<script>
-  (function () {
-    const media  = document.querySelector('.teaser-media');
-    const video  = media && media.querySelector('.teaser-video');
-    const btn    = document.querySelector('.teaser-switch');
-    if (!media || !btn) return;
-    btn.addEventListener('click', () => {
-      const next = media.getAttribute('data-mode') === 'dynamic' ? 'static' : 'dynamic';
-      media.setAttribute('data-mode', next);
-      if (video) {
-        if (next === 'dynamic') {
-          video.currentTime = 0;
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      }
-    });
-  })();
-</script>
+
 
 <!-- ────────────────────────────────── ABSTRACT ────────────────────────────────── -->
 <section id="abstract" class="block">
