@@ -51,7 +51,7 @@ window.VIDEOGEN_DEMO = [
     "critique": "Without a visual reference, the named character’s identity is not explicitly grounded.",
     "baseline": [
       "videos/seedance_baselines/vks_3472.mp4",
-      null
+      "videos/seedance_baselines/vks_3472_sd2.mp4"
     ],
     "steps": [
       {
@@ -100,7 +100,7 @@ window.VIDEOGEN_DEMO = [
     "critique": "Text alone provides no explicit visual reference for each of the three named directors.",
     "baseline": [
       "videos/seedance_baselines/vkm_10004.mp4",
-      null
+      "videos/seedance_baselines/vkm_10004_sd2.mp4"
     ],
     "steps": [
       {
@@ -181,7 +181,7 @@ window.VIDEOGEN_DEMO = [
     "critique": "A single text-to-video call does not explicitly simulate the specified collision dynamics.",
     "baseline": [
       "videos/seedance_baselines/ps_10002.mp4",
-      null
+      "videos/seedance_baselines/ps_10002_sd2.mp4"
     ],
     "steps": [
       {
@@ -224,7 +224,7 @@ window.VIDEOGEN_DEMO = [
     "critique": "The draft misses the cricket ball: Grounding DINO detects it in 0 of 6 sampled frames.",
     "baseline": [
       "test_videos_dino/cricket_direct.mp4",
-      null
+      "videos/seedance_baselines/cs_1125_sd2.mp4"
     ],
     "steps": [
       {
