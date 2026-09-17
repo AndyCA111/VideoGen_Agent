@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/style.css?v=28" />
+<link rel="stylesheet" href="css/style.css?v=29" />
 <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 <link rel="icon" type="image/png" sizes="32x32"  href="images/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16"  href="images/favicon-16.png" />
@@ -95,11 +95,15 @@
     </button>
 
     <div class="teaser-media" data-mode="dynamic">
-      <!-- dynamic: the composite mp4 (has its own prompt / column headers baked in) -->
+      <!-- dynamic: the composite (WebM VP9 with alpha, MP4 fallback flattened
+           onto white for older Safari). The video has its own prompt / column
+           headers baked in; the page background shows through the transparent gaps. -->
       <video class="teaser-video"
-             src="videos/agent_trajectory/ms5125_composite.mp4"
              autoplay loop muted playsinline preload="auto"
-             aria-label="VideoGen-Agent trajectory on MS #5125"></video>
+             aria-label="VideoGen-Agent trajectory on MS #5125">
+        <source src="videos/agent_trajectory/ms5125_composite.webm" type="video/webm" />
+        <source src="videos/agent_trajectory/ms5125_composite.mp4"  type="video/mp4"  />
+      </video>
 
       <!-- static: paper's original pre-abstract figure with the raster-column titles above -->
       <div class="teaser-static">

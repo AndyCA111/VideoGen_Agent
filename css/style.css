@@ -299,9 +299,9 @@ table.results td, table.results th,
   display: block;
   width: 100%;
   height: auto;
-  background: #f4f4f7;
-  border-radius: 8px;
-  box-shadow: 0 6px 22px rgba(20, 30, 55, 0.10);
+  background: transparent;   /* video is transparent-bg WebM VP9 alpha */
+  border-radius: 0;
+  box-shadow: none;
 }
 
 /* 3-column titles sitting above the teaser image, aligned to the raster columns.
