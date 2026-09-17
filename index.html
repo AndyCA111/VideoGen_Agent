@@ -95,15 +95,16 @@
     </button>
 
     <div class="teaser-media" data-mode="dynamic">
-      <!-- dynamic: the composite (WebM VP9 with alpha, MP4 fallback flattened
-           onto white for older Safari). The video has its own prompt / column
-           headers baked in; the page background shows through the transparent gaps. -->
+      <!-- dynamic: the composite as WebM VP9 with alpha; the site's gradient
+           background shows through the transparent gaps. No MP4 fallback here —
+           MP4 can't carry alpha, and falling back to it made the video look
+           like it had a hard white background. Browsers without WebM-alpha
+           support can flip the top-right switch to the static image. -->
       <video class="teaser-video"
+             src="videos/agent_trajectory/ms5125_composite.webm"
+             type="video/webm"
              autoplay loop muted playsinline preload="auto"
-             aria-label="VideoGen-Agent trajectory on MS #5125">
-        <source src="videos/agent_trajectory/ms5125_composite.webm" type="video/webm" />
-        <source src="videos/agent_trajectory/ms5125_composite.mp4"  type="video/mp4"  />
-      </video>
+             aria-label="VideoGen-Agent trajectory on MS #5125"></video>
 
       <!-- static: paper's original pre-abstract figure with the raster-column titles above -->
       <div class="teaser-static">
