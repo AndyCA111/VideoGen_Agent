@@ -264,32 +264,33 @@ table.results td, table.results th,
   box-shadow: none;
 }
 
-/* Dynamic / 静态图 toggle above the teaser */
-.teaser-toggle {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0;
-  margin: 0 0 12px;
-}
-.teaser-toggle-btn {
-  font-family: "Satoshi", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 600;
-  font-size: 0.86rem;
-  padding: 6px 14px;
+/* One tiny icon button that swaps between the dynamic and static teaser views. */
+.teaser-wrap .container { position: relative; }
+.teaser-switch {
+  position: absolute;
+  top: 4px;
+  right: 24px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: #4a5568;
-  background: rgba(255, 255, 255, 0.68);
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(30, 60, 120, 0.22);
+  border-radius: 50%;
   cursor: pointer;
-  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  box-shadow: 0 2px 6px rgba(20, 30, 55, 0.10);
+  transition: color 120ms ease, background 120ms ease, transform 160ms ease;
+  z-index: 3;
 }
-.teaser-toggle-btn:first-child { border-radius: 6px 0 0 6px; }
-.teaser-toggle-btn:last-child  { border-radius: 0 6px 6px 0; border-left: none; }
-.teaser-toggle-btn:hover { color: #1e2836; }
-.teaser-toggle-btn.is-active {
-  background: #1e2836;
-  color: #fff;
-  border-color: #1e2836;
+.teaser-switch:hover {
+  color: #1e2836;
+  background: #ffffff;
 }
+.teaser-switch:active { transform: rotate(180deg); }
+.teaser-switch svg { display: block; }
 
 /* Only one of the two views is rendered, controlled by data-mode. */
 .teaser-media[data-mode="dynamic"] .teaser-static { display: none; }
