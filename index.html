@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/style.css?v=26" />
+<link rel="stylesheet" href="css/style.css?v=27" />
 <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 <link rel="icon" type="image/png" sizes="32x32"  href="images/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16"  href="images/favicon-16.png" />
@@ -78,17 +78,64 @@
 
 <main>
 
-<!-- Teaser: paper's pre-abstract figure, transparent-bg PNG floating on the site background -->
+<!-- Teaser: switchable between the animated MS-#5125 agent-loop composite
+     (dynamic, default) and the paper's pre-abstract static figure. -->
 <div class="teaser-wrap">
   <div class="container">
-    <div class="teaser-cols" aria-hidden="true">
-      <div class="teaser-col c1">User Prompt</div>
-      <div class="teaser-col c2">Tool Use</div>
-      <div class="teaser-col c3">Generated Video <span class="teaser-sub">(4 key frames shown)</span></div>
+    <div class="teaser-toggle" role="tablist" aria-label="Teaser view mode">
+      <button type="button" class="teaser-toggle-btn is-active"
+              data-mode="dynamic" aria-selected="true">Dynamic</button>
+      <button type="button" class="teaser-toggle-btn"
+              data-mode="static" aria-selected="false">静态图</button>
     </div>
-    <img src="images/demo.png" alt="VideoGen-Agent teaser — six prompts × tool use × generated video" class="teaser-img" />
+
+    <div class="teaser-media" data-mode="dynamic">
+      <!-- dynamic: the composite mp4 (has its own prompt / column headers baked in) -->
+      <video class="teaser-video"
+             src="videos/agent_trajectory/ms5125_composite.mp4"
+             autoplay loop muted playsinline preload="auto"
+             aria-label="VideoGen-Agent trajectory on MS #5125"></video>
+
+      <!-- static: paper's original pre-abstract figure with the raster-column titles above -->
+      <div class="teaser-static">
+        <div class="teaser-cols" aria-hidden="true">
+          <div class="teaser-col c1">User Prompt</div>
+          <div class="teaser-col c2">Tool Use</div>
+          <div class="teaser-col c3">Generated Video <span class="teaser-sub">(4 key frames shown)</span></div>
+        </div>
+        <img src="images/demo.png"
+             alt="VideoGen-Agent teaser — six prompts × tool use × generated video"
+             class="teaser-img" />
+      </div>
+    </div>
   </div>
 </div>
+
+<script>
+  (function () {
+    const media = document.querySelector('.teaser-media');
+    const video = media && media.querySelector('.teaser-video');
+    document.querySelectorAll('.teaser-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.mode;
+        media.setAttribute('data-mode', mode);
+        document.querySelectorAll('.teaser-toggle-btn').forEach(b => {
+          const on = b === btn;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        if (video) {
+          if (mode === 'dynamic') {
+            video.currentTime = 0;
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        }
+      });
+    });
+  })();
+</script>
 
 <!-- ────────────────────────────────── ABSTRACT ────────────────────────────────── -->
 <section id="abstract" class="block">

@@ -264,6 +264,45 @@ table.results td, table.results th,
   box-shadow: none;
 }
 
+/* Dynamic / 静态图 toggle above the teaser */
+.teaser-toggle {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0;
+  margin: 0 0 12px;
+}
+.teaser-toggle-btn {
+  font-family: "Satoshi", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 0.86rem;
+  padding: 6px 14px;
+  color: #4a5568;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(30, 60, 120, 0.22);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.teaser-toggle-btn:first-child { border-radius: 6px 0 0 6px; }
+.teaser-toggle-btn:last-child  { border-radius: 0 6px 6px 0; border-left: none; }
+.teaser-toggle-btn:hover { color: #1e2836; }
+.teaser-toggle-btn.is-active {
+  background: #1e2836;
+  color: #fff;
+  border-color: #1e2836;
+}
+
+/* Only one of the two views is rendered, controlled by data-mode. */
+.teaser-media[data-mode="dynamic"] .teaser-static { display: none; }
+.teaser-media[data-mode="static"]  .teaser-video  { display: none; }
+.teaser-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #f4f4f7;
+  border-radius: 8px;
+  box-shadow: 0 6px 22px rgba(20, 30, 55, 0.10);
+}
+
 /* 3-column titles sitting above the teaser image, aligned to the raster columns.
    Column proportions (measured from demo.png at 2525×1207 after cropping the
    old raster titles): User Prompt ≈ 0..500 (19.8 %), Tool Use ≈ 500..1370
