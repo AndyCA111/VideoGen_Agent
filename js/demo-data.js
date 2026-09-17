@@ -8,7 +8,7 @@ window.VIDEOGEN_DEMO = [
     "critique": "Without knowledge lookup, the named posture is left to the generator’s prior.",
     "baseline": [
       "videos/seedance_baselines/kp_1.mp4",
-      null
+      "videos/seedance_baselines/kp_1_sd2.mp4"
     ],
     "steps": [
       {
