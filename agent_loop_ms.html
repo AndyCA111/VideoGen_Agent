@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>VideoGen-Agent &middot; Agent Loop &mdash; Multi-Shot Rain Gutter</title>
-<meta name="description" content="Side-by-side visualisation of the VideoGen-Agent loop on a Multi-Shot prompt: single-pass Seedance 1 and Seedance 2 baselines on the left, the agent's tool-call trajectory and its stitched output on the right." />
+<meta name="description" content="A single composite video for the VideoGen-Agent loop on a Multi-Shot prompt: two single-pass baselines on the left, an animated tool-call trajectory on the right, all under one seconds-partitioned prompt." />
 <link rel="preconnect" href="https://api.fontshare.com" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,95 +24,31 @@
   .swatch.bs { background:#c94a4a; }
   .swatch.ag { background:#2e7d5b; }
   .id-tag { font-family: "JetBrains Mono", ui-monospace, monospace; font-size:.78rem; color:#7a7a7a; margin-left:6px; }
-  .kb {
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 0.82rem;
-    color: #666;
-  }
 
-  /* two-column layout — each column stacks two players */
-  .agent-loop {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px;
-    align-items: start;
-    margin-top: 14px;
+  .composite-wrap {
+    margin: 8px 0 4px 0;
   }
-  .col-title {
-    font-family: "Satoshi", sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    margin: 0 0 8px 0;
-    color: #111;
-  }
-  .col-title .dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-right: 8px;
-    vertical-align: 1px;
-  }
-  .col-title .dot.bs { background:#c94a4a; }
-  .col-title .dot.ag { background:#2e7d5b; }
-
-  .stack figure {
-    margin: 0 0 18px 0;
-    display: flex;
-    flex-direction: column;
-  }
-  .stack figure:last-child { margin-bottom: 0; }
-  .stack video {
+  .composite-wrap video {
     width: 100%;
-    height: auto;
+    max-width: 1440px;
     display: block;
-    border-radius: 8px;
+    margin: 0 auto;
+    border-radius: 10px;
     background: #111;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
   }
-  .stack figcaption {
-    margin-top: 6px;
-    font-size: 0.9rem;
-    color: #333;
-    line-height: 1.4;
-  }
-  .stack figcaption strong { color: #111; }
-  .row-label {
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 0.72rem;
-    color: #666;
-    letter-spacing: 0.06em;
-    margin: 0 0 4px 0;
-  }
-
-  .prompt-card {
-    background: #f8f0d6;
-    border: 1px solid #c0aa6e;
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin: 12px 0 18px 0;
+  .composite-caption {
+    max-width: 1120px;
+    margin: 14px auto 0 auto;
     font-size: 0.95rem;
-    line-height: 1.5;
+    color: #333;
+    line-height: 1.55;
   }
-  .prompt-card .label {
+  .composite-caption strong { color: #111; }
+  .composite-caption .kb {
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 0.72rem;
-    color: #785528;
-    letter-spacing: 0.08em;
-    margin-bottom: 4px;
-  }
-  .prompt-card .slot {
-    display: inline-block;
-    padding: 0 6px;
-    margin: 0 1px;
-    background: rgba(120, 85, 40, 0.10);
-    border-radius: 3px;
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 0.85em;
-    color: #785528;
-  }
-
-  @media (max-width: 780px) {
-    .agent-loop { grid-template-columns: 1fr; }
+    font-size: 0.85rem;
+    color: #555;
   }
 </style>
 </head>
@@ -126,12 +62,13 @@
       <span class="highlight">Multi-Shot &mdash; a three-phase rain gutter</span>
     </h1>
     <p class="subtitle">
-      Left: two single-pass baselines &mdash; <strong>Seedance&nbsp;1 Pro Fast</strong> on top,
-      <strong>Seedance&nbsp;2 Pro Fast</strong> below &mdash; both called directly with the full
-      second-anchored prompt.
-      Right: the <em>same</em> Seedance&nbsp;2 backend driven by <strong>VideoGen-Agent</strong>,
-      first as an animated trajectory of the tool calls it made, then as the concatenated
-      output that fell out of that trajectory.
+      One composite view. Left half: the two single-pass baselines
+      (<strong>Seedance&nbsp;1 Pro Fast</strong> on top, <strong>Seedance&nbsp;2 Pro Fast</strong> below)
+      called directly with the seconds-partitioned prompt.
+      Right half: the <em>same</em> Seedance&nbsp;2 backend driven by <strong>VideoGen-Agent</strong> &mdash;
+      an animated cascade of the tool calls it made (<span style="font-family:'JetBrains Mono',monospace;font-size:.85em;color:#555;">parse_seconds</span>
+      &rarr; three phase generations &rarr; <span style="font-family:'JetBrains Mono',monospace;font-size:.85em;color:#555;">concat</span>).
+      The clips playing inside each phase panel are the real intermediate artefacts.
     </p>
     <div class="legend-row">
       <span><span class="swatch bs"></span>Single-pass baselines (Seedance&nbsp;1 / Seedance&nbsp;2)</span>
@@ -147,69 +84,19 @@
   <div class="container">
     <h2>One prompt, two policies <span class="id-tag">MS &middot; #5125</span></h2>
 
-    <div class="prompt-card">
-      <div class="label">USER PROMPT</div>
-      In a 12-second video, <span class="slot">0&ndash;4s</span>: a heavy rain gutter clogged with leaves and overflowing.
-      <span class="slot">4&ndash;8s</span>: the weight cracks the bracket.
-      <span class="slot">8&ndash;12s</span>: the gutter section swings down and dumps water and leaves on the walkway.
-    </div>
-
-    <div class="agent-loop">
-      <!-- LEFT column: two baselines stacked -->
-      <div class="stack">
-        <div class="col-title"><span class="dot bs"></span>Single-pass baselines</div>
-
-        <figure>
-          <div class="row-label">SEEDANCE 1 PRO FAST</div>
-          <video src="videos/agent_trajectory/ms5125_baseline_sd1.mp4"
-                 autoplay loop muted playsinline preload="auto"></video>
-          <figcaption>
-            One call, one clip. The model stays in the first beat &mdash; leaves in
-            a full gutter &mdash; and never reaches the bracket break or the collapse.
-          </figcaption>
-        </figure>
-
-        <figure>
-          <div class="row-label">SEEDANCE 2 PRO FAST</div>
-          <video src="videos/agent_trajectory/ms5125_baseline_sd2.mp4"
-                 autoplay loop muted playsinline preload="auto"></video>
-          <figcaption>
-            Same failure mode with a stronger backend: the second-anchored beats
-            do not land in their windows even when the model can render each of
-            them in isolation.
-          </figcaption>
-        </figure>
-      </div>
-
-      <!-- RIGHT column: trajectory + concatenated agent output -->
-      <div class="stack">
-        <div class="col-title"><span class="dot ag"></span>VideoGen-Agent &middot; Seedance&nbsp;2 backend</div>
-
-        <figure>
-          <div class="row-label">AGENT TRAJECTORY (VISUALISATION)</div>
-          <video src="videos/agent_trajectory/ms5125_trajectory.mp4"
-                 autoplay loop muted playsinline preload="auto"></video>
-          <figcaption>
-            The agent parses three second-anchored phases, generates
-            <span class="kb">Phase&nbsp;1</span> with <span class="kb">Seedance&nbsp;T2V</span>,
-            then extracts the last frame and drives
-            <span class="kb">Phase&nbsp;2</span> / <span class="kb">Phase&nbsp;3</span> through
-            <span class="kb">Seedance&nbsp;I2V</span>. The three clips playing inside the panels
-            are the real intermediate artefacts the agent produced.
-          </figcaption>
-        </figure>
-
-        <figure>
-          <div class="row-label">CONCATENATED AGENT OUTPUT</div>
-          <video src="videos/agent_trajectory/ms5125_agent_final.mp4"
-                 autoplay loop muted playsinline preload="auto"></video>
-          <figcaption>
-            The three phase clips stitched into a single 12-second video &mdash; the
-            same clips shown in the trajectory above. All three prompt beats land
-            in the right order and in the right window.
-          </figcaption>
-        </figure>
-      </div>
+    <div class="composite-wrap">
+      <video src="videos/agent_trajectory/ms5125_composite.mp4"
+             autoplay loop muted playsinline preload="auto"></video>
+      <p class="composite-caption">
+        <strong>How to read this frame.</strong> The full user prompt sits in the top banner,
+        with the three second-anchored beats highlighted. Both baselines stay near the first
+        beat &mdash; leaves in the gutter &mdash; and never reach the bracket break or the
+        collapse. On the right, the agent parses the prompt into three phases, runs
+        <span class="kb">Seedance&nbsp;T2V</span> for Phase&nbsp;1, then chains
+        <span class="kb">extract_last_frame</span> &rarr; <span class="kb">Seedance&nbsp;I2V</span>
+        for Phase&nbsp;2 and Phase&nbsp;3, and finally concatenates the three clips into a
+        single 12-second video.
+      </p>
     </div>
 
     <p class="note" style="margin-top:26px;">
