@@ -67,14 +67,16 @@
       </a>
     </div>
     <p class="tldr">
-      <strong>TL;DR.</strong> <strong>VideoGen-Agent</strong> learns to dynamically
-      compose search, physics simulation, video generation, and visual verification
-      tools into prompt-specific workflows. Trained through supervised tool-use
-      learning followed by agentic reinforcement learning, it improves Seedance&nbsp;1
-      Pro Fast from 56.5 to <strong>75.6</strong> on VABench. Upgrading the
-      generation backend to Seedance&nbsp;2 at inference time, without retraining
-      the policy, further raises the score to <strong>84.7</strong>, demonstrating
-      transferable tool-use capabilities across video-generation backends.
+      <strong>TL;DR.</strong> <strong>VideoGen-Agent</strong> is a multimodal
+      agent trained through <em>multitask agentic reinforcement learning</em>
+      to coordinate augmentation, generation, and visual verification tools for
+      video generation. On <strong>VABench</strong> it improves its base
+      Seedance&nbsp;1.0 T2V generator by <strong>+19.1</strong> points, from
+      56.5 to <strong>75.6</strong>. Upgrading the generation tools to Toolset&nbsp;2
+      at inference time, without any additional agent training, further raises the
+      score to <strong>86.1</strong> &mdash; and human raters prefer the upgraded
+      configuration over the strongest standalone baseline in
+      <strong>84.3%</strong> of side-by-side comparisons.
     </p>
   </div>
 </header>
@@ -122,28 +124,30 @@
   <div class="container">
     <h2>Abstract</h2>
     <p>
-      Recent advances in video generative models have enabled the generation of
-      high-fidelity, temporally coherent videos. However, they remain fundamentally
-      constrained by frozen internal knowledge, weak physical reasoning, and absent
-      temporal scheduling, often failing on real-world prompts that name specific
-      entities, require physically plausible dynamics, or prescribe ordered phases.
-      In this paper, we present <strong>VideoGen-Agent</strong>, the first attempt to
-      train an agentic reinforcement learning framework for video generation that
-      performs multi-step reasoning and tool use to ground every aspect of the
-      generation process. To achieve this, we first construct an agentic
-      text-to-video training dataset with diverse, category-balanced prompts across
-      six tasks, each targeting a distinct capability gap in current models. Using
-      this dataset, we train VideoGen-Agent with supervised fine-tuning (SFT),
-      followed by reinforcement learning (RL) via Group Relative Policy Optimization
-      (GRPO), guided by a category-aware hybrid reward that combines tool format,
-      tool use quality and vision language model (VLM) as video-judge signals to
-      provide stable and informative supervision for tool-use agentic rollouts. We
-      further introduce <strong>VABench</strong>, a held-out benchmark of 600 prompts
-      that explicitly evaluates search-grounded knowledge, identity preservation,
-      physical plausibility, and multi-phase temporal reasoning. Experiments show
-      that VideoGen-Agent brings substantial gains, improving the video generation
-      baseline by around <strong>19</strong> points on VABench. We hope this work can
-      serve as an open foundation for tool use video generation agents.
+      Recent advances in video generative models have enabled high-fidelity,
+      temporally coherent video generation. However, these models often struggle
+      to satisfy prompts requiring specialized knowledge, specific identities,
+      physical consistency, or ordered events. In this paper, we present
+      <strong>VideoGen-Agent</strong>, a multimodal agent trained through
+      <em>multitask agentic reinforcement learning</em> to use external tools for
+      video generation. The agent coordinates <em>augmentation</em>, <em>generation</em>,
+      and <em>verification</em> tools through multi-turn interactions, using the
+      prompt and intermediate observations to guide its decisions. We train a
+      shared policy on a category-balanced dataset spanning six tasks. Supervised
+      fine-tuning on teacher-generated trajectories establishes tool-use behavior,
+      which is then refined through reinforcement learning. A category-aware hybrid
+      reward evaluates tool-call validity, task-appropriate tool use, and generated
+      video quality. We further introduce <strong>VABench</strong>, a held-out
+      benchmark of 600 prompts covering procedural knowledge, single- and
+      multi-entity identity preservation, physical consistency, scene composition,
+      and multi-shot temporal structure. On VABench, VideoGen-Agent improves over
+      its base text-to-video generator by <strong>19.1</strong> points, from
+      <strong>56.5</strong> to <strong>75.6</strong>. Upgrading the generation
+      tools further raises the score to <strong>86.1</strong> without additional
+      agent training. Human raters prefer the upgraded configuration over the
+      strongest standalone baseline in <strong>84.3%</strong> of comparisons. These
+      results support learning tool use across video-generation tasks and show that
+      the trained agent can benefit from subsequent advances in generation tools.
     </p>
   </div>
 </section>
@@ -216,7 +220,7 @@
 <section id="results" class="block alt">
   <div class="container">
     <h2>Per-category results on VABench</h2>
-    <p>Scores are the Gemini&nbsp;2.5&nbsp;Flash judge mean in <em>[0, 100]</em>. Higher is better.</p>
+    <p>Scores are the Gemini&nbsp;3.1&nbsp;Pro judge mean in <em>[0, 100]</em>, averaged within each category. Higher is better. <strong>Overall</strong> is the unweighted mean across all six categories.</p>
     <div class="table-wrap">
       <table class="results">
         <thead>
@@ -229,44 +233,43 @@
             <th>CS</th>
             <th>MS</th>
             <th>Overall</th>
-            <th>Overall<br/>(w/o MS)</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="group-head"><td colspan="9">Open-source baselines</td></tr>
+          <tr class="group-head"><td colspan="8">Open-source baselines</td></tr>
           <tr>
-            <td><a href="https://huggingface.co/THUDM/CogVideoX-5b" target="_blank" rel="noopener">CogVideoX-5B</a></td><td>38.9</td><td>48.3</td><td>37.8</td><td>41.6</td><td>50.4</td><td>30.8</td><td>41.3</td><td>43.4</td>
+            <td><a href="https://huggingface.co/THUDM/CogVideoX-5b" target="_blank" rel="noopener">CogVideoX-5B</a></td><td>38.9</td><td>48.3</td><td>37.8</td><td>41.6</td><td>50.4</td><td>30.8</td><td>41.3</td>
           </tr>
           <tr>
-            <td><a href="https://huggingface.co/genmo/mochi-1-preview" target="_blank" rel="noopener">Mochi-1</a></td><td>41.9</td><td>49.6</td><td>37.8</td><td>48.4</td><td>55.4</td><td>—</td><td>—</td><td>46.6</td>
+            <td><a href="https://huggingface.co/genmo/mochi-1-preview" target="_blank" rel="noopener">Mochi-1</a></td><td>41.9</td><td>49.6</td><td>37.8</td><td>48.4</td><td>55.4</td><td>28.3</td><td>43.6</td>
           </tr>
           <tr>
-            <td><a href="https://huggingface.co/tencent/HunyuanVideo" target="_blank" rel="noopener">HunyuanVideo&nbsp;13B</a></td><td>37.5</td><td>29.3</td><td>17.6</td><td>31.6</td><td>31.5</td><td>31.1</td><td>29.8</td><td>29.5</td>
+            <td><a href="https://huggingface.co/tencent/HunyuanVideo" target="_blank" rel="noopener">HunyuanVideo&nbsp;13B</a></td><td>37.5</td><td>29.3</td><td>17.6</td><td>31.6</td><td>31.5</td><td>31.1</td><td>29.8</td>
           </tr>
           <tr>
-            <td><a href="https://huggingface.co/Wan-AI/Wan2.1-T2V-14B" target="_blank" rel="noopener">Wan 2.1-T2V-14B</a></td><td>42.0</td><td>46.2</td><td>39.5</td><td>49.5</td><td>60.8</td><td>62.0</td><td>50.0</td><td>47.6</td>
+            <td><a href="https://huggingface.co/Wan-AI/Wan2.1-T2V-14B" target="_blank" rel="noopener">Wan 2.1-T2V-14B</a></td><td>42.0</td><td>46.2</td><td>39.5</td><td>49.5</td><td>60.8</td><td>62.0</td><td>50.0</td>
           </tr>
-          <tr class="group-head"><td colspan="9">Commercial baselines</td></tr>
+          <tr class="group-head"><td colspan="8">Commercial baselines</td></tr>
           <tr>
-            <td><a href="https://kling.kuaishou.com/en" target="_blank" rel="noopener">Kling 3.0</a></td><td>64.4</td><td>62.3</td><td>55.2</td><td>56.7</td><td>86.5</td><td>66.1</td><td>65.2</td><td>65.0</td>
-          </tr>
-          <tr>
-            <td><a href="https://hailuoai.video/" target="_blank" rel="noopener">Hailuo (MiniMax)</a></td><td>63.0</td><td>58.6</td><td>52.4</td><td>55.1</td><td>86.0</td><td>—</td><td>—</td><td>63.0</td>
+            <td><a href="https://kling.kuaishou.com/en" target="_blank" rel="noopener">Kling 3.0</a></td><td>64.4</td><td>62.3</td><td>55.2</td><td>56.7</td><td>86.5</td><td>66.1</td><td>65.2</td>
           </tr>
           <tr>
-            <td><a href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener">Seedance&nbsp;1 Pro Fast</a></td><td>55.5</td><td>51.4</td><td>44.2</td><td>46.2</td><td>74.6</td><td>66.8</td><td>56.5</td><td>54.4</td>
+            <td><a href="https://hailuoai.video/" target="_blank" rel="noopener">Hailuo 2.0 (MiniMax)</a></td><td>63.0</td><td>58.6</td><td>52.4</td><td>55.1</td><td>86.0</td><td>67.6</td><td>63.8</td>
           </tr>
           <tr>
-            <td><a href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener">Seedance&nbsp;2.0 Fast</a></td><td>78.0</td><td>75.0</td><td>69.0</td><td>60.2</td><td>87.8</td><td>68.9</td><td>73.2</td><td>74.0</td>
+            <td><a href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener">Seedance&nbsp;1.0 Pro Fast</a></td><td>55.5</td><td>51.4</td><td>44.2</td><td>46.2</td><td>74.6</td><td>66.8</td><td>56.5</td>
           </tr>
-          <tr class="group-head"><td colspan="9">Ours</td></tr>
+          <tr>
+            <td><a href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener">Seedance&nbsp;2.0 Fast</a></td><td>78.0</td><td>75.0</td><td>69.0</td><td>60.2</td><td>87.8</td><td>68.9</td><td>73.2</td>
+          </tr>
+          <tr class="group-head"><td colspan="8">Ours</td></tr>
           <tr class="ours">
             <td>
               <span class="toolset-cell">
                 <a href="https://github.com/AndyCA111/VideoGen_Agent" target="_blank" rel="noopener"><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;1)</strong></a><span class="qhelp"><span class="qhelp-badge" tabindex="0" role="button" aria-label="Toolset 1 models">?</span><span class="qhelp-body" role="tooltip"><span class="qhelp-title">Toolset 1 &mdash; models used</span><ul><li><span class="qk">T2V&nbsp;/&nbsp;I2V</span><a href="https://www.volcengine.com/product/doubao/seedance" target="_blank" rel="noopener">Seedance&nbsp;1.0&nbsp;Pro&nbsp;Fast</a></li><li><span class="qk">Motion-to-Video</span><a href="https://huggingface.co/Wan-AI/Wan2.1-VACE-1.3B" target="_blank" rel="noopener">Wan2.1-VACE-1.3B</a></li><li><span class="qk">Ref-to-Video</span><a href="https://huggingface.co/Wan-AI/Wan2.1-VACE-1.3B" target="_blank" rel="noopener">Wan2.1-VACE-1.3B</a></li><li><span class="qk">Text search</span><a href="https://serper.dev/" target="_blank" rel="noopener">Serper (Google)</a></li><li><span class="qk">Image search</span><a href="https://serper.dev/" target="_blank" rel="noopener">Serper Images</a></li><li><span class="qk">Physics sim</span><a href="https://pybullet.org/" target="_blank" rel="noopener">PyBullet</a></li><li><span class="qk">Detection</span><a href="https://github.com/IDEA-Research/GroundingDINO" target="_blank" rel="noopener">Grounding&nbsp;DINO</a></li><li><span class="qk">Depth</span><a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener">Depth&nbsp;Anything&nbsp;V2</a></li></ul></span></span>
               </span>
             </td>
-            <td><strong>80.4</strong></td><td><strong>75.1</strong></td><td><strong>65.3</strong></td><td><strong>67.9</strong></td><td><strong>83.1</strong></td><td><strong>81.7</strong></td><td><strong>75.6</strong></td><td><strong>74.4</strong></td>
+            <td><strong>80.4</strong></td><td><strong>75.1</strong></td><td><strong>65.3</strong></td><td><strong>67.9</strong></td><td><strong>83.1</strong></td><td><strong>81.7</strong></td><td><strong>75.6</strong></td>
           </tr>
           <tr class="ours">
             <td>
@@ -274,12 +277,58 @@
                 <a href="https://github.com/AndyCA111/VideoGen_Agent" target="_blank" rel="noopener"><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;2)</strong></a><span class="qhelp"><span class="qhelp-badge" tabindex="0" role="button" aria-label="Toolset 2 models">?</span><span class="qhelp-body" role="tooltip"><span class="qhelp-title">Toolset 2 &mdash; models used</span><ul><li><span class="qk">T2V&nbsp;/&nbsp;I2V</span><a href="https://www.volcengine.com/product/doubao/seedance" target="_blank" rel="noopener">Seedance&nbsp;2.0&nbsp;Pro&nbsp;Fast</a></li><li><span class="qk">Ref-to-Video</span><a href="https://www.volcengine.com/product/doubao/seedance" target="_blank" rel="noopener">Seedance&nbsp;2.0&nbsp;ref-to-video</a></li><li><span class="qk">Motion-to-Video</span><a href="https://huggingface.co/Wan-AI/Wan2.1-VACE-14B" target="_blank" rel="noopener">Wan2.1-VACE-14B</a></li><li><span class="qk">Text search</span><a href="https://serper.dev/" target="_blank" rel="noopener">Serper (Google)</a></li><li><span class="qk">Image search</span><a href="https://serper.dev/" target="_blank" rel="noopener">Serper Images</a></li><li><span class="qk">Physics sim</span><a href="https://pybullet.org/" target="_blank" rel="noopener">PyBullet</a></li><li><span class="qk">Detection</span><a href="https://github.com/IDEA-Research/GroundingDINO" target="_blank" rel="noopener">Grounding&nbsp;DINO</a></li><li><span class="qk">Depth</span><a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener">Depth&nbsp;Anything&nbsp;V2</a></li></ul></span></span>
               </span>
             </td>
-            <td><strong>92.1</strong></td><td><strong>83.2</strong></td><td><strong>86.7</strong></td><td><strong>69.2</strong></td><td><strong>90.7</strong></td><td><strong>84.6</strong></td><td><strong>84.4</strong></td><td><strong>84.4</strong></td>
+            <td><strong>92.1</strong></td><td><strong>83.2</strong></td><td><strong>86.7</strong></td><td><strong>69.2</strong></td><td><strong>90.7</strong></td><td><strong>94.6</strong></td><td><strong>86.1</strong></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p class="note"><strong>Toolset&nbsp;1</strong> is the training-time stack VideoGen-Agent was optimised against. <strong>Toolset&nbsp;2</strong> swaps in stronger generators at inference time <em>without retraining the agent</em>, demonstrating backend-agnostic tool use. Hover the small <span class="qhelp-badge-inline">?</span> at the top-right of each Toolset name for the exact models (with links). <strong>Overall</strong> is the mean across all six categories; <strong>Overall (w/o MS)</strong> averages only the first five (PK / SI / MI / PS / CS), providing an apples-to-apples comparison for models that cannot natively produce multi-shot output (Mochi-1, Hailuo).</p>
+    <p class="note"><strong>Toolset&nbsp;1</strong> is the training-time stack VideoGen-Agent was optimised against. <strong>Toolset&nbsp;2</strong> swaps in stronger generation tools at inference time <em>without any additional agent training</em>, demonstrating that the trained agent benefits from subsequent advances in generation tools. Hover the small <span class="qhelp-badge-inline">?</span> at the top-right of each Toolset name for the exact models (with links).</p>
+
+    <h2 style="margin-top:36px;">Ablation study</h2>
+    <p>Rows (i)&ndash;(iv) and (viii) trace the training pipeline under a fixed <strong>Toolset&nbsp;1</strong>: vanilla T2V &rarr; prompt rewriting &rarr; zero-shot tool use &rarr; SFT &rarr; RL. Rows (v)&ndash;(vi) remove individual reward components; row (vii) trains one agent <em>per task</em> instead of a single multitask agent. Bold is the best score in each column.</p>
+    <div class="table-wrap">
+      <table class="results">
+        <thead>
+          <tr>
+            <th>Variant</th>
+            <th>PK</th>
+            <th>SI</th>
+            <th>MI</th>
+            <th>PS</th>
+            <th>CS</th>
+            <th>MS</th>
+            <th>Overall</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>(i) Vanilla T2V (Seedance&nbsp;1.0 Pro Fast)</td><td>55.5</td><td>51.4</td><td>44.2</td><td>46.2</td><td>74.6</td><td>66.8</td><td>56.5</td>
+          </tr>
+          <tr>
+            <td>(ii) Qwen3-VL-8B-Instruct + Prompt Rewriting + T2V</td><td>57.3</td><td>51.5</td><td>45.3</td><td>44.6</td><td>77.2</td><td>68.1</td><td>57.3</td>
+          </tr>
+          <tr>
+            <td>(iii) Qwen3-VL-8B-Instruct + System Prompt + T2V (zero-shot tool use)</td><td>61.2</td><td>54.8</td><td>47.1</td><td>49.6</td><td>75.5</td><td>68.9</td><td>59.5</td>
+          </tr>
+          <tr>
+            <td>(iv) VideoGen-Agent-SFT-Toolset&nbsp;1</td><td>72.7</td><td>68.1</td><td>58.6</td><td>60.4</td><td>79.2</td><td>76.3</td><td>69.2</td>
+          </tr>
+          <tr>
+            <td>(v) VideoGen-Agent-RL-Toolset&nbsp;1 &mdash; w/o VLM reward</td><td>76.4</td><td>74.3</td><td>63.9</td><td>66.5</td><td>80.1</td><td>78.7</td><td>73.3</td>
+          </tr>
+          <tr>
+            <td>(vi) VideoGen-Agent-RL-Toolset&nbsp;1 &mdash; w/o tool reward</td><td>74.3</td><td>70.2</td><td>60.2</td><td>60.9</td><td>82.7</td><td>78.8</td><td>71.2</td>
+          </tr>
+          <tr>
+            <td>(vii) VideoGen-Agent-RL &mdash; single-task variant</td><td><strong>85.5</strong></td><td>74.5</td><td><strong>65.9</strong></td><td>67.3</td><td><strong>84.4</strong></td><td>80.3</td><td><strong>76.3</strong></td>
+          </tr>
+          <tr class="ours">
+            <td>(viii) <strong>VideoGen-Agent-RL-Toolset&nbsp;1 (Full, multitask)</strong></td><td>80.4</td><td><strong>75.1</strong></td><td>65.3</td><td><strong>67.9</strong></td><td>83.1</td><td><strong>81.7</strong></td><td>75.6</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Prompt rewriting alone (ii) adds only <strong>+0.8</strong> and zero-shot tool use (iii) adds only <strong>+3.0</strong> &mdash; both fall well short of the full agent&#39;s <strong>+19.1</strong>, confirming that the gain comes from <em>learned</em> tool use rather than prompt elaboration or tool access alone. Removing either reward component (v, vi) drops the overall score, with the tool reward carrying the larger contribution. The single-task variant (vii) edges out the multitask agent (viii) by <strong>+0.7</strong> overall, but the shared multitask policy supports all six categories with one agent at roughly the same overall quality.</p>
   </div>
 </section>
 
