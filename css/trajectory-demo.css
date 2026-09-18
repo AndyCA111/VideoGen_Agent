@@ -25,6 +25,11 @@
 .demo-column-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:22px}
 .trajectory-demo h2{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:clamp(21px,2.1vw,27px);font-weight:650;letter-spacing:-1px;line-height:1.15;margin:7px 0 0;color:#eef2fa;border:0;padding:0;text-transform:none}
 .demo-agent h2{color:var(--accent)}
+/* Brand-styled VideoGen-Agent heading — matches the site H1 title exactly:
+   Satoshi 700 + deep-green #3FA838 + small brand-mark logo to the left. */
+.demo-agent h2.agent-brand-h{display:inline-flex;align-items:center;gap:.28em;font-family:"Satoshi",-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",system-ui,sans-serif;font-weight:700;letter-spacing:-.025em;color:#3FA838}
+.demo-agent h2.agent-brand-h .brand-mark{display:inline-block;height:1.4em;width:auto;margin:0;filter:drop-shadow(0 2px 8px rgba(63,168,56,.30))}
+.demo-agent h2.agent-brand-h .title-w1{color:#3FA838}
 .demo-pill{font-size:9px;color:#9ba9bf;border:1px solid #ffffff19;padding:5px 8px;border-radius:20px;white-space:nowrap}
 .demo-live{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 28%,transparent)}
 .demo-baseline figure{margin:0 0 12px;position:relative;overflow:hidden;border:1px solid #ffffff16;border-radius:10px;background:#080c13}
