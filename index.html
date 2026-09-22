@@ -461,12 +461,27 @@
 <!-- ────────────────────────────────── ROBOTICS GENERALIZATION ────────────────────────────────── -->
 <section id="robotics" class="block alt">
   <div class="container">
-    <h2>Beyond text&#8209;to&#8209;video &mdash; embodied manipulation</h2>
+    <h2>Extensibility &mdash; adding a new tool family to the agent</h2>
     <p>
-      The same agentic pattern transfers to robot manipulation. Given a natural-language instruction, the agent (1) calls <strong>pi0.5</strong> to predict a 60-step joint trajectory, then (2) hands that trajectory to <strong>ctrl-world</strong>, an action-conditioned world model that renders the resulting rollout. Unlike pure I2V baselines that see only the first frame, the agentic stack consumes the policy's planned actions &mdash; so the synthesized video is grounded in a real motor plan, not imagined.
+      A test of the agent framework's <strong>extensibility</strong>: mid-training we introduce
+      a new <em>action-to-video</em> tool family the agent has never seen before. Rather than
+      touch its architecture or its reward, we just expose two new tools &mdash; <strong>pi0.5</strong>
+      (predicts a 60-step joint trajectory from an image + instruction) and
+      <strong>ctrl-world</strong> (an action-conditioned world model that renders that trajectory
+      as video) &mdash; and continue training on a handful of robotic-manipulation examples.
+      The trained agent learns to route embodied-manipulation prompts through this new pipeline
+      instead of the standard T2V/I2V route, without any change to how it reasons over the other
+      six categories. This mirrors the paper's <em>Extensibility and Generalization to Unseen
+      Task Combinations</em> section: the same policy absorbs a new tool family and produces
+      videos grounded in a real motor plan, not just a first-frame image guess.
     </p>
     <p>
-      Four manipulation prompts. Columns left&nbsp;&rarr;&nbsp;right: the natural-language <strong>prompt</strong>, the <strong>I2V input frame</strong> (shared starting image), <strong>Ground truth</strong> (robot recording), <strong>VideoGen-Agent</strong> (ours, pi0.5&nbsp;&rarr;&nbsp;ctrl-world), and <strong>Wan&nbsp;2.2 I2V&nbsp;14B</strong> (baseline).
+      Four manipulation prompts routed through the newly added action-to-video tool chain.
+      Columns left&nbsp;&rarr;&nbsp;right: the natural-language <strong>prompt</strong>, the
+      <strong>I2V input frame</strong> (shared starting image), <strong>Ground truth</strong>
+      (real robot recording), <strong>VideoGen-Agent</strong> with the new tool family
+      (pi0.5&nbsp;&rarr;&nbsp;ctrl-world), and <strong>Wan&nbsp;2.2 I2V&nbsp;14B</strong> as a
+      first-frame-only baseline for comparison.
     </p>
 
     <div class="table-wrap">
