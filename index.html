@@ -281,7 +281,7 @@
     <p class="note"><strong>Toolset&nbsp;1</strong> is the training-time stack VideoGen-Agent was optimised against. <strong>Toolset&nbsp;2</strong> swaps in stronger generation tools at inference time <em>without any additional agent training</em>, demonstrating that the trained agent benefits from subsequent advances in generation tools. Hover the small <span class="qhelp-badge-inline">?</span> at the top-right of each Toolset name for the exact models (with links).</p>
 
     <h2 style="margin-top:36px;">Ablation study</h2>
-    <p>Rows (i)&ndash;(iv) and (viii) trace the training pipeline under a fixed <strong>Toolset&nbsp;1</strong>: vanilla T2V &rarr; prompt rewriting &rarr; zero-shot tool use &rarr; SFT &rarr; RL. Rows (v)&ndash;(vi) remove individual reward components; row (vii) trains one agent <em>per task</em> instead of a single multitask agent. Bold is the best score in each column.</p>
+    <p>Rows (i)&ndash;(iv) and (viii) compare vanilla T2V, prompt rewriting, a fixed agentic workflow, SFT, and RL under the <strong>Toolset&nbsp;1</strong> configuration. Rows (v) and (vi) remove individual reward components; row (vii) reports the single-task variant. Overall is the unweighted mean across all six categories. The highest score in each column is bolded.</p>
     <div class="table-wrap">
       <table class="results">
         <thead>
@@ -301,10 +301,10 @@
             <td>(i) Vanilla T2V (Seedance&nbsp;1.0 Pro Fast)</td><td>55.5</td><td>51.4</td><td>44.2</td><td>46.2</td><td>74.6</td><td>66.8</td><td>56.5</td>
           </tr>
           <tr>
-            <td>(ii) Qwen3-VL-8B-Instruct + Prompt Rewriting + T2V</td><td>57.3</td><td>51.5</td><td>45.3</td><td>44.6</td><td>77.2</td><td>68.1</td><td>57.3</td>
+            <td>(ii) Qwen3-VL-8B-Instruct + Prompt Rewriting + Toolset&nbsp;1</td><td>57.3</td><td>51.5</td><td>45.3</td><td>44.6</td><td>77.2</td><td>68.1</td><td>57.3</td>
           </tr>
           <tr>
-            <td>(iii) Qwen3-VL-8B-Instruct + System Prompt + T2V (zero-shot tool use)</td><td>61.2</td><td>54.8</td><td>47.1</td><td>49.6</td><td>75.5</td><td>68.9</td><td>59.5</td>
+            <td>(iii) Qwen3-VL-8B-Instruct + Fixed Workflow + Toolset&nbsp;1</td><td>63.3</td><td>59.6</td><td>56.3</td><td>56.3</td><td>75.5</td><td>73.8</td><td>64.1</td>
           </tr>
           <tr>
             <td>(iv) VideoGen-Agent-SFT-Toolset&nbsp;1</td><td>72.7</td><td>68.1</td><td>58.6</td><td>60.4</td><td>79.2</td><td>76.3</td><td>69.2</td>
@@ -316,15 +316,17 @@
             <td>(vi) VideoGen-Agent-RL-Toolset&nbsp;1 &mdash; w/o tool reward</td><td>74.3</td><td>70.2</td><td>60.2</td><td>60.9</td><td>82.7</td><td>78.8</td><td>71.2</td>
           </tr>
           <tr>
-            <td>(vii) VideoGen-Agent-RL &mdash; single-task variant</td><td><strong>85.5</strong></td><td>74.5</td><td><strong>65.9</strong></td><td>67.3</td><td><strong>84.4</strong></td><td>80.3</td><td><strong>76.3</strong></td>
+            <td>(vii) VideoGen-Agent-RL-Single Task</td><td><strong>85.5</strong></td><td>74.5</td><td><strong>65.9</strong></td><td>67.3</td><td><strong>84.4</strong></td><td>80.3</td><td><strong>76.3</strong></td>
           </tr>
           <tr class="ours">
-            <td>(viii) <strong>VideoGen-Agent-RL-Toolset&nbsp;1 (Full, multitask)</strong></td><td>80.4</td><td><strong>75.1</strong></td><td>65.3</td><td><strong>67.9</strong></td><td>83.1</td><td><strong>81.7</strong></td><td>75.6</td>
+            <td>(viii) <strong>VideoGen-Agent-RL-Toolset&nbsp;1 (Full)</strong></td><td>80.4</td><td><strong>75.1</strong></td><td>65.3</td><td><strong>67.9</strong></td><td>83.1</td><td><strong>81.7</strong></td><td>75.6</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p class="note">Prompt rewriting alone (ii) adds only <strong>+0.8</strong> and zero-shot tool use (iii) adds only <strong>+3.0</strong> &mdash; both fall well short of the full agent&#39;s <strong>+19.1</strong>, confirming that the gain comes from <em>learned</em> tool use rather than prompt elaboration or tool access alone. Removing either reward component (v, vi) drops the overall score, with the tool reward carrying the larger contribution. The single-task variant (vii) edges out the multitask agent (viii) by <strong>+0.7</strong> overall, but the shared multitask policy supports all six categories with one agent at roughly the same overall quality.</p>
+    <p class="note">The fixed-workflow baseline uses the same Qwen3-VL-8B-Instruct backbone and Toolset&nbsp;1 without task-specific training. For MI, the backbone receives the required entity count <em>N</em>, lists <em>N</em> names, retrieves one reference image per entity, and calls <code>video_gen_multiple_reference</code> for reference-to-video generation. For CS, ReAct is capped at three iterations; other tasks execute their prescribed workflow once. The paper appendix details these task-specific budgets and the single-task training setup.</p>
+    <p class="note">Prompt rewriting improves the overall score from <strong>56.5</strong> to <strong>57.3</strong>, while the fixed workflow reaches <strong>64.1</strong>. SFT further improves performance to <strong>69.2</strong>, and RL adds <strong>6.4</strong> points to reach <strong>75.6</strong>, with gains across all six categories. The advantage over the fixed workflow supports the usefulness of training under these task-specific baseline budgets.</p>
+    <p class="note">Removing the VLM reward reduces the overall score to <strong>73.3</strong>, while removing the tool reward lowers it to <strong>71.2</strong>; both ablations degrade all six categories. Single-task agents undergo SFT and then RL using only their category-specific subsets, with other settings unchanged. They achieve <strong>76.3</strong> overall, <strong>0.7</strong> points above the shared multitask agent. Single-task training performs better on PK, MI, and CS, while multitask training leads on SI, PS, and MS and supports all six tasks with a single policy at comparable overall performance.</p>
   </div>
 </section>
 
