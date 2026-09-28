@@ -63,7 +63,7 @@
 .demo-trace[open]{padding:12px;background:#ffffffb3;border:1px solid #879f5330;border-radius:8px}
 .demo-trace p{font-size:11px;line-height:1.7;margin:10px 0;color:#435937}
 .demo-trace pre{font:10px/1.6 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere;max-height:150px;overflow:auto;color:#526942}
-.demo-controls{display:flex;align-items:center;gap:18px;margin:0 24px;padding:17px 0;border-top:1px solid #75904a30}
+.demo-controls{background:transparent;color:#37522b;display:flex;align-items:center;gap:18px;margin:0 24px;padding:17px 0;border-top:1px solid #75904a30}
 .demo-transport{display:flex;align-items:center;gap:9px;flex-shrink:0}
 .demo-transport button{background:#edf4de;border:1px solid #97ad7145;color:#37522b;font-size:10px;padding:7px 10px;border-radius:7px;min-width:55px}
 .demo-transport button:hover{background:#e1edc5}
