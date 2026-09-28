@@ -75,8 +75,8 @@
       Seedance&nbsp;1.0 T2V generator by <strong>+19.1</strong> points, from
       56.5 to <strong>75.6</strong>. Upgrading the generation tools to Toolset&nbsp;2
       at inference time, without any additional agent training, further raises the
-      score to <strong>86.1</strong> &mdash; and human raters prefer the upgraded
-      configuration over the strongest standalone baseline in
+      score to <strong>86.1</strong>. In a separate human study, raters prefer
+      <strong>Toolset&nbsp;1</strong> over Seedance&nbsp;2.0 in
       <strong>84.3%</strong> of side-by-side comparisons.
     </p>
   </div>
@@ -119,32 +119,7 @@
 <section id="abstract" class="block">
   <div class="container">
     <h2>Abstract</h2>
-    <p>
-      Recent advances in video generative models have enabled high-fidelity,
-      temporally coherent video generation. However, these models often struggle
-      to satisfy prompts requiring specialized knowledge, specific identities,
-      physical consistency, or ordered events. In this paper, we present
-      <strong>VideoGen-Agent</strong>, a multimodal agent trained through
-      <em>multitask agentic reinforcement learning</em> to use external tools for
-      video generation. The agent coordinates <em>augmentation</em>, <em>generation</em>,
-      and <em>verification</em> tools through multi-turn interactions, using the
-      prompt and intermediate observations to guide its decisions. We train a
-      shared policy on a category-balanced dataset spanning six tasks. Supervised
-      fine-tuning on teacher-generated trajectories establishes tool-use behavior,
-      which is then refined through reinforcement learning. A category-aware hybrid
-      reward evaluates tool-call validity, task-appropriate tool use, and generated
-      video quality. We further introduce <strong>VABench</strong>, a held-out
-      benchmark of 600 prompts covering procedural knowledge, single- and
-      multi-entity identity preservation, physical consistency, scene composition,
-      and multi-shot temporal structure. On VABench, VideoGen-Agent improves over
-      its base text-to-video generator by <strong>19.1</strong> points, from
-      <strong>56.5</strong> to <strong>75.6</strong>. Upgrading the generation
-      tools further raises the score to <strong>86.1</strong> without additional
-      agent training. Human raters prefer the upgraded configuration over the
-      strongest standalone baseline in <strong>84.3%</strong> of comparisons. These
-      results support learning tool use across video-generation tasks and show that
-      the trained agent can benefit from subsequent advances in generation tools.
-    </p>
+    <p>Recent advances in video generative models have enabled high-fidelity, temporally coherent video generation. However, these models often struggle to satisfy prompts requiring specialized knowledge, specific identities, physical consistency, or ordered events. In this paper, we present <strong>VideoGen-Agent</strong>, a multimodal agent trained through <strong>multitask agentic reinforcement learning</strong> to use external tools for video generation. The agent coordinates augmentation, generation, and verification tools through multi-turn interactions, using the prompt and intermediate observations to guide its decisions. We train a shared policy on a category-balanced dataset spanning six tasks. Supervised fine-tuning on teacher-generated trajectories establishes tool-use behavior, which is then refined through reinforcement learning. A category-aware hybrid reward evaluates tool-call validity, task-appropriate tool use, and generated video quality. We further introduce <strong>VABench</strong>, a held-out benchmark of 600 prompts designed to evaluate video generation agents across six capability categories: procedural knowledge, single- and multi-entity identity preservation, physical consistency, scene composition, and multi-shot temporal structure. On VABench, VideoGen-Agent improves over its base video generator by 19.1 points, from 56.5 to 75.6. Upgrading the generation tools further raises the score to 86.1 without additional agent training. Human raters prefer the Toolset&nbsp;1 configuration over the strongest standalone baseline in 84.3% of comparisons. These results support learning tool use across video-generation tasks and show that the trained agent can benefit from subsequent advances in generation tools.</p>
   </div>
 </section>
 
@@ -187,13 +162,8 @@
       <figcaption>Overview of VideoGen-Agent: given a user prompt, the agent performs <em>Multimodal Reasoning</em> to decompose the task, then enters an <em>Agentic Loop</em> alternating <em>Action</em> (tool invocation) with <em>Observation</em>. The toolset covers three tiers — <em>augmentation</em> (text search, image search, code simulation), <em>generation</em> (T2V / I2V / Reference-to-Video / Motion-to-Video), and <em>verification</em> (open-vocabulary detection, depth estimation) — until the agent emits <em>Finish</em>.</figcaption>
     </figure>
     <h3>Training</h3>
-    <p>
-      Starting from <em>Qwen3-VL-8B-Instruct</em>, we first distil teacher trajectories
-      via supervised fine-tuning, then optimise the agent with <strong>GRPO</strong> using
-      a category-aware hybrid reward that combines format correctness, model-as-judge
-      video score, and tool-quality signals. This gives stable, informative gradients for
-      multi-turn rollouts.
-    </p>
+    <p>Starting from <strong>Qwen3-VL-8B-Instruct</strong>, we train on 16K teacher trajectories from Gemini&nbsp;3.1&nbsp;Pro and Claude&nbsp;Opus&nbsp;4.7, then apply multitask <strong>GRPO</strong> on a separate set of 8K prompts. The 24K prompts span six task categories. The hybrid reward combines tool-call validity, category-specific video quality, and task-appropriate tool use, with weights 0.1, 0.5, and 0.4. Group-relative advantage normalization is followed by task-level normalization.</p>
+    <p>SFT uses two epochs with a learning rate of 5&nbsp;&times;&nbsp;10<sup>&minus;5</sup>; RL uses one epoch at 10<sup>&minus;6</sup> and six usable rollouts per prompt. Failed action spans are masked during SFT. During RL, trajectories that fail because of external tool errors are resampled before group statistics are computed.</p>
   </div>
 </section>
 
@@ -201,13 +171,14 @@
 <section id="benchmark" class="block">
   <div class="container">
     <h2>VABench</h2>
+    <p>VABench is a held-out benchmark designed to evaluate video generation agents on complex tasks across six capabilities, with 600 prompts and 100 per category. Prompts undergo repetition checks, VLM filtering, and manual selection. Evaluation uses Gemini&nbsp;3.1&nbsp;Pro with the same category-specific rubrics and weights as the RL video reward; all 600 prompts contribute to the reported means.</p>
     <div class="cat-grid">
       <div class="cat-card"><h3>Procedural Knowledge (PK)</h3><p>Named techniques / processes whose execution depends on specific motion details.</p></div>
-      <div class="cat-card"><h3>Single-Entity Identity (SI)</h3><p>One named real-world subject; identity must be preserved across the clip.</p></div>
+      <div class="cat-card"><h3>Single-Entity Identity (SI)</h3><p>One named subject, such as a game character, celebrity, landmark, or branded object; visual identity must be preserved across the clip.</p></div>
       <div class="cat-card"><h3>Multi-Entity Identity (MI)</h3><p>Multiple named subjects; identity preservation under interaction.</p></div>
-      <div class="cat-card"><h3>Physics Simulation (PS)</h3><p>Physically governed motion under specified initial conditions: collisions, free fall, orbits.</p></div>
-      <div class="cat-card"><h3>Compositional Scene (CS)</h3><p>Multi-entity composition, inter-object interaction, spatial reasoning.</p></div>
-      <div class="cat-card"><h3>Multi-Shot (MS)</h3><p>Explicit time-ordered sequences with complete and correctly ordered phases across multiple shots.</p></div>
+      <div class="cat-card"><h3>Physics Simulation (PS)</h3><p>Quantitative physical motion under specified initial conditions, restricted to collisions and falling/dropping in training and VABench.</p></div>
+      <div class="cat-card"><h3>Compositional Scene (CS)</h3><p>Multi-subject composition, interactions, and spatial relations using visually canonical subjects to focus on scene structure.</p></div>
+      <div class="cat-card"><h3>Multi-Shot (MS)</h3><p>Two or three equal-duration shots, each at most five seconds, with all requested phases depicted in the correct temporal order.</p></div>
     </div>
   </div>
 </section>
@@ -216,7 +187,7 @@
 <section id="results" class="block alt">
   <div class="container">
     <h2>Per-category results on VABench</h2>
-    <p>Scores are the Gemini&nbsp;3.1&nbsp;Pro judge mean in <em>[0, 100]</em>, averaged within each category. Higher is better. <strong>Overall</strong> is the unweighted mean across all six categories.</p>
+    <p>Scores are the Gemini&nbsp;3.1&nbsp;Pro judge mean in <em>[0, 100]</em>, averaged within each category. Higher is better. <strong>Overall</strong> is the unweighted mean across all six categories. Bold marks the best score and underline marks the second best.</p>
     <div class="table-wrap">
       <table class="results">
         <thead>
@@ -256,21 +227,21 @@
             <td><a href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener">Seedance&nbsp;1.0 Pro Fast</a></td><td>55.5</td><td>51.4</td><td>44.2</td><td>46.2</td><td>74.6</td><td>66.8</td><td>56.5</td>
           </tr>
           <tr>
-            <td><a href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener">Seedance&nbsp;2.0 Fast</a></td><td>78.0</td><td>75.0</td><td>69.0</td><td>60.2</td><td>87.8</td><td>68.9</td><td>73.2</td>
+            <td><a href="https://www.volcengine.com/product/doubao" target="_blank" rel="noopener">Seedance&nbsp;2.0 Fast</a></td><td>78.0</td><td>75.0</td><td><u>69.0</u></td><td>60.2</td><td><u>87.8</u></td><td>68.9</td><td>73.2</td>
           </tr>
           <tr class="group-head"><td colspan="8">Ours</td></tr>
           <tr class="ours">
             <td>
               <span class="toolset-cell">
-                <a href="https://github.com/AndyCA111/VideoGen_Agent" target="_blank" rel="noopener"><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;1)</strong></a><span class="qhelp"><span class="qhelp-badge" tabindex="0" role="button" aria-label="Toolset 1 models">?</span><span class="qhelp-body" role="tooltip"><span class="qhelp-title">Toolset 1 &mdash; models used</span><ul><li><span class="qk">T2V&nbsp;/&nbsp;I2V</span><a href="https://www.volcengine.com/product/doubao/seedance" target="_blank" rel="noopener">Seedance&nbsp;1.0&nbsp;Pro&nbsp;Fast</a></li><li><span class="qk">Motion-to-Video</span><a href="https://huggingface.co/Wan-AI/Wan2.1-VACE-1.3B" target="_blank" rel="noopener">Wan2.1-VACE-1.3B</a></li><li><span class="qk">Ref-to-Video</span><a href="https://huggingface.co/Wan-AI/Wan2.1-VACE-1.3B" target="_blank" rel="noopener">Wan2.1-VACE-1.3B</a></li><li><span class="qk">Text search</span><a href="https://serper.dev/" target="_blank" rel="noopener">Serper (Google)</a></li><li><span class="qk">Image search</span><a href="https://serper.dev/" target="_blank" rel="noopener">Serper Images</a></li><li><span class="qk">Physics sim</span><a href="https://pybullet.org/" target="_blank" rel="noopener">PyBullet</a></li><li><span class="qk">Detection</span><a href="https://github.com/IDEA-Research/GroundingDINO" target="_blank" rel="noopener">Grounding&nbsp;DINO</a></li><li><span class="qk">Depth</span><a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener">Depth&nbsp;Anything&nbsp;V2</a></li></ul></span></span>
+                <a href="https://github.com/AndyCA111/VideoGen_Agent" target="_blank" rel="noopener"><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;1)</strong></a><span class="qhelp"><span class="qhelp-badge" tabindex="0" role="button" aria-label="Toolset 1 models">?</span><span class="qhelp-body" role="tooltip"><span class="qhelp-title">Toolset 1 &mdash; models used</span><ul><li><span class="qk">T2V&nbsp;/&nbsp;I2V</span><a href="https://www.volcengine.com/product/doubao/seedance" target="_blank" rel="noopener">Seedance&nbsp;1.0&nbsp;Pro&nbsp;Fast</a></li><li><span class="qk">Motion-to-Video</span><a href="https://huggingface.co/Wan-AI/Wan2.1-VACE-1.3B" target="_blank" rel="noopener">Wan2.1-VACE-1.3B</a></li><li><span class="qk">Ref-to-Video</span><a href="https://huggingface.co/Wan-AI/Wan2.1-VACE-1.3B" target="_blank" rel="noopener">Wan2.1-VACE-1.3B</a></li><li><span class="qk">Text search</span><span>Bing Search</span></li><li><span class="qk">Image search</span><span>Bing Image Search</span></li><li><span class="qk">Physics sim</span><span>Custom physics simulator</span></li><li><span class="qk">Detection</span><a href="https://github.com/IDEA-Research/GroundingDINO" target="_blank" rel="noopener">Grounding&nbsp;DINO&nbsp;1.5</a></li><li><span class="qk">Depth</span><a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener">Depth&nbsp;Anything&nbsp;V2 (ViT-L)</a></li></ul></span></span>
               </span>
             </td>
-            <td><strong>80.4</strong></td><td><strong>75.1</strong></td><td><strong>65.3</strong></td><td><strong>67.9</strong></td><td><strong>83.1</strong></td><td><strong>81.7</strong></td><td><strong>75.6</strong></td>
+            <td><u>80.4</u></td><td><u>75.1</u></td><td>65.3</td><td><u>67.9</u></td><td>83.1</td><td><u>81.7</u></td><td><u>75.6</u></td>
           </tr>
           <tr class="ours">
             <td>
               <span class="toolset-cell">
-                <a href="https://github.com/AndyCA111/VideoGen_Agent" target="_blank" rel="noopener"><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;2)</strong></a><span class="qhelp"><span class="qhelp-badge" tabindex="0" role="button" aria-label="Toolset 2 models">?</span><span class="qhelp-body" role="tooltip"><span class="qhelp-title">Toolset 2 &mdash; models used</span><ul><li><span class="qk">T2V&nbsp;/&nbsp;I2V</span><a href="https://www.volcengine.com/product/doubao/seedance" target="_blank" rel="noopener">Seedance&nbsp;2.0&nbsp;Pro&nbsp;Fast</a></li><li><span class="qk">Ref-to-Video</span><a href="https://www.volcengine.com/product/doubao/seedance" target="_blank" rel="noopener">Seedance&nbsp;2.0&nbsp;ref-to-video</a></li><li><span class="qk">Motion-to-Video</span><a href="https://huggingface.co/Wan-AI/Wan2.1-VACE-14B" target="_blank" rel="noopener">Wan2.1-VACE-14B</a></li><li><span class="qk">Text search</span><a href="https://serper.dev/" target="_blank" rel="noopener">Serper (Google)</a></li><li><span class="qk">Image search</span><a href="https://serper.dev/" target="_blank" rel="noopener">Serper Images</a></li><li><span class="qk">Physics sim</span><a href="https://pybullet.org/" target="_blank" rel="noopener">PyBullet</a></li><li><span class="qk">Detection</span><a href="https://github.com/IDEA-Research/GroundingDINO" target="_blank" rel="noopener">Grounding&nbsp;DINO</a></li><li><span class="qk">Depth</span><a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener">Depth&nbsp;Anything&nbsp;V2</a></li></ul></span></span>
+                <a href="https://github.com/AndyCA111/VideoGen_Agent" target="_blank" rel="noopener"><strong>VideoGen-Agent — RL&nbsp;(Toolset&nbsp;2)</strong></a><span class="qhelp"><span class="qhelp-badge" tabindex="0" role="button" aria-label="Toolset 2 models">?</span><span class="qhelp-body" role="tooltip"><span class="qhelp-title">Toolset 2 &mdash; models used</span><ul><li><span class="qk">T2V&nbsp;/&nbsp;I2V</span><a href="https://www.volcengine.com/product/doubao/seedance" target="_blank" rel="noopener">Seedance&nbsp;2.0&nbsp;Fast</a></li><li><span class="qk">Ref-to-Video</span><a href="https://www.volcengine.com/product/doubao/seedance" target="_blank" rel="noopener">Seedance&nbsp;2.0&nbsp;Fast (R2V)</a></li><li><span class="qk">Motion-to-Video</span><a href="https://huggingface.co/Wan-AI/Wan2.1-VACE-14B" target="_blank" rel="noopener">Wan2.1-VACE-14B</a></li><li><span class="qk">Text search</span><span>Bing Search</span></li><li><span class="qk">Image search</span><span>Bing Image Search</span></li><li><span class="qk">Physics sim</span><span>Custom physics simulator</span></li><li><span class="qk">Detection</span><a href="https://github.com/IDEA-Research/GroundingDINO" target="_blank" rel="noopener">Grounding&nbsp;DINO&nbsp;1.5</a></li><li><span class="qk">Depth</span><a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener">Depth&nbsp;Anything&nbsp;V2 (ViT-L)</a></li></ul></span></span>
               </span>
             </td>
             <td><strong>92.1</strong></td><td><strong>83.2</strong></td><td><strong>86.7</strong></td><td><strong>69.2</strong></td><td><strong>90.7</strong></td><td><strong>94.6</strong></td><td><strong>86.1</strong></td>
@@ -327,6 +298,31 @@
     <p class="note">The fixed-workflow baseline uses the same Qwen3-VL-8B-Instruct backbone and Toolset&nbsp;1 without task-specific training. For MI, the backbone receives the required entity count <em>N</em>, lists <em>N</em> names, retrieves one reference image per entity, and calls <code>video_gen_multiple_reference</code> for reference-to-video generation. For CS, ReAct is capped at three iterations; other tasks execute their prescribed workflow once. The paper appendix details these task-specific budgets and the single-task training setup.</p>
     <p class="note">Prompt rewriting improves the overall score from <strong>56.5</strong> to <strong>57.3</strong>, while the fixed workflow reaches <strong>64.1</strong>. SFT further improves performance to <strong>69.2</strong>, and RL adds <strong>6.4</strong> points to reach <strong>75.6</strong>, with gains across all six categories. The advantage over the fixed workflow supports the usefulness of training under these task-specific baseline budgets.</p>
     <p class="note">Removing the VLM reward reduces the overall score to <strong>73.3</strong>, while removing the tool reward lowers it to <strong>71.2</strong>; both ablations degrade all six categories. Single-task agents undergo SFT and then RL using only their category-specific subsets, with other settings unchanged. They achieve <strong>76.3</strong> overall, <strong>0.7</strong> points above the shared multitask agent. Single-task training performs better on PK, MI, and CS, while multitask training leads on SI, PS, and MS and supports all six tasks with a single policy at comparable overall performance.</p>
+    <h2 style="margin-top:36px;">Generalization to an unseen task combination</h2>
+    <p><strong>Procedural Identity (PI)</strong> combines procedural knowledge with single-entity identity. We construct 100 held-out prompts from 20 specialized actions or processes and 20 named entities, disjoint from SFT, RL, and VABench prompts. No training prompt combines these requirements. The system prompt provides general composition guidance, but no explicit workflow for this combination.</p>
+    <div class="table-wrap">
+      <table class="results" aria-label="Procedural Identity results">
+        <thead><tr><th>Model</th><th>Search-Text (%)</th><th>Search-Image (%)</th><th>Both (%)</th><th>Score</th></tr></thead>
+        <tbody>
+          <tr><td>Qwen3-VL-8B-Instruct + Fixed Workflow</td><td>100</td><td>100</td><td>100</td><td>72.4</td></tr>
+          <tr><td>VideoGen-Agent-SFT-Toolset&nbsp;1</td><td>58</td><td>78</td><td>40</td><td>57.6</td></tr>
+          <tr class="ours"><td>VideoGen-Agent-RL-Toolset&nbsp;1</td><td>88</td><td>96</td><td>84</td><td>73.2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Without additional training on PI, the RL agent improves over SFT and scores close to the explicitly composed fixed workflow. The fixed baseline executes Search-Text, Search-Image, and reference-conditioned generation once with Toolset&nbsp;1; its generation-call count is not matched to the RL trajectory. Invocation rates record whether a tool was called at least once, not whether both task requirements were satisfied.</p>
+
+    <h2 style="margin-top:36px;">Human evaluation and judge validation</h2>
+    <p><strong>Human preference:</strong> four raters compare VideoGen-Agent-Toolset&nbsp;1 with Seedance&nbsp;2.0 on 100 randomly sampled VABench video pairs, with no tie option. Across 400 judgments, the preference rate for Toolset&nbsp;1 is <strong>84.3%</strong>, rounded to one decimal place.</p>
+    <p><strong>Judge&ndash;human agreement:</strong> a separate study uses 100 pairs per category (600 total), balanced across the strongest standalone baseline, SFT, and RL. Three blinded raters independently assess each pair, and Gemini&nbsp;3.1&nbsp;Pro agrees with their majority preference on <strong>92.0%</strong> of pairs. Equal VLM scores trigger a separate forced-choice comparison under the same rubric; these choices are used for agreement, not to replace benchmark scalar scores.</p>
+    <div class="table-wrap">
+      <table class="results" aria-label="Judge-human agreement">
+        <thead><tr><th>Agreement (%)</th><th>PK</th><th>SI</th><th>MI</th><th>PS</th><th>CS</th><th>MS</th><th>Overall</th></tr></thead>
+        <tbody><tr><td>Gemini&nbsp;3.1&nbsp;Pro vs. human majority</td><td>72</td><td>98</td><td>100</td><td>94</td><td>88</td><td>100</td><td>92.0</td></tr></tbody>
+      </table>
+    </div>
+    <p class="note">Agreement is lowest on procedural knowledge (PK), which remains a challenge for the judge. Agreement on the other five categories ranges from 88% to 100%.</p>
+
   </div>
 </section>
 
@@ -334,7 +330,7 @@
 <section id="gallery" class="block">
   <div class="container">
     <h2>Sample videos across categories</h2>
-    <p>Six prompts, one per task category. Left: <strong>Seedance 1 Pro Fast</strong> single-pass baseline. Middle: <strong>Seedance 2 Pro Fast</strong> single-pass baseline (same prompt, stronger backend, still one call). Right: <strong>VideoGen-Agent</strong> (ours) — the final clip from the <a href="workflows.html" target="_blank" rel="noopener">agent trajectory</a>.</p>
+    <p>Six prompts, one per task category. Left: <strong>Seedance 1.0 Pro Fast</strong> single-pass baseline. Middle: <strong>Seedance 2.0 Fast</strong> single-pass baseline (same prompt, stronger backend, still one call). Right: <strong>VideoGen-Agent</strong> (ours) — the final clip from the <a href="workflows.html" target="_blank" rel="noopener">agent trajectory</a>.</p>
 
     <div class="vid-stack">
 
@@ -344,11 +340,11 @@
         <div class="vid-triple">
           <figure>
             <video src="videos/seedance_baselines/kp_1.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast</figcaption>
+            <figcaption>Seedance 1.0 Pro Fast</figcaption>
           </figure>
           <figure>
             <video src="videos/seedance_baselines/kp_1_sd2.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 2 Pro Fast</figcaption>
+            <figcaption>Seedance 2.0 Fast</figcaption>
           </figure>
           <figure>
             <video src="test_videos_v2/seedance2_agent_kp1.mp4" autoplay loop muted playsinline></video>
@@ -363,11 +359,11 @@
         <div class="vid-triple">
           <figure>
             <video src="videos/seedance_baselines/vks_3472.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast</figcaption>
+            <figcaption>Seedance 1.0 Pro Fast</figcaption>
           </figure>
           <figure>
             <video src="videos/seedance_baselines/vks_3472_sd2.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 2 Pro Fast</figcaption>
+            <figcaption>Seedance 2.0 Fast</figcaption>
           </figure>
           <figure>
             <video src="test_videos_vks/v5_compare/agent_r2v/3472.mp4" autoplay loop muted playsinline></video>
@@ -382,11 +378,11 @@
         <div class="vid-triple">
           <figure>
             <video src="videos/seedance_baselines/vkm_10004.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast</figcaption>
+            <figcaption>Seedance 1.0 Pro Fast</figcaption>
           </figure>
           <figure>
             <video src="videos/seedance_baselines/vkm_10004_sd2.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 2 Pro Fast</figcaption>
+            <figcaption>Seedance 2.0 Fast</figcaption>
           </figure>
           <figure>
             <video src="videos/agent_seedance2/vkm_10004.mp4" autoplay loop muted playsinline></video>
@@ -401,11 +397,11 @@
         <div class="vid-triple">
           <figure>
             <video src="test_videos_dino/cricket_direct.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast</figcaption>
+            <figcaption>Seedance 1.0 Pro Fast</figcaption>
           </figure>
           <figure>
             <video src="videos/seedance_baselines/cs_1125_sd2.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 2 Pro Fast</figcaption>
+            <figcaption>Seedance 2.0 Fast</figcaption>
           </figure>
           <figure>
             <video src="test_videos_dino/cricket_refined.mp4" autoplay loop muted playsinline></video>
@@ -420,11 +416,11 @@
         <div class="vid-triple">
           <figure>
             <video src="videos/seedance_baselines/tg_5125.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast</figcaption>
+            <figcaption>Seedance 1.0 Pro Fast</figcaption>
           </figure>
           <figure>
             <video src="videos/agent_trajectory/ms5125_baseline_sd2.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 2 Pro Fast</figcaption>
+            <figcaption>Seedance 2.0 Fast</figcaption>
           </figure>
           <figure>
             <video src="test_videos_tg/seedance2_agent_5125.mp4" autoplay loop muted playsinline></video>
@@ -439,11 +435,11 @@
         <div class="vid-triple">
           <figure>
             <video src="videos/seedance_baselines/ps_10002.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 1 Pro Fast</figcaption>
+            <figcaption>Seedance 1.0 Pro Fast</figcaption>
           </figure>
           <figure>
             <video src="videos/seedance_baselines/ps_10002_sd2.mp4" autoplay loop muted playsinline></video>
-            <figcaption>Seedance 2 Pro Fast</figcaption>
+            <figcaption>Seedance 2.0 Fast</figcaption>
           </figure>
           <figure>
             <video src="test_videos_ps_sim/p785_vace.mp4" autoplay loop muted playsinline></video>
@@ -459,30 +455,9 @@
 <!-- ────────────────────────────────── ROBOTICS GENERALIZATION ────────────────────────────────── -->
 <section id="robotics" class="block alt">
   <div class="container">
-    <h2>Extensibility &mdash; adding a new tool family to the agent</h2>
-    <p>
-      A test of the agent framework's <strong>extensibility</strong>: mid-training we introduce
-      a new <em>action-to-video</em> tool family the agent has never seen before. Rather than
-      touch its architecture or its reward, we just expose two new tools &mdash; <strong>pi0.5</strong>
-      (predicts a 60-step joint trajectory from an image + instruction) and
-      <strong>ctrl-world</strong> (an action-conditioned world model that renders that trajectory
-      as video) &mdash; and continue training on a handful of robotic-manipulation examples.
-      The trained agent learns to route embodied-manipulation prompts through this new pipeline
-      instead of the standard T2V/I2V route, without any change to how it reasons over the other
-      six categories. This mirrors the paper's <em>Extensibility and Generalization to Unseen
-      Task Combinations</em> section: the same policy absorbs a new tool family and produces
-      videos grounded in a real motor plan, not just a first-frame image guess.
-    </p>
-    <p>
-      Four manipulation prompts routed through the newly added action-to-video tool chain.
-      Columns left&nbsp;&rarr;&nbsp;right: the natural-language <strong>prompt</strong>, the
-      <strong>I2V input frame</strong> (shared starting image), <strong>Ground truth</strong>
-      (real robot recording), <strong>VideoGen-Agent</strong> with the new tool family
-      (pi0.5&nbsp;&rarr;&nbsp;ctrl-world), and <strong>Wan&nbsp;2.5 I2V</strong> as a
-      first-frame-only baseline for comparison &mdash; re-run with the subject explicitly
-      pinned to "a robotic arm gripper" so the comparison isolates the missing motor plan
-      rather than a vague noun.
-    </p>
+    <h2>Robotic manipulation with an additional tool family</h2>
+    <p>Starting from the RL-trained checkpoint, we fine-tune the policy on <strong>1,000 additional robotic-manipulation examples</strong>. Given an input image and instruction, the agent calls <strong>&pi;<sub>0.5</sub></strong> to predict a joint-action trajectory and passes the actions to <strong>Ctrl-World</strong> to generate a video. These qualitative examples show that the fine-tuned policy can invoke the two tools in sequence. This robotics checkpoint is <strong>separate from the checkpoint evaluated on the six video-generation tasks</strong>.</p>
+    <p>The four examples cover placing a blue or red block in a white plate, folding a towel, and moving a towel from right to left. Columns show the prompt, input image, ground-truth recording, VideoGen-Agent output, and Wan&nbsp;2.5 I2V output. The I2V baseline uses the same initial image and explicitly names a robotic arm gripper as the acting subject.</p>
 
     <div class="table-wrap">
       <table class="robot-grid">
@@ -535,9 +510,7 @@
       </table>
     </div>
 
-    <p class="note">
-      Ground-truth recordings are 320&times;192 at 4&nbsp;fps (raw robot camera); the agentic pipeline inherits that resolution since ctrl-world generates in the same space as its training data. The Wan 2.5 I2V baseline runs at 1238&times;744, 24&nbsp;fps, upscaled from the same 800&times;480 first-frame input. All cells displayed at uniform width &mdash; black bars are letterboxing, not crop.
-    </p>
+    <p class="note">Ground-truth recordings and agent-generated clips are 320&times;192 at 4&nbsp;fps. Wan&nbsp;2.5 I2V clips are 1238&times;744 at 24&nbsp;fps, using an 800&times;480 input derived from the same initial frame. Ground-truth clips last 20.5&ndash;29.5 seconds, agent clips 12&ndash;15 seconds, and baseline clips approximately 5 seconds; playback is not temporally aligned. Full fields of view are preserved and resized only for display. These examples do not constitute a controlled quantitative evaluation of robotic task success or physical robot execution.</p>
   </div>
 </section>
 
