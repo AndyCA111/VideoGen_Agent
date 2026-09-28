@@ -1,11 +1,11 @@
 /* Scoped interactive teaser. No framework or external font dependency. */
 .teaser-wrap .container{max-width:1200px}
-.demo-mode-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;font:500 13px/1.4 system-ui,sans-serif;color:#61714e}
+.demo-mode-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;font:500 13px/1.4 "Satoshi",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#61714e}
 .demo-mode-bar>div{display:flex;padding:4px;border:1px solid #cedcb5;border-radius:30px;background:#fffffff0}
-.demo-mode-bar button{border:0;background:transparent;color:#61714e;border-radius:24px;padding:9px 16px;cursor:pointer;font:600 12px system-ui,sans-serif}
+.demo-mode-bar button{border:0;background:transparent;color:#61714e;border-radius:24px;padding:9px 16px;cursor:pointer;font:600 12px "Satoshi",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .demo-mode-bar button[aria-pressed=true]{background:#36652c;color:white;box-shadow:0 2px 8px #17294220}
 .teaser-media[data-mode=static] .trajectory-demo{display:none}
-.trajectory-demo{--accent:#367b2c;color:#20351d;background:linear-gradient(115deg,#e4f2d7 0%,#f4f6dd 52%,#fff0c3 100%);border:1px solid #cadab7;border-radius:22px;overflow:hidden;box-shadow:0 24px 70px #466b2720;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-align:left}
+.trajectory-demo{--accent:#367b2c;color:#20351d;background:linear-gradient(115deg,#e4f2d7 0%,#f4f6dd 52%,#fff0c3 100%);border:1px solid #cadab7;border-radius:22px;overflow:hidden;box-shadow:0 24px 70px #466b2720;font-family:inherit;text-align:left}
 .trajectory-demo *{box-sizing:border-box}
 .trajectory-demo button{font:inherit;cursor:pointer}
 .trajectory-demo button:focus-visible,.trajectory-demo a:focus-visible,.trajectory-demo summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
@@ -23,7 +23,7 @@
 .demo-baseline{background:#f5f8ed;border-right:1px solid #75904a30}
 .demo-agent{background:linear-gradient(140deg,#f7f9eb,transparent)}
 .demo-column-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:22px}
-.trajectory-demo h2{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:clamp(21px,2.1vw,27px);font-weight:650;letter-spacing:-1px;line-height:1.15;margin:7px 0 0;color:#253920;border:0;padding:0;text-transform:none}
+.trajectory-demo h2{font-family:inherit;font-size:clamp(21px,2.1vw,27px);font-weight:650;letter-spacing:-1px;line-height:1.15;margin:7px 0 0;color:#253920;border:0;padding:0;text-transform:none}
 .demo-agent h2{color:var(--accent)}
 /* Brand-styled VideoGen-Agent heading — matches the site H1 title exactly:
    Satoshi 700 + deep-green #3FA838 + small brand-mark logo to the left. */
@@ -57,7 +57,7 @@
 .demo-images img{width:calc(33.333% - 4px);max-height:100%;object-fit:contain;border-radius:6px;min-width:0}
 .demo-images img:only-child{width:100%;height:100%}
 .demo-evidence{width:100%;height:100%;padding:18px;overflow:auto;font:11px/1.8 ui-monospace,monospace;color:#3a502f;white-space:pre-wrap;margin:0;background:radial-gradient(ellipse at top right,#e2eebd,transparent 70%)}
-.demo-evidence-label{font:9px system-ui,sans-serif;letter-spacing:.15em;color:var(--accent);display:block;margin-bottom:12px}
+.demo-evidence-label{font:9px "Satoshi",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:.15em;color:var(--accent);display:block;margin-bottom:12px}
 .demo-trace{margin-top:13px;color:#65774e;font-size:11px}
 .demo-trace summary{cursor:pointer;padding:3px 0;width:fit-content}
 .demo-trace[open]{padding:12px;background:#ffffffb3;border:1px solid #879f5330;border-radius:8px}
