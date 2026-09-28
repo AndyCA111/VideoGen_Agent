@@ -16,9 +16,9 @@
 <link rel="icon" type="image/png" sizes="16x16"  href="images/favicon-16.png" />
 <link rel="apple-touch-icon" sizes="180x180"     href="apple-touch-icon.png" />
 <link rel="shortcut icon" href="favicon.ico" />
-<link rel="stylesheet" href="css/trajectory-demo.css">
+<link rel="stylesheet" href="css/trajectory-demo.css?v=green-yellow-v2">
 <script src="js/demo-data.js" defer></script>
-<script src="js/trajectory-demo.js" defer></script>
+<script src="js/trajectory-demo.js?v=green-yellow-v2" defer></script>
 </head>
 <body>
 <canvas id="bg-particles" aria-hidden="true"></canvas>
@@ -34,10 +34,11 @@
       <span class="title-w5">Agents</span>
     </h1>
     <p class="authors">
-      Binxu Li<sup>1</sup>, Haoyi Duan<sup>1</sup>, Yuhui Zhang<sup>2</sup>,
+      Binxu Li<sup>1</sup>, Haoyi Duan<sup>1</sup>, Yaohui Zhang<sup>2</sup>,
+      Yuhui Zhang<sup>2</sup>, <a href="https://hhhhuiyuan.github.io/" target="_blank" rel="noopener">Hui Yuan</a><sup>1</sup>,
       Zihao Lin<sup>3</sup>, Kaituo Feng<sup>4</sup>, Suozhi Huang<sup>1</sup>,
-      Xiangyi Li<sup>6</sup>, Yaohui Zhang<sup>2</sup>, Yu Li<sup>7</sup>,
-      Shilong Liu<sup>1</sup>, Chunyuan Li<sup>5</sup>, Mengdi Wang<sup>1</sup>
+      Xiangyi Li<sup>6</sup>, Yu Li<sup>7</sup>, Chunyuan Li<sup>5</sup>,
+      Shilong Liu<sup>1</sup>, Mengdi Wang<sup>1</sup>
     </p>
     <p class="affiliations">
       <sup>1</sup>Princeton University&nbsp;&middot;
@@ -102,15 +103,10 @@
       </section>
       <noscript><p>Enable JavaScript for the interactive demo, or <a href="workflows.html">view all six recorded workflows</a>.</p></noscript>
 
-      <!-- static: paper's original pre-abstract figure with the raster-column titles above -->
+      <!-- Static view: latest four-column paper figure, including its own header. -->
       <div class="teaser-static">
-        <div class="teaser-cols" aria-hidden="true">
-          <div class="teaser-col c1">User Prompt</div>
-          <div class="teaser-col c2">Tool Use</div>
-          <div class="teaser-col c3">Generated Video <span class="teaser-sub">(4 key frames shown)</span></div>
-        </div>
-        <img src="images/demo.png"
-             alt="VideoGen-Agent teaser — six prompts × tool use × generated video"
+        <img src="images/demo-green-yellow-v2.png"
+             alt="Six task examples comparing User Prompt, Single Model, Agentic Tool Use, and VideoGen-Agent"
              class="teaser-img" />
       </div>
     </div>

@@ -49,7 +49,6 @@
   }
   function selectTask(index){
     root.querySelectorAll('video').forEach(v=>v.pause());taskIndex=index;
-    root.style.setProperty('--accent',task().color);
     $('.demo-tabs').innerHTML=tasks.map((t,i)=>`<button type="button" data-task="${i}" aria-pressed="${i===index}" aria-controls="demo-step-stage"><b>${t.id}</b><span>${esc(t.name)}</span></button>`).join('');
     $('#demo-prompt-text').textContent=task().prompt;
     $('#demo-baseline-videos').innerHTML=task().baseline.map((src,i)=>`<figure><figcaption>SD${i+1}<span>${i===0?'Seedance 1 Pro Fast':'Seedance 2'}</span></figcaption>${src?videoHTML(src,`${task().id} — Seedance ${i+1} baseline`):'<div class="demo-missing"><strong>SD2</strong><span>Baseline clip coming soon</span></div>'}</figure>`).join('');
