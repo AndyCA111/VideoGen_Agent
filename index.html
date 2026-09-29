@@ -76,7 +76,7 @@
       56.5 to <strong>75.6</strong>. Upgrading the generation tools to Toolset&nbsp;2
       at inference time, without any additional agent training, further raises the
       score to <strong>86.1</strong>. In a separate human study, raters prefer
-      <strong>Toolset&nbsp;1</strong> over its standalone text-to-video generator in
+      the <strong>upgraded configuration</strong> over the strongest standalone baseline in
       <strong>84.3%</strong> of side-by-side comparisons.
     </p>
   </div>
@@ -119,7 +119,7 @@
 <section id="abstract" class="block">
   <div class="container">
     <h2>Abstract</h2>
-    <p>Recent advances in video generative models have enabled high-fidelity, temporally coherent video generation. However, these models often struggle to satisfy prompts requiring specialized knowledge, specific identities, physical consistency, or ordered events. In this paper, we present <strong>VideoGen-Agent</strong>, a multimodal agent trained through <strong>multitask agentic reinforcement learning</strong> to use external tools for video generation. The agent coordinates augmentation, generation, and verification tools through multi-turn interactions, using the prompt and intermediate observations to guide its decisions. We train a shared policy on a category-balanced dataset spanning six tasks. Supervised fine-tuning on teacher-generated trajectories establishes tool-use behavior, which is then refined through reinforcement learning. A category-aware hybrid reward evaluates tool-call validity, task-appropriate tool use, and generated video quality. We further introduce <strong>VABench</strong>, a held-out benchmark of 600 prompts designed to evaluate video generation agents across six capability categories: procedural knowledge, single- and multi-entity identity preservation, physical consistency, scene composition, and multi-shot temporal structure. On VABench, VideoGen-Agent improves over its base video generator by 19.1 points, from 56.5 to 75.6. Upgrading the generation tools further raises the score to 86.1 without additional agent training. In a paired human evaluation, raters prefer VideoGen-Agent with Toolset&nbsp;1 over its underlying standalone text-to-video generator in 84.3% of comparisons. These results support learning tool use across video-generation tasks and show that the trained agent can benefit from subsequent advances in generation tools.</p>
+    <p>Recent advances in video generative models have enabled high-fidelity, temporally coherent video generation. However, these models often struggle to satisfy prompts requiring specialized knowledge, specific identities, physical consistency, or ordered events. In this paper, we present <strong>VideoGen-Agent</strong>, a multimodal agent trained through <strong>multitask agentic reinforcement learning</strong> to use external tools for video generation. The agent coordinates augmentation, generation, and verification tools through multi-turn interactions, using the prompt and intermediate observations to guide its decisions. We train a shared policy on a category-balanced dataset spanning six tasks. Supervised fine-tuning on teacher-generated trajectories establishes tool-use behavior, which is then refined through reinforcement learning. A category-aware hybrid reward evaluates tool-call validity, task-appropriate tool use, and generated video quality. We further introduce <strong>VABench</strong>, a held-out benchmark of 600 prompts designed to evaluate video generation agents across six capability categories: procedural knowledge, single- and multi-entity identity preservation, physical consistency, scene composition, and multi-shot temporal structure. On VABench, VideoGen-Agent improves over its base video generator by 19.1 points, from 56.5 to 75.6. Upgrading the generation tools further raises the score to 86.1 without additional agent training. In a paired human evaluation, raters prefer the upgraded configuration over the strongest standalone baseline in 84.3% of comparisons. These results support learning tool use across video-generation tasks and show that the trained agent can benefit from subsequent advances in generation tools.</p>
   </div>
 </section>
 
@@ -304,24 +304,24 @@
       <table class="results" aria-label="Procedural Identity results">
         <thead><tr><th>Model</th><th>Search-Text (%)</th><th>Search-Image (%)</th><th>Both (%)</th><th>Score</th></tr></thead>
         <tbody>
-          <tr><td>Qwen3-VL-8B-Instruct + Fixed Workflow</td><td>100</td><td>100</td><td>100</td><td>72.4</td></tr>
-          <tr><td>VideoGen-Agent-SFT-Toolset&nbsp;1</td><td>58</td><td>78</td><td>40</td><td>57.6</td></tr>
-          <tr class="ours"><td>VideoGen-Agent-RL-Toolset&nbsp;1</td><td>88</td><td>96</td><td>84</td><td>73.2</td></tr>
+          <tr><td>Qwen3-VL-8B-Instruct + Fixed Workflow</td><td>100.0</td><td>100.0</td><td>100.0</td><td>72.4</td></tr>
+          <tr><td>VideoGen-Agent-SFT-Toolset&nbsp;1</td><td>58.0</td><td>78.0</td><td>40.0</td><td>57.6</td></tr>
+          <tr class="ours"><td>VideoGen-Agent-RL-Toolset&nbsp;1</td><td>88.0</td><td>96.0</td><td>84.0</td><td>73.2</td></tr>
         </tbody>
       </table>
     </div>
     <p class="note">Without additional training on PI, the RL agent improves over SFT and scores close to the explicitly composed fixed workflow. The fixed baseline executes Search-Text, Search-Image, and reference-conditioned generation once with Toolset&nbsp;1; its generation-call count is not matched to the RL trajectory. Invocation rates record whether a tool was called at least once, not whether both task requirements were satisfied.</p>
 
     <h2 style="margin-top:36px;">Human evaluation and judge validation</h2>
-    <p><strong>Human preference:</strong> four raters compare VideoGen-Agent-Toolset&nbsp;1 with Seedance&nbsp;1.0&nbsp;Pro&nbsp;Fast on 100 randomly sampled VABench video pairs, with no tie option. Across 400 judgments, the preference rate for Toolset&nbsp;1 is <strong>84.3%</strong>, rounded to one decimal place.</p>
+    <p><strong>Human preference:</strong> we conduct two side-by-side comparisons under the same protocol, each using 100 randomly sampled VABench video pairs and four raters. Each rater selects one preferred video per pair, with no tie option, yielding 400 judgments per comparison. VideoGen-Agent-Toolset&nbsp;2 is preferred over Seedance&nbsp;2.0 in <strong>84.3%</strong> of judgments, while VideoGen-Agent-Toolset&nbsp;1 is preferred over its standalone text-to-video generator, Seedance&nbsp;1.0&nbsp;Pro&nbsp;Fast, in <strong>88.0%</strong> of judgments.</p>
     <p><strong>Judge&ndash;human agreement:</strong> a separate study uses 100 pairs per category (600 total), balanced across the strongest standalone baseline, SFT, and RL. Three blinded raters independently assess each pair, and Gemini&nbsp;3.1&nbsp;Pro agrees with their majority preference on <strong>92.0%</strong> of pairs. Equal VLM scores trigger a separate forced-choice comparison under the same rubric; these choices are used for agreement, not to replace benchmark scalar scores.</p>
     <div class="table-wrap">
       <table class="results" aria-label="Judge-human agreement">
         <thead><tr><th>Agreement (%)</th><th>PK</th><th>SI</th><th>MI</th><th>PS</th><th>CS</th><th>MS</th><th>Overall</th></tr></thead>
-        <tbody><tr><td>Gemini&nbsp;3.1&nbsp;Pro vs. human majority</td><td>72</td><td>98</td><td>100</td><td>94</td><td>88</td><td>100</td><td>92.0</td></tr></tbody>
+        <tbody><tr><td>Gemini&nbsp;3.1&nbsp;Pro vs. human majority</td><td>72.0</td><td>98.0</td><td>100.0</td><td>94.0</td><td>88.0</td><td>100.0</td><td>92.0</td></tr></tbody>
       </table>
     </div>
-    <p class="note">Agreement is lowest on procedural knowledge (PK), which remains a challenge for the judge. Agreement on the other five categories ranges from 88% to 100%.</p>
+    <p class="note">Agreement is lowest on procedural knowledge (PK), which remains a challenge for the judge. Agreement on the other five categories ranges from 88.0% to 100.0%.</p>
 
   </div>
 </section>
@@ -526,3 +526,4 @@
 <script src="js/qhelp.js?v=2" defer></script>
 </body>
 </html>
+
